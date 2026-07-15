@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recipe Module — Wireframe Hub</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="content" style="max-width:1040px;margin:0 auto">
+  <h1 style="font-size:24px;margin:8px 0">Recipe Module — clickable wireframe</h1>
+  <p class="muted mb8">Single recipe-centric module rebuilt from <code>research/feedback-1.md</code> (see <code>instructions/addendum-003</code>) and overhauled per <code>research/feedback-2.md</code> (see <code>instructions/addendum-004</code>). Allergens removed · "Raw Materials" → "Ingredients" · recipe-list navigation · Recipe → Version → Batch → Packaging → Product Variant. Worked example: <b>Kaju Katli</b>.</p>
+  <p class="muted small mb8">feedback-2 adds real lightweight vanilla JS (<code>recipe.js</code>): slider/drawer forms, inline editable rows, two-way yield &amp; tax auto-calc, expandable version rows, drag-drop method reorder, batch override tabs, QR preview per batch×pack, reusable product picker, and dynamic testing fields.</p>
+
+  <div class="card" style="padding:16px 18px;margin:18px 0;border-color:var(--app-green);background:var(--app-green-50)">
+    <span class="hub-step" style="background:var(--app-green);color:#fff">Latest · feedback-3</span>
+    <h2 style="font-size:16px;margin:8px 0 6px">Simplified role-aware module (desktop)</h2>
+    <p class="muted small mb8">Rebuilt per <code>research/feedback-3.md</code> + <code>design/UserPersonaGuidelines.pdf</code> (see <code>instructions/addendum-006…008</code>). 8 tabs → <b>5</b> (Recipe · Cost · Trial &amp; Approval · Production Use · History), de-jargoned labels, <b>role-based visibility</b> (try the “View as” switch — pricing hides for workers), merged History, “how much to make” scaler + making sheet, and progressive disclosure. New shell reuses <code>styles.css</code> tokens + <code>recipe.js</code> utilities.</p>
+    <a class="btn btn-primary" href="recipe.html">Open new desktop module →</a>
+  </div>
+
+  <div class="card" style="padding:16px 18px;margin:18px 0;border-color:var(--fb-teal-800);background:var(--fb-teal-50)">
+    <span class="hub-step" style="background:var(--fb-teal-800);color:#fff">Fork · feedback-4</span>
+    <h2 style="font-size:16px;margin:8px 0 6px">Minimalist 3-tab module (separate version)</h2>
+    <p class="muted small mb8">A <b>fork</b> of <code>research/feedback-4.md</code> (see <code>instructions/addendum-009</code>), kept separate from the feedback-3 shell. 3 tabs only — <b>Ingredients · Cost · Production</b> — persistent header, proportional ingredient bars, inline row-edit, auto cost totals, and a real <b>Production Batch Order</b> (auto batch#, QR, batch-size validation). Worked example: <b>Premium Butter Cookies · V4.2</b>. Reuses <code>styles.css</code> + <code>recipe.js</code>.</p>
+    <div class="flex gap8">
+      <a class="btn btn-teal" href="recipe-v4.html">Open v4 desktop →</a>
+      <a class="btn" href="mobile-v4.html">📱 Open v4 mobile →</a>
+    </div>
+  </div>
+
+  <h2 style="font-size:15px;margin:22px 0 10px">feedback-2 era reference (8-tab build)</h2>
+  <p class="muted small mb8">Superseded by the feedback-3 shell above, kept for reference. Recipes → select recipe → version → ingredients → batch sizes → packaging → method → costs → sample → test → approve → publish → link to product variant.</p>
+  <div class="hub-grid">
+    <a class="hub-card" href="recipe-overview.html"><span class="hub-step">Step 1</span><div class="ht">Recipe ▸ Overview</div><div class="hd">Published version, linked products, publish-readiness gate</div></a>
+    <a class="hub-card" href="recipe-versions.html"><span class="hub-step">Step 2</span><div class="ht">Recipe ▸ Versions</div><div class="hd">Auto-named version history + status timeline</div></a>
+    <a class="hub-card" href="recipe-ingredients.html"><span class="hub-step">Step 3</span><div class="ht">Recipe ▸ Ingredients</div><div class="hd">Actual qty · yield · qty-after-yield · price · cost</div></a>
+    <a class="hub-card" href="recipe-batch-packaging.html"><span class="hub-step">Step 4</span><div class="ht">Recipe ▸ Batch &amp; Packaging</div><div class="hd">Multiple batches → multiple packs → product variants</div></a>
+    <a class="hub-card" href="recipe-method.html"><span class="hub-step">Step 5</span><div class="ht">Recipe ▸ Method</div><div class="hd">Step cards with time, temp, quality checks</div></a>
+    <a class="hub-card" href="recipe-costing.html"><span class="hub-step">Step 6</span><div class="ht">Recipe ▸ Costing</div><div class="hd">Batch cost → cost/pack → margin, vs previous version</div></a>
+    <a class="hub-card" href="recipe-sampling-testing.html"><span class="hub-step">Step 7</span><div class="ht">Recipe ▸ Sampling &amp; Testing</div><div class="hd">Sample batches + feedback, linked to version + batch</div></a>
+    <a class="hub-card" href="recipe-publish-history.html"><span class="hub-step">Step 8</span><div class="ht">Recipe ▸ Publish History</div><div class="hd">Publish events + active production mapping</div></a>
+  </div>
+
+  <h2 style="font-size:15px;margin:24px 0 10px">Mobile</h2>
+  <div class="hub-grid">
+    <a class="hub-card" href="mobile.html"><div class="ht">📱 Mobile prototype (wired)</div><div class="hd">Footer-tab nav · bottom-sheet forms · core 5 screens · role-play ready (addendum-005)</div></a>
+  </div>
+
+  <h2 style="font-size:15px;margin:24px 0 10px">Ingredients &amp; edit flows</h2>
+  <div class="hub-grid">
+    <a class="hub-card" href="ingredients-list.html"><div class="ht">Ingredient List</div><div class="hd">Renamed from "Raw Materials"; brand/quality sub-heading; no allergens</div></a>
+    <a class="hub-card" href="recipe-ingredients.html"><div class="ht">Create Ingredient</div><div class="hd">Single short form + tax auto-calc (slider) — toggle removed</div></a>
+    <a class="hub-card" href="recipe-ingredients.html"><div class="ht">Manage Ingredients (inline)</div><div class="hd">Inline add-row, two-way yield, Other Costs, batch context</div></a>
+  </div>
+
+  <div class="card" style="padding:14px 16px;margin-top:24px;background:var(--fb-teal-50);border-color:#B3DDE4">
+    <div class="section-eyebrow mb8">Core question this iteration answers</div>
+    <div class="small"><b>How does one recipe serve many batch sizes &amp; pack sizes?</b> &nbsp;→&nbsp; A recipe has versions; each version has multiple batch configurations; each batch has multiple packaging configurations; each packaging links to a product/variant. Publishing maps <i>version + batch + packaging</i> to each variant. Walk it on the <a href="recipe-batch-packaging.html"><b>Batch &amp; Packaging</b></a> screen.</div>
+  </div>
+</div>
+</body>
+</html>

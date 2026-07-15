@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Recipe Module — Mobile (Kaju Katli)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Recipe Module — wired mobile prototype (Addendum 005)
+   Visual system from design/html-layout/mobile-layout-reference.html
+   FoodBridge tokens · footer toolbar (Option A) · bottom-sheet forms
+   ============================================================ */
+:root{
+  --teal:#1B6272; --teal-600:#217A8E; --teal-50:#E8F5F7; --teal-bd:#B3DDE4;
+  --green:#1FA463; --green-d:#178a53; --green-50:#E9F8F0; --green-100:#BBF7D0; --green-700:#2D7A42;
+  --orange:#f97316; --orange-50:#fff7ed; --orange-bd:#fed7aa; --orange-700:#9a3412;
+  --red:#ef4444; --red-50:#fef2f2;
+  --bg:#f0f2f5; --bd:#e5e7eb; --bd-soft:#f0f0f0; --muted:#888; --ink:#111;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#dfe3e8;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* page wrapper (desktop review) */
+.page{display:flex;flex-direction:column;align-items:center;padding:28px 16px}
+.page h1{font-size:18px;font-weight:800;color:#111;margin-bottom:2px}
+.page .sub{font-size:12px;color:#667;margin-bottom:18px}
+
+/* phone frame */
+.phone{position:relative;width:390px;height:820px;background:var(--bg);border-radius:42px;overflow:hidden;
+  box-shadow:0 24px 64px rgba(0,0,0,.25),0 0 0 11px #1a1a1a;display:flex;flex-direction:column}
+.notch{height:30px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.notch-i{width:130px;height:20px;background:#1a1a1a;border-radius:0 0 16px 16px;border:1px solid #333}
+.pscreen{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg);position:relative}
+.homebar{height:22px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hi{width:130px;height:4px;background:#1a1a1a;border-radius:2px;opacity:.2}
+
+/* status bar + header */
+.sb{height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;background:var(--teal)}
+.sbt{font-size:14px;font-weight:700;color:#fff}
+.sbi{font-size:12px;color:rgba(255,255,255,.85)}
+.wh-header{background:var(--teal);padding:8px 16px 12px;flex-shrink:0}
+.wh-top{display:flex;align-items:center;gap:10px}
+.wh-back{font-size:20px;color:#fff;width:24px}
+.wh-title{font-size:19px;font-weight:700;color:#fff}
+.wh-sub{font-size:12.5px;color:rgba(255,255,255,.78);margin-top:2px}
+.wh-badge{margin-left:auto;padding:3px 10px;background:rgba(255,255,255,.16);color:#fff;border-radius:20px;font-size:11px;font-weight:700}
+
+/* persistent progress */
+.prog-bar{background:var(--teal);padding:0 16px 11px;flex-shrink:0}
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.prog-txt{font-size:12.5px;color:rgba(255,255,255,.92);font-weight:600}
+.prog-track{height:5px;background:rgba(255,255,255,.25);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:#43A047;border-radius:3px}
+
+/* body */
+.body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.body::-webkit-scrollbar{display:none}
+.screen[hidden]{display:none}
+
+/* generic bits */
+.section-hdr{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:14px 16px 6px;display:flex;justify-content:space-between;align-items:center}
+.section-hdr .link{color:var(--teal);font-size:12px;text-transform:none;letter-spacing:0}
+.spacer{height:14px}
+.div-solid{height:8px;background:var(--bg)}
+.muted{color:var(--muted)} .small{font-size:12px}
+.card{background:#fff;border-radius:16px;margin:0 12px 10px;padding:15px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card-title{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+
+/* stat tiles */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 12px 0}
+.stat-tile{background:#fff;border-radius:14px;padding:13px 13px}
+.stat-val{font-size:21px;font-weight:800;color:var(--ink)}
+.stat-lbl{font-size:11px;color:var(--muted);font-weight:600;margin-top:3px}
+.stat-g{background:var(--green-700)} .stat-g .stat-val{color:#fff} .stat-g .stat-lbl{color:rgba(255,255,255,.8)}
+.stat-o{background:#D4862A} .stat-o .stat-val{color:#fff} .stat-o .stat-lbl{color:rgba(255,255,255,.8)}
+.stat-r{background:#C0392B} .stat-r .stat-val{color:#fff} .stat-r .stat-lbl{color:rgba(255,255,255,.8)}
+.stat-b{background:#3451B2} .stat-b .stat-val{color:#fff} .stat-b .stat-lbl{color:rgba(255,255,255,.8)}
+
+/* banners */
+.banner{margin:10px 12px 4px;padding:11px 13px;border-radius:14px;font-size:12.5px;font-weight:600;display:flex;align-items:flex-start;gap:9px}
+.banner-g{background:var(--green-50);color:#166534;border:1px solid var(--green-100)}
+.banner-o{background:var(--orange-50);color:var(--orange-700);border:1px solid var(--orange-bd)}
+.banner-b{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+
+/* checklist */
+.check-item{display:flex;align-items:center;gap:11px;padding:11px 16px;background:#fff;border-bottom:1px solid var(--bd-soft)}
+.check-circle{width:24px;height:24px;border-radius:50%;border:2.5px solid var(--bd);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px}
+.check-circle.done{background:#43A047;border-color:#43A047;color:#fff}
+.check-text{flex:1;font-size:14px;font-weight:600;color:var(--ink)}
+
+/* list rows */
+.lrow{display:flex;align-items:center;gap:12px;padding:13px 16px;background:#fff;border-bottom:1px solid var(--bd-soft)}
+.lrow .lt{flex:1;min-width:0}
+.lrow .ln{font-size:15px;font-weight:600;color:var(--ink)}
+.lrow .ls{font-size:12.5px;color:var(--muted);margin-top:2px}
+.lrow .lr{text-align:right;flex-shrink:0}
+.lrow .lr b{font-size:15px}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:#f1f3f5;color:var(--muted)}
+.pill-green{background:var(--green-50);color:var(--green-700)}
+.pill-orange{background:var(--orange-50);color:var(--orange-700)}
+.tag-new{font-size:9.5px;font-weight:700;letter-spacing:.3px;color:var(--teal);background:var(--teal-50);border:1px solid var(--teal-bd);padding:1px 6px;border-radius:999px;text-transform:uppercase}
+
+/* batch + packaging */
+.batch-card{background:#fff;border-radius:16px;margin:0 12px 10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.batch-card .bh{padding:13px 15px;background:#fafbfc;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.batch-card.lead .bh{background:var(--green-50)}
+.batch-card .bn{font-size:15px;font-weight:700}
+.batch-card .bb{padding:6px 0}
+.pack-row{display:flex;align-items:center;gap:11px;padding:11px 15px;border-bottom:1px solid var(--bd-soft)}
+.pack-row:last-child{border-bottom:none}
+.qr-box{width:52px;height:52px;border:1px solid var(--bd);border-radius:10px;padding:4px;flex-shrink:0;display:grid;place-items:center;background:#fff}
+.qr-box canvas{image-rendering:pixelated;border-radius:3px}
+
+/* method step */
+.step-card{display:flex;gap:12px;background:#fff;border-radius:14px;margin:0 12px 10px;padding:13px 15px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.step-card .sn{width:28px;height:28px;border-radius:50%;background:var(--teal-50);color:var(--teal);display:grid;place-items:center;font-weight:700;flex-shrink:0;font-size:13px}
+.chip-tabs{display:flex;gap:8px;padding:12px 12px 2px;overflow-x:auto}
+.chip-tabs::-webkit-scrollbar{display:none}
+.chip-tab{white-space:nowrap;padding:8px 14px;border:1.5px solid var(--bd);border-radius:20px;font-size:12.5px;font-weight:600;color:#555;background:#fff;flex-shrink:0}
+.chip-tab.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+/* costing table */
+.ctable{margin:0 12px 10px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.ctable .crow{display:flex;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--bd-soft);font-size:13.5px}
+.ctable .crow:last-child{border-bottom:none}
+.ctable .crow.tot{background:#fafbfc;font-weight:800}
+.settle-g{color:#16a34a}.settle-r{color:var(--red)}.settle-o{color:var(--orange)}
+
+/* bottom action bar */
+.abar{padding:10px 14px;background:#fff;border-top:1px solid var(--bd-soft);flex-shrink:0;display:flex;gap:10px}
+.abar[hidden]{display:none}
+.btn-xl{flex:1;padding:15px;border-radius:14px;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-green{background:var(--green);color:#fff}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-outline{background:#fff;color:var(--teal);border:2px solid var(--teal)}
+.btn-grey{background:#f3f4f6;color:#6b7280}
+.btn-sm{padding:9px 13px;font-size:13px;font-weight:600;border-radius:10px}
+
+/* footer tab bar */
+.tabbar{height:60px;background:#fff;border-top:1px solid var(--bd);display:flex;align-items:stretch;flex-shrink:0}
+.ti{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#9ca3af}
+.ti .tic{font-size:20px;line-height:1}
+.ti .til{font-size:10px;font-weight:600}
+.ti.on{color:var(--teal)}
+.ti.on .tic{transform:translateY(-1px)}
+
+/* FAB */
+.fab{position:absolute;right:16px;bottom:78px;width:54px;height:54px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:26px;box-shadow:0 6px 18px rgba(31,164,99,.45);z-index:20}
+.fab[hidden]{display:none}
+
+/* ---------- bottom-sheet ---------- */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.42);opacity:0;pointer-events:none;transition:opacity .22s;z-index:40}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:90%;background:#fff;border-radius:22px 22px 0 0;transform:translateY(101%);transition:transform .26s cubic-bezier(.4,0,.2,1);z-index:41;display:flex;flex-direction:column}
+.sheet.open{transform:translateY(0)}
+.sheet-handle{width:42px;height:4px;background:#ddd;border-radius:2px;margin:9px auto 2px;flex-shrink:0}
+.sheet-head{padding:6px 18px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-shrink:0}
+.sheet-head h3{font-size:17px;font-weight:800;color:var(--ink)}
+.sheet-head .ey{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--teal)}
+.sheet-x{font-size:20px;color:var(--muted);width:28px;height:28px;display:grid;place-items:center}
+.sheet-body{overflow-y:auto;padding:2px 16px 12px;-webkit-overflow-scrolling:touch}
+.sheet-body::-webkit-scrollbar{display:none}
+.sheet-foot{padding:10px 16px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--bd-soft);display:flex;gap:10px;flex-shrink:0}
+
+/* form controls */
+.fg{margin-bottom:13px}
+.lbl{font-size:12.5px;font-weight:600;color:#555;margin-bottom:6px;display:block}
+.req{color:var(--red)}
+.inp{width:100%;padding:13px 14px;border:2px solid var(--bd);border-radius:13px;font-size:15px;font-weight:600;color:var(--ink);background:#fafafa;outline:none}
+.inp:focus{border-color:var(--teal);background:#fff}
+textarea.inp{font-weight:500;min-height:64px;resize:vertical}
+select.inp{appearance:none;background:#fafafa url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%23888' stroke-width='2' fill='none'/></svg>") no-repeat right 14px center}
+.ro{background:#f3f4f6;color:#555}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 14px;border:2px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:#555;background:#fff}
+.chip.sel{border-color:var(--teal);background:var(--teal-50);color:var(--teal)}
+.hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+
+/* stepper */
+.stepper{display:flex;align-items:center}
+.stepper button{width:38px;height:38px;border:2px solid var(--bd);background:#fff;font-size:19px;font-weight:700;color:var(--teal)}
+.stepper button:first-child{border-radius:10px 0 0 10px}
+.stepper button:last-child{border-radius:0 10px 10px 0}
+.stepper .sv{width:50px;height:38px;border-top:2px solid var(--bd);border-bottom:2px solid var(--bd);display:grid;place-items:center;font-size:16px;font-weight:700}
+
+/* more menu list */
+.menu-item{display:flex;align-items:center;gap:13px;padding:15px 4px;border-bottom:1px solid var(--bd-soft);font-size:15px;font-weight:600}
+.menu-item .mic{width:34px;height:34px;border-radius:10px;background:var(--teal-50);color:var(--teal);display:grid;place-items:center;font-size:16px}
+.menu-item .chev{margin-left:auto;color:var(--muted)}
+.menu-item.soon{opacity:.5}
+
+/* toast */
+.toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:24px;opacity:0;pointer-events:none;transition:.25s;z-index:60;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* responsive: real phone = full screen, drop the frame */
+@media (max-width:480px){
+  body{background:var(--bg)}
+  .page{padding:0}
+  .page h1,.page .sub{display:none}
+  .phone{width:100vw;height:100vh;height:100dvh;border-radius:0;box-shadow:none}
+  .notch,.homebar{display:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Recipe Module — Mobile prototype</h1>
+  <div class="sub">Tap the footer to switch tabs · CTAs open bottom-sheets · core 5 screens (Addendum 005)</div>
+
+  <div class="phone">
+    <div class="notch"><div class="notch-i"></div></div>
+    <div class="pscreen">
+      <div class="sb"><span class="sbt">9:41</span><span class="sbi">▲▲▲ 🔋</span></div>
+
+      <!-- header (title swaps per screen) -->
+      <div class="wh-header">
+        <div class="wh-top">
+          <span class="wh-back">‹</span>
+          <div>
+            <div class="wh-title" id="hdrTitle">Kaju Katli</div>
+            <div class="wh-sub" id="hdrSub">Sweets · v1.2 · Published</div>
+          </div>
+          <span class="wh-badge">v1.2</span>
+        </div>
+      </div>
+      <!-- progress strip (overview only) -->
+      <div class="prog-bar" id="progBar">
+        <div class="prog-row"><span class="prog-txt">Publish flow · Approved → Published</span><span class="prog-txt">5/5</span></div>
+        <div class="prog-track"><div class="prog-fill" style="width:100%"></div></div>
+      </div>
+
+      <div class="body">
+
+        <!-- ════════ OVERVIEW ════════ -->
+        <section class="screen" data-screen="overview">
+          <div class="stat-grid">
+            <div class="stat-tile stat-b"><div class="stat-val">14</div><div class="stat-lbl">Ingredients</div></div>
+            <div class="stat-tile stat-g"><div class="stat-val">₹1,248</div><div class="stat-lbl">Ingredient cost</div></div>
+            <div class="stat-tile stat-o"><div class="stat-val">2</div><div class="stat-lbl">Missing price</div></div>
+            <div class="stat-tile stat-r"><div class="stat-val">₹170</div><div class="stat-lbl">Cost / kg</div></div>
+          </div>
+          <div class="banner banner-g"><span>✅</span><span>Active version <b>v1.2</b> is Published · Batch &amp; packaging linked</span></div>
+          <div class="section-hdr">Publish readiness <span class="link">Ready ✓</span></div>
+          <div class="check-item"><div class="check-circle done">✓</div><div class="check-text">Recipe name &amp; ingredients</div></div>
+          <div class="check-item"><div class="check-circle done">✓</div><div class="check-text">Batch &amp; packaging configured</div></div>
+          <div class="check-item"><div class="check-circle done">✓</div><div class="check-text">Costing complete</div></div>
+          <div class="check-item"><div class="check-circle done">✓</div><div class="check-text">Version approved</div></div>
+          <div class="section-hdr">Last updated</div>
+          <div class="card"><div class="lrow" style="padding:0;border:none"><div class="lt"><div class="ln">Cashew price → ₹820/kg</div><div class="ls">2 days ago · by Dharmendar Ji</div></div><span class="pill pill-orange">Price change</span></div></div>
+          <div class="spacer"></div>
+        </section>
+
+        <!-- ════════ INGREDIENTS ════════ -->
+        <section class="screen" data-screen="ingredients" hidden>
+          <div class="banner banner-b"><span>🏭</span><span>Batch context: <b>50 kg Regular</b> · output kg · scaling off · 250g box · ~200 packs <span class="tag-new">read-only</span></span></div>
+          <div class="section-hdr">Ingredients (4) <span class="link" data-sheet-open="sheet-createing">＋ Create new</span></div>
+          <div id="ingList">
+            <div class="lrow"><div class="lt"><div class="ln">Cashew</div><div class="ls">A-grade W240 · 30 kg · yield 90%</div></div><div class="lr"><b>₹24,600</b><div class="ls">₹861 +tax</div></div></div>
+            <div class="lrow"><div class="lt"><div class="ln">Sugar</div><div class="ls">Fine white · 18 kg · yield 100%</div></div><div class="lr"><b>₹810</b><div class="ls">₹47.25 +tax</div></div></div>
+            <div class="lrow"><div class="lt"><div class="ln">Ghee</div><div class="ls">Amul premium · 3 kg · yield 100%</div></div><div class="lr"><b>₹1,860</b><div class="ls">₹694 +tax</div></div></div>
+            <div class="lrow"><div class="lt"><div class="ln">Cardamom</div><div class="ls">Green bold · 0.2 kg · yield 100%</div></div><div class="lr"><b>₹440</b><div class="ls">₹2,310 +tax</div></div></div>
+          </div>
+          <div class="card" style="display:flex;justify-content:space-between;align-items:center"><span class="muted small">4 ingredients · total</span><b style="font-size:17px">₹27,710</b></div>
+          <div class="section-hdr">Other costs <span class="link" data-sheet-open="sheet-othercost">＋ Add</span></div>
+          <div class="card" style="padding:0">
+            <div class="lrow"><div class="lt"><div class="ln">Labour</div><div class="ls">Per Batch · 2 workers</div></div><div class="lr"><b>₹500</b></div></div>
+            <div class="lrow"><div class="lt"><div class="ln">Gas</div><div class="ls">Per Batch · cooking fuel</div></div><div class="lr"><b>₹300</b></div></div>
+            <div class="lrow" style="border:none"><div class="lt"><div class="ln">Packaging</div><div class="ls">Per Piece · pouch</div></div><div class="lr"><b>₹2</b></div></div>
+          </div>
+          <div class="spacer"></div>
+        </section>
+
+        <!-- ════════ BATCH & PACKAGING ════════ -->
+        <section class="screen" data-screen="batch" hidden>
+          <div class="section-hdr">Batch configurations · v1.2 <span class="link" data-sheet-open="sheet-batch">＋ Add batch</span></div>
+          <div class="batch-card lead">
+            <div class="bh"><div><div class="bn">🏭 50 kg Regular</div><div class="ls muted">Output 50 kg · cost/kg ₹170</div></div><span class="pill pill-green">Scaling on</span></div>
+            <div class="bb">
+              <div class="pack-row"><div class="qr-box" data-qr data-qr-payload="KK;v1.2;50kg;250g;A"></div><div class="lt"><div class="ln">250g box → A</div><div class="ls">₹6 mat · MRP ₹70 · cost ₹42.50</div></div><div class="lr settle-g"><b>39%</b></div></div>
+              <div class="pack-row"><div class="qr-box" data-qr data-qr-payload="KK;v1.2;50kg;500g;B"></div><div class="lt"><div class="ln">500g box → B</div><div class="ls">₹11 mat · MRP ₹135 · cost ₹85</div></div><div class="lr settle-g"><b>37%</b></div></div>
+              <div class="pack-row"><div class="qr-box" data-qr data-qr-payload="KK;v1.2;50kg;1kg;C"></div><div class="lt"><div class="ln">1kg box → C</div><div class="ls">₹18 mat · MRP ₹260 · cost ₹170</div></div><div class="lr settle-g"><b>35%</b></div></div>
+            </div>
+            <div style="padding:8px 15px 13px"><button class="btn-sm btn-outline" style="width:100%" data-sheet-open="sheet-pack">＋ Add packaging</button></div>
+          </div>
+          <div class="batch-card">
+            <div class="bh"><div><div class="bn">🧪 10 kg Trial</div><div class="ls muted">Output 10 kg · cost/kg ₹172</div></div><span class="pill">Scaling off</span></div>
+            <div class="bb"><div class="pack-row"><div class="qr-box" data-qr data-qr-payload="KK;v1.2;10kg;250g"></div><div class="lt"><div class="ln">250g box</div><div class="ls">Tasting only · cost ₹49</div></div></div></div>
+            <div style="padding:8px 15px 13px"><button class="btn-sm btn-outline" style="width:100%" data-sheet-open="sheet-pack">＋ Add packaging</button></div>
+          </div>
+          <div class="spacer"></div>
+        </section>
+
+        <!-- ════════ METHOD ════════ -->
+        <section class="screen" data-screen="method" hidden>
+          <div class="chip-tabs" data-chiptabs>
+            <button class="chip-tab on" data-method="base">Base method</button>
+            <button class="chip-tab" data-method="t10">🧪 10 kg Trial</button>
+            <button class="chip-tab" data-method="t100">🎉 100 kg Festival</button>
+          </div>
+          <div data-method-panel="base">
+            <div class="step-card"><div class="sn">1</div><div><div style="font-weight:700">Roast cashew &amp; grind <span class="pill">Mixing</span></div><div class="ls muted" style="margin-top:5px">Lightly roast W240, cool, grind fine. ⏱ 25 min</div></div></div>
+            <div class="step-card"><div class="sn">2</div><div><div style="font-weight:700">Prepare sugar syrup <span class="pill pill-orange">Critical</span></div><div class="ls muted" style="margin-top:5px">One-string consistency. ⏱ 15 min · 🌡 118°C</div></div></div>
+            <div class="step-card"><div class="sn">3</div><div><div style="font-weight:700">Combine &amp; cook <span class="pill">Cooking</span></div><div class="ls muted" style="margin-top:5px">Cook till mass leaves the kadhai. ⏱ 12 min</div></div></div>
+            <div class="step-card"><div class="sn">4</div><div><div style="font-weight:700">Roll, set &amp; cut <span class="pill">Cooling</span></div><div class="ls muted" style="margin-top:5px">Roll 5mm, silver leaf, cut diamonds. ⏱ 40 min</div></div></div>
+          </div>
+          <div data-method-panel="t10" hidden>
+            <div class="banner banner-b" style="margin-top:12px"><span>ℹ️</span><span>Scaling off — overrides base where times differ. Unedited steps inherit.</span></div>
+            <div class="step-card"><div class="sn">1</div><div><div style="font-weight:700">Prepare sugar syrup <span class="tag-new">Overridden</span></div><div class="ls muted" style="margin-top:5px">Smaller mass. ⏱ 9 min · 🌡 116°C</div></div></div>
+            <div class="step-card"><div class="sn">2</div><div><div style="font-weight:700">Roll, set &amp; cut <span class="tag-new">Overridden</span></div><div class="ls muted" style="margin-top:5px">Faster cooling. ⏱ 20 min</div></div></div>
+          </div>
+          <div data-method-panel="t100" hidden>
+            <div class="banner banner-o" style="margin-top:12px"><span>⚠️</span><span>Large festival batch — longer cook &amp; cool, staged packaging.</span></div>
+            <div class="step-card"><div class="sn">1</div><div><div style="font-weight:700">Combine &amp; cook <span class="tag-new">Overridden</span></div><div class="ls muted" style="margin-top:5px">Two kadhais, extend time. ⏱ 22 min</div></div></div>
+            <div class="step-card"><div class="sn">2</div><div><div style="font-weight:700">Roll, set &amp; cut <span class="tag-new">Overridden</span></div><div class="ls muted" style="margin-top:5px">Extended cooling, staged cut. ⏱ 60 min</div></div></div>
+          </div>
+          <div class="spacer"></div>
+        </section>
+
+        <!-- ════════ COSTING (via More) ════════ -->
+        <section class="screen" data-screen="costing" hidden>
+          <div class="stat-grid">
+            <div class="stat-tile stat-b"><div class="stat-val">₹27,710</div><div class="stat-lbl">Ingredient cost</div></div>
+            <div class="stat-tile stat-o"><div class="stat-val">₹5,790</div><div class="stat-lbl">Other cost</div></div>
+            <div class="stat-tile stat-g"><div class="stat-val">₹33,500</div><div class="stat-lbl">Total batch</div></div>
+            <div class="stat-tile stat-r"><div class="stat-val">₹170</div><div class="stat-lbl">Cost / kg</div></div>
+          </div>
+          <div class="section-hdr">Price per packaging</div>
+          <div class="ctable">
+            <div class="crow"><span><b>250g → A</b><div class="ls muted">cost ₹42.50 · MRP ₹70</div></span><span class="settle-g"><b>₹27.50</b><div class="ls" style="text-align:right">39%</div></span></div>
+            <div class="crow"><span><b>500g → B</b><div class="ls muted">cost ₹85 · MRP ₹135</div></span><span class="settle-g"><b>₹50.00</b><div class="ls" style="text-align:right">37%</div></span></div>
+            <div class="crow"><span><b>1kg → C</b><div class="ls muted">cost ₹170 · MRP ₹260</div></span><span class="settle-g"><b>₹90.00</b><div class="ls" style="text-align:right">35%</div></span></div>
+          </div>
+          <div class="section-hdr">Cost breakdown</div>
+          <div class="ctable">
+            <div class="crow"><span>Cashew · 30 kg</span><b>₹24,600</b></div>
+            <div class="crow"><span>Sugar · 18 kg</span><b>₹810</b></div>
+            <div class="crow"><span>Ghee · 3 kg</span><b>₹1,860</b></div>
+            <div class="crow"><span>Labour / gas / electricity</span><b>₹4,500</b></div>
+            <div class="crow tot"><span>Total manufacturing</span><b>₹33,500</b></div>
+          </div>
+          <div class="spacer"></div>
+        </section>
+
+      </div>
+
+      <!-- FAB (context-aware) -->
+      <button class="fab" id="fab" hidden>＋</button>
+
+      <!-- bottom action bar (context-aware) -->
+      <div class="abar" id="abar"></div>
+
+      <!-- footer tab bar -->
+      <nav class="tabbar">
+        <button class="ti on" data-nav="overview"><span class="tic">📋</span><span class="til">Overview</span></button>
+        <button class="ti" data-nav="ingredients"><span class="tic">🧩</span><span class="til">Ingredients</span></button>
+        <button class="ti" data-nav="batch"><span class="tic">📦</span><span class="til">Batch&amp;Pack</span></button>
+        <button class="ti" data-nav="method"><span class="tic">👨‍🍳</span><span class="til">Method</span></button>
+        <button class="ti" data-nav="more"><span class="tic">⋯</span><span class="til">More</span></button>
+      </nav>
+
+      <!-- toast -->
+      <div class="toast" id="toast"></div>
+
+      <!-- ════════ bottom-sheets ════════ -->
+      <div class="scrim" id="scrim"></div>
+
+      <!-- More menu -->
+      <div class="sheet" id="sheet-more">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">Recipe</div><h3>More</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body">
+          <button class="menu-item" data-nav="costing"><span class="mic">💰</span> Costing <span class="chev">›</span></button>
+          <button class="menu-item soon"><span class="mic">🕑</span> Versions <span class="chev">Soon</span></button>
+          <button class="menu-item soon"><span class="mic">🧫</span> Sampling &amp; Testing <span class="chev">Soon</span></button>
+          <button class="menu-item soon" style="border:none"><span class="mic">📜</span> Publish History <span class="chev">Soon</span></button>
+        </div>
+      </div>
+
+      <!-- Create New Version -->
+      <div class="sheet" id="sheet-version">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">New version</div><h3>Create new version</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body">
+          <div class="fg"><label class="lbl">Version name</label><input class="inp" value="Kaju Katli · v1.3"><div class="hint">Auto-generated, editable</div></div>
+          <div class="fg"><label class="lbl">Base version</label><select class="inp"><option>v1.2 — Published (copy from)</option><option>v1.1 — Archived</option></select></div>
+          <div class="fg"><label class="lbl">Reason</label><textarea class="inp" placeholder="Cost change · taste improvement · new batch size"></textarea></div>
+          <div class="fg"><label class="lbl">Notes</label><textarea class="inp" placeholder="Optional"></textarea></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-green" data-toast="Draft v1.3 created" data-sheet-close>Create draft</button></div>
+      </div>
+
+      <!-- Send for Production -->
+      <div class="sheet" id="sheet-production">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">Production</div><h3>Send request for production</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body">
+          <div class="banner banner-g" style="margin:0 0 12px"><span>✅</span><span>Producing <b>v1.2</b> (Published). Hands off to Production.</span></div>
+          <div class="fg"><label class="lbl">Batch</label><select class="inp"><option>50 kg Regular</option><option>10 kg Trial</option><option>100 kg Festival</option></select></div>
+          <div class="fg"><label class="lbl">Packaging</label><select class="inp"><option>250g box → A</option><option>500g box → B</option><option>1kg box → C</option></select></div>
+          <div class="fg"><label class="lbl">Quantity to produce</label>
+            <div class="stepper"><button data-step="-10">−</button><div class="sv" data-step-val>200</div><button data-step="10">+</button></div></div>
+          <div class="fg"><label class="lbl">Production date</label><input class="inp" type="date"></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-teal" data-toast="Production request sent" data-sheet-close>Send request</button></div>
+      </div>
+
+      <!-- Create Ingredient (single form + tax calc) -->
+      <div class="sheet" id="sheet-createing">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">New ingredient</div><h3>Create ingredient</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body" data-tax-form>
+          <div class="fg"><label class="lbl">Name <span class="req">*</span></label><input class="inp" placeholder="e.g. Cashew"></div>
+          <div class="fg"><label class="lbl">Brand / quality</label><input class="inp" placeholder="e.g. A-grade W240"></div>
+          <div class="fg"><label class="lbl">Unit <span class="req">*</span></label><select class="inp"><option>kg</option><option>g</option><option>L</option><option>ml</option><option>pcs</option></select></div>
+          <div class="fg"><label class="lbl">Price before tax</label><input class="inp" type="number" data-price placeholder="0" inputmode="decimal"></div>
+          <div class="fg"><label class="lbl">Tax %</label>
+            <div class="chips" data-tax-chips>
+              <button type="button" class="chip sel" data-tax="0">0%</button>
+              <button type="button" class="chip" data-tax="5">5%</button>
+              <button type="button" class="chip" data-tax="10">10%</button>
+              <button type="button" class="chip" data-tax="15">15%</button>
+            </div></div>
+          <div class="fg"><label class="lbl">Price after tax</label><input class="inp ro" data-price-after value="₹0" readonly><div class="hint">Auto-calculated · Price before tax + tax amount</div></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-green" data-toast="Ingredient created" data-sheet-close>Create</button></div>
+      </div>
+
+      <!-- Add Ingredient (to recipe, two-way yield) -->
+      <div class="sheet" id="sheet-adding">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">Add to recipe</div><h3>Add ingredient</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body" data-yield>
+          <div class="fg"><label class="lbl">Ingredient</label><input class="inp" placeholder="Search ingredient…"></div>
+          <div class="fg"><label class="lbl">Actual qty</label><input class="inp" type="number" data-actual placeholder="0" inputmode="decimal"></div>
+          <div class="fg"><label class="lbl">Yield %</label><input class="inp" type="number" data-yield-pct value="100" inputmode="decimal"></div>
+          <div class="fg"><label class="lbl">Qty after yield</label><input class="inp" type="number" data-after placeholder="0" inputmode="decimal"><div class="hint">Two-way: edit actual or after-yield</div></div>
+          <div class="fg"><label class="lbl">Price / unit</label><input class="inp" type="number" data-unit-price placeholder="0" inputmode="decimal"></div>
+          <div class="fg"><label class="lbl">Cost (actual × price)</label><input class="inp ro" data-cost value="₹0" readonly></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-green" data-toast="Ingredient added" data-sheet-close>Add</button></div>
+      </div>
+
+      <!-- Add Other Cost -->
+      <div class="sheet" id="sheet-othercost">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">Other cost</div><h3>Add cost</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body">
+          <div class="fg"><label class="lbl">Cost name</label><input class="inp" placeholder="e.g. Labour"></div>
+          <div class="fg"><label class="lbl">Type</label><select class="inp"><option>Per Batch</option><option>Per Kg</option><option>Per Piece</option><option>Per Hour</option><option>Fixed</option><option>Miscellaneous</option></select></div>
+          <div class="fg"><label class="lbl">Amount</label><input class="inp" type="number" placeholder="₹0" inputmode="decimal"></div>
+          <div class="fg"><label class="lbl">Notes</label><input class="inp" placeholder="Optional"></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-green" data-toast="Cost added" data-sheet-close>Add cost</button></div>
+      </div>
+
+      <!-- Add Batch -->
+      <div class="sheet" id="sheet-batch">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">Batch configuration</div><h3>Add batch</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body">
+          <div class="fg"><label class="lbl">Batch name <span class="req">*</span></label><input class="inp" placeholder="e.g. 50 kg Regular"></div>
+          <div class="fg"><label class="lbl">Output quantity</label>
+            <div class="stepper"><button data-step="-5">−</button><div class="sv" data-step-val>50</div><button data-step="5">+</button></div></div>
+          <div class="fg"><label class="lbl">Output unit</label><select class="inp"><option>kg</option><option>g</option><option>L</option><option>pcs</option></select></div>
+          <div class="fg"><label class="lbl">Scaling allowed</label><div class="chips"><button type="button" class="chip sel">On</button><button type="button" class="chip">Off</button></div></div>
+          <div class="fg"><label class="lbl">Expected loss %</label><input class="inp" type="number" placeholder="2" inputmode="decimal"></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-green" data-toast="Batch saved" data-sheet-close>Save batch</button></div>
+      </div>
+
+      <!-- Add Packaging -->
+      <div class="sheet" id="sheet-pack">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">Packaging</div><h3>Add packaging</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body">
+          <div class="fg"><label class="lbl">Packaging name</label><input class="inp" placeholder="e.g. 250g box"></div>
+          <div class="fg"><label class="lbl">Pack size</label><input class="inp" type="number" placeholder="250" inputmode="decimal"></div>
+          <div class="fg"><label class="lbl">Material cost</label><input class="inp" type="number" placeholder="₹0" inputmode="decimal"></div>
+          <div class="fg"><label class="lbl">Linked product</label><input class="inp" placeholder="Search product…"></div>
+          <div class="fg"><label class="lbl">Selling price</label><input class="inp" type="number" placeholder="₹0" inputmode="decimal"></div>
+          <div class="banner banner-b" style="margin:0"><span>🔳</span><span>A unique QR is generated for this batch × packaging combination on save.</span></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-green" data-toast="Packaging added · QR generated" data-sheet-close>Add</button></div>
+      </div>
+
+      <!-- Add Step -->
+      <div class="sheet" id="sheet-step">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">Method step</div><h3>Add step</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body">
+          <div class="fg"><label class="lbl">Step title <span class="req">*</span></label><input class="inp" placeholder="e.g. Roast cashew & grind"></div>
+          <div class="fg"><label class="lbl">Instructions</label><textarea class="inp" placeholder="What to do"></textarea></div>
+          <div class="fg"><label class="lbl">Work area</label><select class="inp"><option>Mixing</option><option>Cooking</option><option>Cooling</option><option>Packaging</option><option>Quality</option></select></div>
+          <div class="fg"><label class="lbl">Time (min)</label><input class="inp" type="number" placeholder="15" inputmode="numeric"></div>
+          <div class="fg"><label class="lbl">Temperature (°C)</label><input class="inp" type="number" placeholder="118" inputmode="numeric"></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-green" data-toast="Step added" data-sheet-close>Add step</button></div>
+      </div>
+
+      <!-- Create Sample Batch -->
+      <div class="sheet" id="sheet-sample">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head"><div><div class="ey">Sampling</div><h3>Create sample batch</h3></div><button class="sheet-x" data-sheet-close>✕</button></div>
+        <div class="sheet-body">
+          <div class="fg"><label class="lbl">Recipe version</label><input class="inp ro" value="Kaju Katli · v1.2" readonly></div>
+          <div class="fg"><label class="lbl">Batch</label><select class="inp"><option>10 kg Trial</option><option>50 kg Regular</option><option>100 kg Festival</option></select></div>
+          <div class="fg"><label class="lbl">Packaging</label><select class="inp"><option>250g box</option><option>500g box</option><option>1kg box</option></select></div>
+          <div class="fg"><label class="lbl">Sample quantity</label><input class="inp" type="number" placeholder="5" inputmode="decimal"></div>
+          <div class="fg"><label class="lbl">Produced date</label><input class="inp" type="date"></div>
+        </div>
+        <div class="sheet-foot"><button class="btn-xl btn-grey" data-sheet-close>Cancel</button><button class="btn-xl btn-green" data-toast="Sample created · waiting for testing" data-sheet-close>Create sample</button></div>
+      </div>
+
+    </div>
+    <div class="homebar"><div class="hi"></div></div>
+  </div>
+</div>
+
+<script src="mobile.js" defer></script>
+</body>
+</html>

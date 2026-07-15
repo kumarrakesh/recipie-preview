@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ingredient List — Recipe Module</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">▦</span> Spotlight</div>
+    <nav class="nav">
+      <div class="nav-item"><span class="ic">👥</span> Customers</div>
+      <div class="nav-item"><span class="ic">⚡</span> Campaign</div>
+      <div class="nav-item"><span class="ic">🛣️</span> Manage Routes</div>
+      <div class="nav-item"><span class="ic">📦</span> Orders</div>
+      <div class="nav-item"><span class="ic">🚚</span> Add On Deliveries</div>
+      <div class="nav-item"><span class="ic">↩️</span> Returns</div>
+      <div class="nav-item"><span class="ic">🗄️</span> Inventory</div>
+      <div class="nav-group">
+        <div class="nav-item"><span><span class="ic">🏭</span> Production</span><span>⌄</span></div>
+        <div class="nav-sub"><a>Inventory</a><a>Batch Management</a><a href="recipe-overview.html">Recipes</a></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-item active"><span><span class="ic">🧩</span> Ingredients</span><span>⌃</span></div>
+        <div class="nav-sub"><a class="active" href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+      </div>
+      <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
+      <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
+      <div class="nav-item"><span class="ic">🛻</span> Route Delivery</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="left"><span class="hamburger">☰</span><span class="title">Ingredient List</span></div>
+      <div class="user"><span class="av">D</span><div class="meta"><b>Dharmendar Ji</b><span>Admin</span></div></div>
+    </header>
+
+    <main class="content">
+      <div class="toolbar">
+        <button class="btn"><span>⬆️</span> Export</button>
+        <button class="btn"><span>⬇️</span> Import</button>
+        <button class="btn"><span>✏️</span> Bulk Action ⌄</button>
+        <span class="spacer"></span>
+        <button class="btn btn-primary" onclick="location.href='add-ingredient.html'"><span>＋</span> Add Ingredient</button>
+      </div>
+
+      <div class="searchrow">
+        <div class="search"><span class="mag">🔍</span><input class="input" placeholder="Search Ingredient"></div>
+        <button class="btn"><span>▥</span> Scan QR/Barcode</button>
+        <button class="btn">Ingredient Category ⌄</button>
+      </div>
+
+      <div class="card" style="overflow:hidden">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:34px"><input type="checkbox"></th>
+              <th>Ingredient</th>
+              <th>Category</th>
+              <th class="num">Price</th>
+              <th>Stock</th>
+              <th class="right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><div class="flex gap12" style="align-items:center"><div class="thumb"></div><div><b>Cashew</b><div class="muted small">A-grade whole / W240 · preferred: local W</div></div></div></td>
+              <td>Sweets RM</td><td class="num"><b>₹820.00</b><div class="muted small">per kg</div></td>
+              <td><b>0 kg</b> <span class="muted">total stock</span></td>
+              <td class="right muted">👁️ ✏️ 🗑️</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><div class="flex gap12" style="align-items:center"><div class="thumb"></div><div><b>Sugar</b><div class="muted small">Fine white sugar / avoid large crystals</div></div></div></td>
+              <td>Sourced</td><td class="num"><b>₹45.00</b><div class="muted small">per kg</div></td>
+              <td><b>0 kg</b> <span class="muted">total stock</span></td>
+              <td class="right muted">👁️ ✏️ 🗑️</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><div class="flex gap12" style="align-items:center"><div class="thumb"></div><div><b>Ghee</b><div class="muted small">Amul / premium quality</div></div></div></td>
+              <td>Sourced</td><td class="num"><b>₹620.00</b><div class="muted small">per kg</div></td>
+              <td><b>0 kg</b> <span class="muted">total stock</span></td>
+              <td class="right muted">👁️ ✏️ 🗑️</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><div class="flex gap12" style="align-items:center"><div class="thumb"></div><div><b>Cardamom</b><div class="muted small">Green / bold · preferred brand: Idukki</div></div></div></td>
+              <td>Spice RM</td><td class="num"><b>₹2,200.00</b><div class="muted small">per kg</div></td>
+              <td><b>0 kg</b> <span class="muted">total stock</span></td>
+              <td class="right muted">👁️ ✏️ 🗑️</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><div class="flex gap12" style="align-items:center"><div class="thumb"></div><div><b>Besan</b><div class="muted small">A-grade fine powder / preferred brand: Rajdhani</div></div></div></td>
+              <td>Sourced</td><td class="num"><b>₹90.00</b><div class="muted small">per kg</div></td>
+              <td><b>0 kg</b> <span class="muted">total stock</span></td>
+              <td class="right muted">👁️ ✏️ 🗑️</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="between" style="padding:14px 16px">
+          <span class="section-eyebrow">Showing 1–5 of 5</span>
+          <span><button class="btn btn-sm">‹</button> <button class="btn btn-sm btn-primary">1</button> <button class="btn btn-sm">›</button></span>
+        </div>
+      </div>
+      <div class="muted small mt16">Allergen fields removed this iteration (per feedback-1 §1.1) — to be reintroduced later under a compliance/labelling module.</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

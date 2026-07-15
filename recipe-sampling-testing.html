@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kaju Katli · Sampling &amp; Testing — Recipe Module</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">▦</span> Spotlight</div>
+    <nav class="nav">
+      <div class="nav-item"><span class="ic">👥</span> Customers</div>
+      <div class="nav-item"><span class="ic">⚡</span> Campaign</div>
+      <div class="nav-item"><span class="ic">🛣️</span> Manage Routes</div>
+      <div class="nav-item"><span class="ic">📦</span> Orders</div>
+      <div class="nav-item"><span class="ic">🚚</span> Add On Deliveries</div>
+      <div class="nav-item"><span class="ic">↩️</span> Returns</div>
+      <div class="nav-item"><span class="ic">🗄️</span> Inventory</div>
+      <div class="nav-group">
+        <div class="nav-item active"><span><span class="ic">🏭</span> Production</span><span>⌃</span></div>
+        <div class="nav-sub"><a>Inventory</a><a>Batch Management</a><a class="active" href="recipe-overview.html">Recipes</a></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-item"><span><span class="ic">🧩</span> Ingredients</span><span>⌄</span></div>
+        <div class="nav-sub"><a href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+      </div>
+      <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
+      <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
+      <div class="nav-item"><span class="ic">🛻</span> Route Delivery</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="left"><span class="hamburger">☰</span><span class="title">Recipes</span></div>
+      <div class="user"><span class="av">D</span><div class="meta"><b>Dharmendar Ji</b><span>Admin</span></div></div>
+    </header>
+
+    <main class="content">
+      <div class="module">
+        <div class="left-panel card" style="padding:14px">
+          <div class="search" style="position:relative;margin-bottom:10px"><span class="mag">🔍</span><input class="input" placeholder="Search recipes…" style="padding-left:36px"></div>
+          <div class="between mb8"><span class="section-eyebrow">5 recipes</span><button class="btn btn-sm btn-primary">＋ New Recipe</button></div>
+          <div class="recipe-list">
+            <a class="ri active" href="recipe-overview.html"><div class="rn">Kaju Katli</div><div class="rmeta">Linked: Kaju Katli 250g · Published v1.2 · <b style="color:var(--fb-green-700)">Published</b></div></a>
+            <a class="ri"><div class="rn">Masala Cookies</div><div class="rmeta">Linked: Masala Cookies 200g · v0.4 · In Testing</div></a>
+            <a class="ri"><div class="rn">Jeera Biscuit</div><div class="rmeta">No product linked · v0.2 · Draft</div></a>
+            <a class="ri"><div class="rn">Mango Drink</div><div class="rmeta">Linked: Aam Ras 500ml · v2.0 · Published</div></a>
+            <a class="ri"><div class="rn">Chana Masala Mix</div><div class="rmeta">Linked: Chana Masala 100g · v1.0 · Published</div></a>
+          </div>
+        </div>
+
+        <div class="detail card" style="padding:18px 20px">
+          <div class="recipe-head">
+            <div class="flex gap12">
+              <div class="thumb-rd"></div>
+              <div>
+                <div class="flex gap8" style="align-items:center"><h2 style="font-size:19px">Kaju Katli</h2><span class="badge badge-published"><span class="dot" style="background:#fff"></span>Published</span></div>
+                <div class="muted small mt8">Sweets · Linked: Kaju Katli 250g, 500g, 1kg</div>
+              </div>
+            </div>
+            <div class="flex gap8">
+              <button class="btn btn-sm" data-drawer-open="drawer-sample">🧫 Create Sample Batch</button>
+              <button class="btn btn-sm btn-primary" data-drawer-open="drawer-new-version">＋ Create New Version</button>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <a class="tab" href="recipe-overview.html">Overview</a>
+            <a class="tab" href="recipe-versions.html">Versions</a>
+            <a class="tab" href="recipe-ingredients.html">Ingredients</a>
+            <a class="tab" href="recipe-batch-packaging.html">Batch &amp; Packaging</a>
+            <a class="tab" href="recipe-method.html">Method</a>
+            <a class="tab" href="recipe-costing.html">Costing</a>
+            <a class="tab active" href="recipe-sampling-testing.html">Sampling &amp; Testing</a>
+            <a class="tab" href="recipe-publish-history.html">Publish History</a>
+          </div>
+
+          <div class="between mb8">
+            <div><span class="section-eyebrow">Sample batches · v1.2</span><div class="muted small">Feedback is linked to version + batch — so a 100 kg miss is visible next to a 50 kg pass.</div></div>
+            <button class="btn btn-sm btn-primary" data-drawer-open="drawer-sample">＋ Create Sample Batch</button>
+          </div>
+
+          <!-- 6.4 — samples waiting to be tested, shown first -->
+          <div class="section-eyebrow mb8">Waiting for testing (1)</div>
+          <div class="waiting">
+            <div>
+              <b>Kaju Katli v1.2 — 10kg Trial Batch</b>
+              <div class="muted small mt8">Batch: 10kg Trial Batch · Packaging: 250g Box · Created on 12 June 2026</div>
+            </div>
+            <div class="flex gap8" style="align-items:center">
+              <span class="badge badge-feedback">Waiting for Testing</span>
+              <button class="btn btn-sm btn-primary" data-drawer-open="drawer-outcome">＋ Add Testing Outcome</button>
+            </div>
+          </div>
+
+          <div class="section-eyebrow mb8 mt16">Tested samples</div>
+
+          <div class="sample-card">
+            <div class="between">
+              <div class="flex gap12" style="align-items:center"><span class="score">4.6</span><div><b>Kaju Katli v1.2 — 50 kg Trial 1</b><div class="muted small">Batch: 50 kg Regular · 5 kg sample · by Halwai Ramesh · 11 Jun 2026</div></div></div>
+              <span class="badge badge-approved"><span class="dot" style="background:var(--fb-green-600)"></span>Approved</span>
+            </div>
+            <div class="grid3 mt16">
+              <div class="kv"><span class="muted">Taste</span><b>5</b></div>
+              <div class="kv"><span class="muted">Texture</span><b>5</b></div>
+              <div class="kv"><span class="muted">Sweetness</span><b>4</b></div>
+              <div class="kv"><span class="muted">Aroma</span><b>5</b></div>
+              <div class="kv"><span class="muted">Appearance</span><b>4</b></div>
+              <div class="kv"><span class="muted">Shelf stability</span><b>5</b></div>
+            </div>
+            <div class="muted small mt8">“Melt-in-mouth, balanced sweetness. Silver leaf adhered well. Approved for production.”</div>
+          </div>
+
+          <div class="sample-card">
+            <div class="between">
+              <div class="flex gap12" style="align-items:center"><span class="score" style="background:var(--fb-orange-50);color:#9A3412;border-color:#FED7AA">3.4</span><div><b>Kaju Katli v1.2 — 100 kg Trial 1</b><div class="muted small">Batch: 100 kg Festival · 8 kg sample · by QA Sunita · 10 Jun 2026</div></div></div>
+              <span class="badge badge-feedback">Needs Rework</span>
+            </div>
+            <div class="grid3 mt16">
+              <div class="kv"><span class="muted">Taste</span><b>4</b></div>
+              <div class="kv"><span class="muted">Texture</span><b>3</b></div>
+              <div class="kv"><span class="muted">Sweetness</span><b>3</b></div>
+              <div class="kv"><span class="muted">Aroma</span><b>4</b></div>
+              <div class="kv"><span class="muted">Appearance</span><b>3</b></div>
+              <div class="kv"><span class="muted">Shelf stability</span><b>3</b></div>
+            </div>
+            <div class="muted small mt8">“At 100 kg the syrup over-cooked — texture grainy. Reduce cooking time by 2 min for festival batch.” → rework will auto-create a new draft version.</div>
+          </div>
+
+          <div class="card" style="padding:12px 14px">
+            <div class="section-eyebrow mb8">Testing decisions</div>
+            <div class="flex gap8"><span class="badge badge-approved">Approved</span><span class="badge badge-feedback">Needs Rework</span><span class="badge badge-ready">Retest Required</span><span class="badge badge-rejected">Rejected</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 6.5 — Testing Outcome slider with 6.3 dynamic rating fields -->
+<aside class="drawer" id="drawer-outcome" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">Testing outcome</div><h3 style="font-size:16px">Kaju Katli v1.2 — 10kg Trial</h3></div>
+    <button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Tester Name</label>
+      <select class="input"><option>QA Sunita</option><option>Halwai Ramesh</option><option>Dharmendar Ji</option></select></div>
+    <div class="form-row"><label class="label">Test Date</label><input class="input" type="date"></div>
+
+    <div class="form-row" style="grid-template-columns:1fr"><div>
+      <div class="between mb8"><label class="label" style="margin:0">Testing Fields · rate 1–5</label>
+        <button class="btn btn-sm" data-add-field="testing">＋ Add field</button></div>
+      <div class="muted small mb8">1 Poor · 2 Needs Improvement · 3 Acceptable · 4 Good · 5 Excellent</div>
+      <div data-field-list="testing">
+        <div class="trow"><input class="cell-input" data-field-name value="Taste" readonly><input type="range" data-rating min="1" max="5" value="4"><span class="rate-out" data-rating-out>4</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+        <div class="trow"><input class="cell-input" data-field-name value="Texture" readonly><input type="range" data-rating min="1" max="5" value="3"><span class="rate-out" data-rating-out>3</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+        <div class="trow"><input class="cell-input" data-field-name value="Aroma" readonly><input type="range" data-rating min="1" max="5" value="4"><span class="rate-out" data-rating-out>4</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+        <div class="trow"><input class="cell-input" data-field-name value="Sweetness" readonly><input type="range" data-rating min="1" max="5" value="3"><span class="rate-out" data-rating-out>3</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+      </div>
+    </div></div>
+
+    <div class="form-row"><label class="label">Overall Rating</label><input class="input num" type="number" min="1" max="5" step="0.1" placeholder="e.g. 3.5"></div>
+    <div class="form-row"><label class="label">Feedback</label><textarea class="input" rows="2" placeholder="Tasting notes / observations"></textarea></div>
+    <div class="form-row"><label class="label">Decision</label>
+      <div><select class="input"><option>Approved</option><option>Needs Rework</option><option>Retest Required</option><option>Rejected</option></select>
+        <div class="muted small mt8">Decision updates the version status &amp; publish readiness on Overview. "Needs Rework" auto-creates a new draft.</div></div></div>
+    <div class="form-row"><label class="label">Recommended Next Action</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Save Outcome</button></div>
+</aside>
+<!-- 6.3 — dynamic rating field template -->
+<template data-field-template="testing">
+  <div class="trow"><input class="cell-input" data-field-name placeholder="New field (e.g. Crunch)"><input type="range" data-rating min="1" max="5" value="3"><span class="rate-out" data-rating-out>3</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+</template>
+
+<!-- 6.2 — Create Sample Batch slider -->
+<aside class="drawer" id="drawer-sample" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">Sampling</div><h3 style="font-size:16px">Create sample batch</h3></div>
+    <button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Recipe Version</label><input class="input" value="Kaju Katli · v1.2" readonly style="background:#FAFBFC"></div>
+    <div class="form-row"><label class="label">Batch Configuration</label>
+      <select class="input"><option>10 kg Trial Batch</option><option>50 kg Regular Batch</option><option>100 kg Festival Batch</option></select></div>
+    <div class="form-row"><label class="label">Packaging Configuration</label>
+      <select class="input"><option>250g Box</option><option>500g Box</option><option>1kg Box</option></select></div>
+    <div class="form-row"><label class="label">Sample Quantity</label><input class="input" type="number" placeholder="e.g. 5"></div>
+    <div class="form-row"><label class="label">Produced By</label>
+      <select class="input"><option>Dharmendar Ji</option><option>Production Team</option></select></div>
+    <div class="form-row"><label class="label">Produced Date</label><input class="input" type="date"></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Sample</button></div>
+</aside>
+
+<!-- Create New Version slider -->
+<aside class="drawer" id="drawer-new-version" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">New version</div><h3 style="font-size:16px">Create new version</h3></div>
+    <button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Version Name</label>
+      <div><input class="input" value="Kaju Katli · v1.3"><div class="muted small mt8">Auto-generated, editable</div></div></div>
+    <div class="form-row"><label class="label">Base Version</label>
+      <select class="input"><option>v1.2 — Published (copy from)</option><option>v1.1 — Archived</option></select></div>
+    <div class="form-row"><label class="label">Reason for New Version</label>
+      <textarea class="input" rows="2" placeholder="Cost change · taste improvement · new batch size"></textarea></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Draft Version</button></div>
+</aside>
+
+<script src="recipe.js" defer></script>
+</body>
+</html>

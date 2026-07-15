@@ -1,0 +1,133 @@
+/* ============================================================
+   recipe-v4.css — Addendum 009 (feedback-4 fork · desktop)
+   Minimalist 3-tab module. Extends styles.css tokens.
+   Ingredient proportional bars · inline row-expand · cost
+   sections w/ auto totals · production batch-order card.
+   Pairs with recipe-v4.js. Reuses recipe.js (drawer, QR, add-row).
+   ============================================================ */
+
+/* ---------- F1: master-detail layout + recipe rail ---------- */
+.v4-layout{display:flex;gap:16px;align-items:flex-start;width:100%}
+.recipe-rail{flex:0 0 258px;width:258px;position:sticky;top:58px;display:flex;flex-direction:column;gap:10px;background:#fff;border:1px solid var(--fb-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-card);padding:14px}
+.recipe-rail .rail-create{width:100%;justify-content:center}
+.recipe-rail .rail-search{width:100%}
+.rail-list{display:flex;flex-direction:column;gap:4px;overflow-y:auto;max-height:60vh}
+.rail-list .rl-item{display:block;padding:11px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent}
+.rail-list .rl-item:hover{background:var(--fb-teal-50)}
+.rail-list .rl-item.active{background:var(--fb-teal-50);border-color:#B3DDE4}
+.rail-list .rl-nm{display:block;font-weight:700;font-size:13.5px;color:var(--fb-text-primary)}
+.rail-list .rl-sub{display:block;font-size:11px;color:var(--fb-text-muted);margin-top:2px}
+.recipe-main{flex:1;min-width:0}
+@media (max-width:820px){.v4-layout{flex-direction:column}.recipe-rail{width:100%;flex-basis:auto;position:static}.rail-list{max-height:220px}}
+
+/* ---------- persistent header ---------- */
+.v4-head{position:sticky;top:58px;z-index:4;background:#fff;border:1px solid var(--fb-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-card);padding:16px 20px;margin-bottom:14px}
+.v4-head h1{font-size:20px;font-weight:800}
+.v4-head .linked{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.v4-chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--fb-teal-800);background:var(--fb-teal-50);border:1px solid #B3DDE4;border-radius:999px;padding:3px 10px}
+.v4-head .meta{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:12px}
+.v4-head .meta .m{font-size:12px;color:var(--fb-text-muted)}
+.v4-head .meta .m b{color:var(--fb-text-primary);font-size:13px}
+.v4-ver select{padding:9px 12px;border:1px solid var(--fb-border);border-radius:10px;font-size:13px;font-weight:700;color:var(--fb-teal-800);background:var(--fb-teal-50)}
+.v4-ver select:focus{outline:none;border-color:var(--fb-teal-600);box-shadow:0 0 0 3px #fff,0 0 0 4px var(--fb-teal-50)}
+
+/* ---------- batch-size preview control (non-destructive) ---------- */
+.batch-prev{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px dashed var(--fb-border)}
+.batch-prev .bp-label{font-size:12px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:var(--fb-teal-800)}
+.batch-prev select{padding:7px 12px;border:1px solid var(--fb-teal-600);border-radius:9px;font-size:13px;font-weight:800;color:var(--fb-teal-800);background:var(--fb-teal-50);font-variant-numeric:tabular-nums}
+.batch-prev select:focus{outline:none;box-shadow:0 0 0 3px #fff,0 0 0 4px var(--fb-teal-50)}
+.batch-prev .bp-hint{font-size:11px;color:var(--fb-text-muted);flex:1;min-width:180px}
+
+/* ---------- big spacious tabs ---------- */
+.v4-tabs{display:flex;gap:6px;background:#F1F3F5;border-radius:12px;padding:4px;margin-bottom:16px}
+.v4-tabs .t{flex:1;text-align:center;padding:11px 14px;border-radius:9px;font-size:13.5px;font-weight:700;color:var(--fb-text-secondary)}
+.v4-tabs .t.on{background:#fff;color:var(--fb-teal-800);box-shadow:var(--shadow-card)}
+
+.v4-panel{min-height:200px}
+
+/* ---------- ingredient proportional bars ---------- */
+.ing-list{display:flex;flex-direction:column;gap:8px}
+.ing{border:1px solid var(--fb-border);border-radius:14px;background:#fff;overflow:hidden;transition:border-color .15s}
+.ing:hover{border-color:var(--fb-teal-600)}
+.ing.open{border-color:var(--fb-teal-800);box-shadow:var(--shadow-card)}
+.ing-row{display:grid;grid-template-columns:150px 1fr auto;gap:14px;align-items:center;padding:14px 16px;cursor:pointer}
+.ing-row .nm{font-weight:700;font-size:14px}
+.ing-row .nm small{display:block;font-weight:500;font-size:11px;color:var(--fb-text-muted)}
+.ing-track{height:26px;border-radius:8px;background:#F1F3F5;overflow:hidden;position:relative}
+.ing-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--fb-teal-600),var(--fb-teal-800));transition:width .3s var(--fb-ease,cubic-bezier(.4,0,.2,1))}
+.ing-qty{font-variant-numeric:tabular-nums;font-weight:800;font-size:14px;min-width:74px;text-align:right}
+
+/* inline expand (only selected row) */
+.ing-edit{border-top:1px dashed var(--fb-border);padding:14px 16px;background:#FAFEFF;display:none}
+.ing.open .ing-edit{display:block}
+.ing-edit .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.ing-edit .fld .label{margin-bottom:5px}
+.ing-edit .save-row{display:flex;justify-content:flex-end;margin-top:12px}
+
+/* add ingredient inline search */
+.add-ing{margin-top:8px}
+.add-ing .add-btn{width:100%;border:1.5px dashed var(--fb-border);border-radius:14px;padding:14px;font-weight:700;color:var(--fb-teal-800);background:var(--fb-teal-50)}
+.add-ing .add-btn:hover{border-color:var(--fb-teal-600)}
+.add-search{border:1px solid var(--fb-teal-600);border-radius:14px;padding:12px;background:#fff;box-shadow:var(--shadow-card)}
+.add-search .opt{display:block;width:100%;text-align:left;padding:11px 12px;border-radius:9px;font-size:13px;font-weight:600}
+.add-search .opt:hover{background:var(--fb-teal-50)}
+.add-search .opt.create{color:var(--fb-teal-800);border-top:1px solid var(--fb-border);margin-top:4px;border-radius:0 0 9px 9px}
+
+/* expected yield tile */
+.yield-tile{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--fb-green-100);background:var(--fb-green-50);border-radius:14px;padding:14px 18px;margin:16px 0}
+.yield-tile .yv{font-size:26px;font-weight:800;color:var(--fb-green-700)}
+
+/* ---------- sticky bottom action ---------- */
+.v4-actions{position:sticky;bottom:0;margin:16px -20px -18px;padding:13px 20px;background:#fff;border-top:1px solid var(--fb-border);display:flex;justify-content:flex-end;gap:12px;border-radius:0 0 var(--radius-xl) var(--radius-xl);z-index:5}
+.v4-actions .btn{padding:11px 22px;font-size:14px}
+
+/* ---------- cost sub-tabs ---------- */
+.cost-subtabs{display:flex;gap:4px;background:#F1F3F5;border-radius:11px;padding:4px;margin-bottom:16px}
+.cost-subtabs a{flex:1;text-align:center;padding:9px 10px;border-radius:8px;font-size:12.5px;font-weight:700;color:var(--fb-text-secondary);cursor:pointer}
+.cost-subtabs a.on{background:#fff;color:var(--fb-teal-800);box-shadow:var(--shadow-card)}
+
+/* ---------- cost sections ---------- */
+.cost-sec{margin-bottom:16px}
+.cost-sec .h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cost-line{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--fb-border);border-radius:12px;margin-bottom:8px;background:#fff}
+.cost-line:hover{border-color:var(--fb-teal-600)}
+.cost-line .cn{font-weight:700;font-size:13.5px}
+.cost-line .cn small{display:block;font-weight:500;font-size:11px;color:var(--fb-text-muted)}
+.cost-line .cv{font-weight:800;font-variant-numeric:tabular-nums;min-width:88px;text-align:right}
+
+/* inline cost editor (replaces the old right-side slider) */
+.cost-line.editable{display:block;padding:0;overflow:hidden;transition:border-color .15s}
+.cost-line.editable .cl-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 14px;cursor:pointer}
+.cost-line.editable.open{border-color:var(--fb-teal-800);box-shadow:var(--shadow-card)}
+.cost-line.editable .cl-edit{display:none;border-top:1px dashed var(--fb-border);padding:14px;background:#FAFEFF}
+.cost-line.editable.open .cl-edit{display:block}
+.cl-edit .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.cl-edit .fld .label{margin-bottom:5px}
+.cl-edit .save-row{display:flex;justify-content:flex-end;margin-top:12px}
+
+/* stronger, stand-out total rows (R7) */
+.sec-total{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:var(--fb-teal-50);border:1px solid #B3DDE4;border-top:2px solid var(--fb-teal-600);border-radius:12px;font-weight:800;color:var(--fb-teal-800);font-size:14px}
+.sec-total b{font-size:18px;font-variant-numeric:tabular-nums;color:var(--fb-teal-800)}
+.grand{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:linear-gradient(180deg,#E9F8F0,#fff);border:1px solid var(--fb-green-100);border-top:3px solid var(--fb-green-600);border-radius:16px;margin-top:10px}
+.grand .gl{font-size:13px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--fb-green-700)}
+.grand .gl .gnote{display:block;font-size:10.5px;font-weight:600;letter-spacing:.2px;text-transform:none;color:var(--fb-text-muted);margin-top:2px}
+.grand .gv{font-size:30px;font-weight:800;color:var(--fb-green-700);font-variant-numeric:tabular-nums}
+
+/* ---------- production ---------- */
+.prod-form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:720px){.prod-form{grid-template-columns:1fr}}
+.prod-form .fld{display:flex;flex-direction:column}
+.prod-form .fld.full{grid-column:1/-1}
+.auto-field{padding:11px 13px;border:1px dashed var(--fb-border);border-radius:10px;font-weight:700;color:var(--fb-text-muted);background:#FAFBFC}
+.batch-warn{display:none;margin-top:6px}
+.batch-warn.on{display:block}
+
+.order-card{border:1px solid var(--fb-green-100);border-radius:16px;background:#fff;box-shadow:var(--shadow-card);padding:20px;display:none;grid-template-columns:1fr auto;gap:20px;align-items:center;margin-top:16px}
+.order-card.on{display:grid}
+.order-card .pb{font-size:24px;font-weight:800;letter-spacing:.5px}
+.order-card .qr-wrap{text-align:center}
+.order-card .qr-wrap .cap{font-size:11px;color:var(--fb-text-muted);margin-top:6px}
+
+/* ---------- drawer helpers reused via styles.css; batch-size chips ---------- */
+.size-pick{display:flex;flex-wrap:wrap;gap:8px}
+.size-pick .chip.sel{border-color:var(--fb-teal-800);background:var(--fb-teal-50);color:var(--fb-teal-800)}

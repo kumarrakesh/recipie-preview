@@ -1,0 +1,324 @@
+/* ============================================================
+   Recipe MVP — shared styles
+   Tokens derived from design/foodbridge-design-system.md
+   Chrome recreated from design/html-layout/*.jpeg
+   ============================================================ */
+
+:root {
+  /* Brand / FoodBridge tokens */
+  --fb-teal-800:#1B6272; --fb-teal-600:#217A8E; --fb-teal-50:#E8F5F7;
+  --fb-green-700:#2D7A42; --fb-green-600:#43A047; --fb-green-50:#F0FDF4; --fb-green-100:#BBF7D0;
+  --fb-orange-600:#F97316; --fb-orange-50:#FFF7ED;
+  --fb-red-600:#EF4444; --fb-red-50:#FEF2F2;
+  --fb-bg:#F0F2F5; --fb-surface:#FFFFFF; --fb-border:#E5E7EB; --fb-border-soft:#F1F3F5;
+  --fb-text-primary:#111111; --fb-text-secondary:#555555; --fb-text-muted:#888888; --fb-text-placeholder:#9CA3AF;
+
+  /* App green (existing Spotlight brand kept for minimal change) */
+  --app-green:#1FA463; --app-green-dark:#178a53; --app-green-50:#E9F8F0;
+
+  --radius-sm:8px; --radius-md:12px; --radius-lg:14px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-card:0 1px 4px rgba(0,0,0,.06);
+  --shadow-pop:0 8px 30px rgba(0,0,0,.12);
+  --shadow-drawer:-8px 0 30px rgba(0,0,0,.12);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--fb-bg);color:var(--fb-text-primary);font-size:13px;line-height:1.4}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+img{display:block}
+
+/* ---------- App shell ---------- */
+.app{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{width:212px;flex-shrink:0;background:#fff;border-right:1px solid var(--fb-border);height:100vh;position:sticky;top:0;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:8px;padding:16px 18px;font-weight:700;font-size:16px}
+.brand .logo{width:24px;height:24px;border-radius:7px;background:var(--app-green);display:grid;place-items:center;color:#fff;font-size:13px}
+.nav{padding:4px 10px 24px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--fb-text-secondary);font-size:13px;font-weight:500}
+.nav-item .ic{width:18px;text-align:center;opacity:.8}
+.nav-item:hover{background:#F6F8FA}
+.nav-group>.nav-item{justify-content:space-between}
+.nav-sub{padding:2px 0 6px 0}
+.nav-sub a{display:block;padding:8px 12px 8px 42px;font-size:12.5px;color:var(--fb-text-muted);border-radius:8px}
+.nav-sub a:hover{background:#F6F8FA}
+.nav-sub a.active{background:var(--app-green-50);color:var(--app-green-dark);font-weight:600}
+.nav-item.active{background:var(--app-green-50);color:var(--app-green-dark);font-weight:600}
+
+/* Main */
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--fb-border);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:5}
+.topbar .left{display:flex;align-items:center;gap:14px}
+.topbar .hamburger{font-size:18px;color:var(--fb-text-secondary)}
+.topbar .title{font-size:15px;font-weight:600}
+.topbar .user{display:flex;align-items:center;gap:9px}
+.topbar .user .av{width:32px;height:32px;border-radius:50%;background:var(--app-green);color:#fff;display:grid;place-items:center;font-size:13px}
+.topbar .user .meta b{display:block;font-size:13px}
+.topbar .user .meta span{font-size:11px;color:var(--app-green-dark)}
+.content{padding:22px;flex:1}
+
+/* ---------- Generic components ---------- */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid var(--fb-border);background:#fff;color:var(--fb-text-secondary);transition:background .15s,border-color .15s}
+.btn:hover{background:#F6F8FA}
+.btn-primary{background:var(--app-green);border-color:var(--app-green);color:#fff}
+.btn-primary:hover{background:var(--app-green-dark)}
+.btn-teal{background:var(--fb-teal-800);border-color:var(--fb-teal-800);color:#fff}
+.btn-teal:hover{filter:brightness(1.08)}
+.btn-ghost{border-color:transparent;background:transparent}
+.btn-sm{padding:6px 10px;font-size:12px;border-radius:8px}
+
+.input{width:100%;padding:11px 13px;border:1px solid var(--fb-border);border-radius:10px;font-size:13px;background:#fff;color:var(--fb-text-primary)}
+.input::placeholder{color:var(--fb-text-placeholder)}
+.input:focus{outline:none;border-color:var(--fb-teal-600);box-shadow:0 0 0 3px var(--fb-teal-50)}
+.label{font-size:12.5px;font-weight:600;color:var(--fb-text-secondary);margin-bottom:6px;display:block}
+.req{color:var(--fb-red-600)}
+
+.card{background:#fff;border:1px solid var(--fb-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-card)}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:var(--radius-full);font-size:11px;font-weight:700;letter-spacing:.2px}
+.badge .dot{width:7px;height:7px;border-radius:50%}
+.badge-draft{background:#F3F4F6;color:#6B7280}
+.badge-testing{background:var(--fb-orange-50);color:#9A3412}
+.badge-qa{background:var(--fb-teal-50);color:var(--fb-teal-800)}
+.badge-approved{background:var(--fb-green-50);color:var(--fb-green-700)}
+.badge-published{background:var(--fb-green-600);color:#fff}
+.badge-soft{background:#F6F8FA;color:var(--fb-text-muted);font-weight:600}
+
+/* Allergen chip */
+.allergen{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--radius-full);font-size:11px;font-weight:600;background:var(--fb-orange-50);color:#9A3412;border:1px solid #FED7AA}
+.allergen.none{background:#F6F8FA;color:var(--fb-text-muted);border-color:var(--fb-border)}
+.allergen.milk{background:#EFF6FF;color:#1E40AF;border-color:#BFDBFE}
+
+/* Tables */
+.table{width:100%;border-collapse:collapse}
+.table thead th{text-align:left;font-size:11px;letter-spacing:.4px;color:var(--fb-text-muted);font-weight:700;text-transform:uppercase;padding:12px 16px;border-bottom:1px solid var(--fb-border)}
+.table tbody td{padding:14px 16px;border-bottom:1px solid var(--fb-border-soft);vertical-align:middle}
+.table tbody tr:hover{background:#FAFBFC}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* Toolbar */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.toolbar .spacer{flex:1}
+.searchrow{display:flex;gap:10px;margin-bottom:14px}
+.searchrow .search{flex:1;position:relative}
+.searchrow .search input{padding-left:36px}
+.searchrow .search .mag{position:absolute;left:12px;top:11px;color:var(--fb-text-muted)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--fb-border);margin-bottom:18px}
+.tab{padding:10px 14px;font-size:13px;font-weight:600;color:var(--fb-text-muted);border-bottom:2px solid transparent;display:flex;align-items:center;gap:6px}
+.tab.active{color:var(--fb-teal-800);border-bottom-color:var(--fb-teal-800)}
+.tab.locked{color:var(--fb-text-placeholder)}
+
+/* Section subtitle */
+.section-eyebrow{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--fb-text-muted)}
+
+.muted{color:var(--fb-text-muted)}
+.small{font-size:12px}
+.right{text-align:right}
+.flex{display:flex}
+.between{display:flex;align-items:center;justify-content:space-between}
+.gap8{gap:8px}.gap12{gap:12px}
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mb8{margin-bottom:8px}
+
+/* MVP highlight marker (shows what was added) */
+.mvp-new{position:relative}
+.mvp-tag{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;letter-spacing:.3px;color:var(--fb-teal-800);background:var(--fb-teal-50);border:1px solid #B3DDE4;padding:1px 6px;border-radius:var(--radius-full);text-transform:uppercase}
+
+/* Progress bar */
+.bar{height:6px;border-radius:var(--radius-full);background:var(--fb-border);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--fb-green-600);border-radius:var(--radius-full)}
+
+/* avatar thumbnails */
+.thumb{width:36px;height:36px;border-radius:8px;object-fit:cover;background:#EEE;flex-shrink:0}
+.thumb.sm{width:28px;height:28px}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(17,17,17,.35);z-index:40}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:min(860px,92vw);background:#fff;z-index:41;box-shadow:var(--shadow-drawer);display:flex;flex-direction:column}
+.drawer .dhead{padding:18px 24px;border-bottom:1px solid var(--fb-border);display:flex;align-items:center;justify-content:space-between}
+.drawer .dbody{padding:22px 24px;overflow-y:auto;flex:1}
+.drawer .dfoot{padding:14px 24px;border-top:1px solid var(--fb-border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(17,17,17,.4);z-index:40;display:flex;justify-content:flex-end}
+.modal .sheet{width:min(900px,80vw);background:#fff;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.modal .mhead{padding:20px 26px;border-bottom:1px solid var(--fb-border)}
+.modal .mbody{padding:24px 26px;flex:1}
+.modal .mfoot{padding:14px 26px;border-top:1px solid var(--fb-border);display:flex;gap:14px;position:sticky;bottom:0;background:#fff}
+
+.form-row{display:grid;grid-template-columns:160px 1fr;gap:18px;align-items:start;padding:12px 0}
+.chip-pick{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 13px;border:1.5px solid var(--fb-border);border-radius:10px;font-size:12.5px;font-weight:600;color:var(--fb-text-secondary);background:#fff}
+.chip.sel{border-color:var(--fb-teal-800);background:var(--fb-teal-50);color:var(--fb-teal-800)}
+
+/* ============================================================
+   Addendum 003 — recipe-centric module components
+   ============================================================ */
+
+/* layout: left recipe list + right detail */
+.module{display:flex;gap:14px;align-items:flex-start}
+.left-panel{width:288px;flex-shrink:0}
+.detail{flex:1;min-width:0}
+
+/* Recipe list */
+.recipe-list .ri{display:block;padding:12px 14px;border-radius:12px;border:1px solid transparent;margin-bottom:4px}
+.recipe-list .ri:hover{background:#F6F8FA}
+.recipe-list .ri.active{border-color:var(--app-green);background:var(--app-green-50)}
+.recipe-list .ri .rn{font-weight:700;font-size:13.5px}
+.recipe-list .ri .rmeta{font-size:11.5px;color:var(--fb-text-muted);margin-top:2px}
+
+/* thumbnails */
+.thumb-lg{width:48px;height:48px;border-radius:12px;background:#EEE;flex-shrink:0}
+.thumb-rd{width:46px;height:46px;border-radius:50%;background:#EEE;flex-shrink:0}
+
+/* recipe header */
+.recipe-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:6px}
+
+/* extra status badges */
+.badge-ready{background:#EFF6FF;color:#1E40AF}
+.badge-feedback{background:var(--fb-orange-50);color:#9A3412}
+.badge-archived{background:#F3F4F6;color:#6B7280}
+.badge-rejected{background:var(--fb-red-50);color:#991B1B}
+
+/* segmented toggle */
+.seg{display:inline-flex;background:#F1F3F5;border-radius:10px;padding:3px;gap:3px}
+.seg button{padding:7px 16px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--fb-text-secondary)}
+.seg button.on{background:#fff;color:var(--fb-teal-800);box-shadow:var(--shadow-card)}
+
+/* published version hero */
+.pub-hero{background:linear-gradient(180deg,#F0FDF4,#fff);border:1px solid var(--fb-green-100);border-radius:var(--radius-xl);padding:18px 20px}
+.pub-hero .ver{font-size:22px;font-weight:800}
+
+/* batch + packaging cards */
+.batch-card{border:1px solid var(--fb-border);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.batch-card .bh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;background:#FAFBFC;border-bottom:1px solid var(--fb-border)}
+.batch-card .bb{padding:14px 16px}
+.pack-card{border:1px solid var(--fb-border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.pack-card:last-child{margin-bottom:0}
+
+/* method step card */
+.step-card{display:flex;gap:14px;border:1px solid var(--fb-border);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.step-card .sn{width:30px;height:30px;border-radius:50%;background:var(--fb-teal-50);color:var(--fb-teal-800);display:grid;place-items:center;font-weight:700;flex-shrink:0}
+.step-card .pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:#F6F8FA;color:var(--fb-text-muted)}
+
+/* sample card */
+.sample-card{border:1px solid var(--fb-border);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.score{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--fb-green-50);color:var(--fb-green-700);font-weight:800;font-size:15px;border:2px solid var(--fb-green-100)}
+
+/* generic grid helpers */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.kv{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--fb-border);font-size:12.5px}
+.kv:last-child{border-bottom:none}
+
+/* completeness checklist */
+.chk{display:flex;align-items:center;gap:9px;padding:7px 0;font-size:12.5px}
+.chk .mk{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:#fff}
+.chk .mk.ok{background:var(--fb-green-600)}
+.chk .mk.no{background:var(--fb-border);color:var(--fb-text-muted)}
+
+/* wireframe hub */
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.hub-card{display:block;border:1px solid var(--fb-border);border-radius:14px;padding:16px;background:#fff;box-shadow:var(--shadow-card)}
+.hub-card:hover{border-color:var(--fb-teal-600)}
+.hub-card .ht{font-weight:700;font-size:14px;margin-bottom:4px}
+.hub-card .hd{font-size:12px;color:var(--fb-text-muted)}
+.hub-step{font-size:11px;font-weight:700;color:var(--fb-teal-800);background:var(--fb-teal-50);border-radius:999px;padding:2px 8px;display:inline-block;margin-bottom:8px}
+
+/* ============================================================
+   Addendum 004 — feedback-2 UI overhaul components
+   Real lightweight vanilla JS counterpart: recipe.js
+   ============================================================ */
+
+body.no-scroll{overflow:hidden}
+
+/* drawer slide-in (drawer markup already styled above; add motion + hidden state) */
+.drawer{transform:translateX(100%);transition:transform .22s ease}
+.drawer.in{transform:translateX(0)}
+.drawer[hidden]{display:flex}              /* keep layout for the transition */
+.drawer[hidden]:not(.in){pointer-events:none;visibility:hidden}
+.scrim{animation:scrim-in .18s ease}
+@keyframes scrim-in{from{opacity:0}to{opacity:1}}
+
+/* compact publish status strip (Overview 1.1) */
+.pub-strip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:linear-gradient(180deg,#F0FDF4,#fff);border:1px solid var(--fb-green-100);border-radius:var(--radius-xl);padding:12px 16px}
+.pub-strip .steps{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pub-strip .pstep{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--fb-text-muted)}
+.pub-strip .pstep .pn{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--fb-border);color:var(--fb-text-muted);font-size:10px}
+.pub-strip .pstep.done .pn{background:var(--fb-green-600);color:#fff}
+.pub-strip .pstep.now{color:var(--fb-teal-800)}
+.pub-strip .pstep.now .pn{background:var(--fb-teal-800);color:#fff}
+.pub-strip .arrow{color:var(--fb-text-placeholder)}
+
+/* readiness strip (slim) */
+.ready-strip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px}
+.ready-strip .ck{display:inline-flex;align-items:center;gap:6px;color:var(--fb-text-secondary)}
+.ready-strip .ck .mk{width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff}
+.ready-strip .ck .mk.ok{background:var(--fb-green-600)}
+.ready-strip .ck .mk.no{background:var(--fb-border);color:var(--fb-text-muted)}
+
+/* summary stat tiles (Ingredients Summary) */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{border:1px solid var(--fb-border);border-radius:12px;padding:12px 14px;background:#fff}
+.stat .sv{font-size:18px;font-weight:800}
+.stat .sl{font-size:11px;color:var(--fb-text-muted);margin-top:2px}
+.stat.warn{border-color:#FED7AA;background:var(--fb-orange-50)}
+.stat.warn .sv{color:#9A3412}
+
+/* table alignment + scroll wrapper for wide tables */
+.table-wrap{overflow-x:auto;border-radius:var(--radius-lg)}
+.table.aligned td,.table.aligned th{white-space:nowrap}
+.table.aligned td.num,.table.aligned th.num{text-align:right;font-variant-numeric:tabular-nums}
+.table.aligned .stick,.table.aligned thead .stick{position:sticky;left:0;background:#fff;z-index:1}
+.table tbody tr:hover .stick{background:#FAFBFC}
+.table.aligned thead .stick{background:#fff}
+
+/* expandable detail row */
+tr.row-detail>td{background:#FAFBFC;padding:0}
+tr.row-detail .detail-inner{padding:14px 16px}
+[data-row-expand].on{background:var(--fb-teal-50);color:var(--fb-teal-800);border-color:var(--fb-teal-600)}
+
+/* inline editable cells */
+.cell-input{width:100%;padding:7px 9px;border:1px solid var(--fb-border);border-radius:8px;font-size:12.5px;font-family:inherit}
+.cell-input:focus{outline:none;border-color:var(--fb-teal-600);box-shadow:0 0 0 3px var(--fb-teal-50)}
+td .cell-input.num{text-align:right}
+tr.row-new{background:var(--fb-teal-50)/.4;animation:rowflash 1s ease}
+@keyframes rowflash{from{background:var(--fb-teal-50)}to{background:transparent}}
+
+/* autosuggest */
+.autosuggest{position:relative}
+.as-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid var(--fb-border);border-radius:10px;box-shadow:var(--shadow-pop);z-index:30;overflow:hidden}
+.as-item{display:block;width:100%;text-align:left;padding:9px 12px;font-size:12.5px}
+.as-item:hover{background:var(--fb-teal-50)}
+
+/* product picker rows */
+.pp-row{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;padding:12px 14px;border:1px solid var(--fb-border);border-radius:12px;margin-bottom:8px;background:#fff}
+.pp-row:hover{border-color:var(--fb-teal-600);background:#FAFEFF}
+
+/* QR preview */
+.qr-box{display:inline-flex;flex-direction:column;align-items:center;gap:6px;border:1px solid var(--fb-border);border-radius:12px;padding:10px;background:#fff}
+.qr-canvas{image-rendering:pixelated;border-radius:4px}
+.qr-box .qr-cap{font-size:10px;color:var(--fb-text-muted);text-align:center;max-width:120px}
+
+/* drag handle / dragging state */
+[data-drag-list] [draggable]{cursor:grab}
+[data-drag-list] [draggable].dragging{opacity:.5;cursor:grabbing}
+.drag-handle{cursor:grab;color:var(--fb-text-placeholder);font-size:16px;user-select:none}
+
+/* dynamic testing rating rows */
+.trow{display:grid;grid-template-columns:1.4fr 2fr auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--fb-border)}
+.trow:last-child{border-bottom:none}
+.trow input[type=range]{width:100%}
+.trow .rate-out{min-width:18px;text-align:center;font-weight:800;color:var(--fb-teal-800)}
+
+/* sub-tabs (batch override tabs in Method) */
+.subtabs{display:inline-flex;background:#F1F3F5;border-radius:10px;padding:3px;gap:3px;margin-bottom:14px;flex-wrap:wrap}
+.subtabs button{padding:7px 14px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--fb-text-secondary)}
+.subtabs button.on{background:#fff;color:var(--fb-teal-800);box-shadow:var(--shadow-card)}
+
+/* sample waiting banner */
+.waiting{border:1px solid #FED7AA;background:var(--fb-orange-50);border-radius:14px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}

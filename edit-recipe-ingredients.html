@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edit Recipe Ingredients — Recipe Module</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">▦</span> Spotlight</div>
+    <nav class="nav">
+      <div class="nav-item"><span class="ic">👥</span> Customers</div>
+      <div class="nav-item"><span class="ic">⚡</span> Campaign</div>
+      <div class="nav-item"><span class="ic">🛣️</span> Manage Routes</div>
+      <div class="nav-item"><span class="ic">📦</span> Orders</div>
+      <div class="nav-item"><span class="ic">🚚</span> Add On Deliveries</div>
+      <div class="nav-item"><span class="ic">↩️</span> Returns</div>
+      <div class="nav-item"><span class="ic">🗄️</span> Inventory</div>
+      <div class="nav-group">
+        <div class="nav-item active"><span><span class="ic">🏭</span> Production</span><span>⌃</span></div>
+        <div class="nav-sub"><a>Inventory</a><a>Batch Management</a><a class="active" href="recipe-overview.html">Recipes</a></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-item"><span><span class="ic">🧩</span> Ingredients</span><span>⌄</span></div>
+        <div class="nav-sub"><a href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+      </div>
+      <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
+      <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
+      <div class="nav-item"><span class="ic">🛻</span> Route Delivery</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="left"><span class="hamburger">☰</span><span class="title">Recipes</span></div>
+      <div class="user"><span class="av">D</span><div class="meta"><b>Dharmendar Ji</b><span>Admin</span></div></div>
+    </header>
+    <main class="content"><p class="muted">Recipe ingredients behind the drawer…</p></main>
+  </div>
+
+  <!-- Edit drawer -->
+  <div class="scrim"></div>
+  <aside class="drawer">
+    <div class="dhead">
+      <div class="flex gap12" style="align-items:center">
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--fb-teal-50);display:grid;place-items:center;font-size:18px">⚗️</div>
+        <div>
+          <div class="flex gap8" style="align-items:center"><h2 style="font-size:17px">Edit Ingredients</h2><span class="badge badge-soft">Kaju Katli · v1.2 → v1.3 draft</span></div>
+          <div class="muted small">Batch: 50 kg Regular · editing a published version creates a new draft</div>
+        </div>
+      </div>
+      <div class="right small" style="color:var(--fb-green-700)"><b>4 ingredients</b></div>
+    </div>
+
+    <div class="dbody">
+      <!-- finished product -->
+      <div class="section-eyebrow">Linked products</div>
+      <div class="muted small mb8">This recipe links to multiple products through packaging configurations</div>
+      <div class="flex gap8" style="flex-wrap:wrap"><span class="chip sel">Kaju Katli 250g</span><span class="chip sel">Kaju Katli 500g</span><span class="chip sel">Kaju Katli 1kg</span><span class="chip">＋ Link product</span></div>
+
+      <!-- ingredients table: two-way yield -->
+      <div class="between" style="margin:22px 0 8px">
+        <div><span class="section-eyebrow">Ingredients</span><div class="muted small">Enter Actual Qty → Qty After Yield auto-fills (and vice-versa)</div></div>
+        <span class="badge badge-approved">4/4 filled</span>
+      </div>
+
+      <div class="card" style="overflow:hidden">
+        <table class="table">
+          <thead><tr><th style="width:24px">#</th><th>Ingredient</th><th class="num" style="width:78px">Actual Qty</th><th style="width:54px">Unit</th><th class="num" style="width:74px">Yield %</th><th class="num" style="width:96px">Qty After Yield</th><th class="num" style="width:86px">Price</th><th class="num" style="width:90px">Cost</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="muted">1</td>
+              <td><div><b>Cashew</b><div class="muted small">A-grade / W240</div></div></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="30"></td>
+              <td>kg</td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="90"></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="27"></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="820"></td>
+              <td class="num"><b>₹24,600</b></td>
+            </tr>
+            <tr>
+              <td class="muted">2</td>
+              <td><div><b>Sugar</b><div class="muted small">Fine white</div></div></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="18"></td>
+              <td>kg</td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="100"></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="18"></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="45"></td>
+              <td class="num"><b>₹810</b></td>
+            </tr>
+            <tr>
+              <td class="muted">3</td>
+              <td><div><b>Ghee</b><div class="muted small">Amul / premium</div></div></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="3"></td>
+              <td>kg</td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="100"></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="3"></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="620"></td>
+              <td class="num"><b>₹1,860</b></td>
+            </tr>
+            <tr>
+              <td class="muted">4</td>
+              <td><div><b>Cardamom</b><div class="muted small">Green / bold</div></div></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="0.2"></td>
+              <td>kg</td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="100"></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="0.2"></td>
+              <td class="num"><input class="input" style="padding:6px;text-align:right" value="2200"></td>
+              <td class="num"><b>₹440</b></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="flex gap12" style="padding:12px 16px;align-items:center">
+          <button class="btn btn-sm">＋ Add Ingredient</button>
+          <button class="btn btn-sm" onclick="location.href='add-ingredient.html'" style="color:var(--fb-teal-800)">＋ Create New Ingredient</button>
+        </div>
+      </div>
+
+      <!-- Other costs: inline quick chips -->
+      <div class="between" style="margin:22px 0 8px"><span class="section-eyebrow">Other costs</span></div>
+      <div class="card" style="padding:14px 16px">
+        <div class="muted small mb8">Tap a chip, then enter an amount — quick inline add, no separate screen.</div>
+        <div class="chip-pick mb8">
+          <span class="chip sel">Labour</span><span class="chip sel">Gas</span><span class="chip sel">Electricity</span><span class="chip sel">Wastage</span>
+          <span class="chip">Packaging</span><span class="chip">Machine Cost</span><span class="chip">Testing Cost</span><span class="chip">Miscellaneous</span>
+        </div>
+        <table class="table">
+          <thead><tr><th>Cost name</th><th>Type</th><th class="num">Amount</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Labour</td><td>Per batch</td><td class="num"><input class="input" style="padding:6px;text-align:right;width:90px" value="2500"></td><td class="muted small">2 workers, 3 hours</td></tr>
+            <tr><td>Gas</td><td>Per batch</td><td class="num"><input class="input" style="padding:6px;text-align:right;width:90px" value="1400"></td><td class="muted small">—</td></tr>
+            <tr><td>Electricity</td><td>Per batch</td><td class="num"><input class="input" style="padding:6px;text-align:right;width:90px" value="600"></td><td class="muted small">—</td></tr>
+            <tr><td>Wastage</td><td>Per batch</td><td class="num"><input class="input" style="padding:6px;text-align:right;width:90px" value="1290"></td><td class="muted small">trim &amp; breakage</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="dfoot">
+      <div class="small"><b>Total batch cost ₹33,500</b> · <span class="muted">cost/kg ₹170.00</span></div>
+      <div class="flex gap12">
+        <button class="btn">Cancel</button>
+        <button class="btn btn-primary">Save as Kaju Katli · v1.3</button>
+      </div>
+    </div>
+  </aside>
+</div>
+</body>
+</html>

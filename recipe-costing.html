@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kaju Katli · Costing — Recipe Module</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">▦</span> Spotlight</div>
+    <nav class="nav">
+      <div class="nav-item"><span class="ic">👥</span> Customers</div>
+      <div class="nav-item"><span class="ic">⚡</span> Campaign</div>
+      <div class="nav-item"><span class="ic">🛣️</span> Manage Routes</div>
+      <div class="nav-item"><span class="ic">📦</span> Orders</div>
+      <div class="nav-item"><span class="ic">🚚</span> Add On Deliveries</div>
+      <div class="nav-item"><span class="ic">↩️</span> Returns</div>
+      <div class="nav-item"><span class="ic">🗄️</span> Inventory</div>
+      <div class="nav-group">
+        <div class="nav-item active"><span><span class="ic">🏭</span> Production</span><span>⌃</span></div>
+        <div class="nav-sub"><a>Inventory</a><a>Batch Management</a><a class="active" href="recipe-overview.html">Recipes</a></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-item"><span><span class="ic">🧩</span> Ingredients</span><span>⌄</span></div>
+        <div class="nav-sub"><a href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+      </div>
+      <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
+      <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
+      <div class="nav-item"><span class="ic">🛻</span> Route Delivery</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="left"><span class="hamburger">☰</span><span class="title">Recipes</span></div>
+      <div class="user"><span class="av">D</span><div class="meta"><b>Dharmendar Ji</b><span>Admin</span></div></div>
+    </header>
+
+    <main class="content">
+      <div class="module">
+        <div class="left-panel card" style="padding:14px">
+          <div class="search" style="position:relative;margin-bottom:10px"><span class="mag">🔍</span><input class="input" placeholder="Search recipes…" style="padding-left:36px"></div>
+          <div class="between mb8"><span class="section-eyebrow">5 recipes</span><button class="btn btn-sm btn-primary">＋ New Recipe</button></div>
+          <div class="recipe-list">
+            <a class="ri active" href="recipe-overview.html"><div class="rn">Kaju Katli</div><div class="rmeta">Linked: Kaju Katli 250g · Published v1.2 · <b style="color:var(--fb-green-700)">Published</b></div></a>
+            <a class="ri"><div class="rn">Masala Cookies</div><div class="rmeta">Linked: Masala Cookies 200g · v0.4 · In Testing</div></a>
+            <a class="ri"><div class="rn">Jeera Biscuit</div><div class="rmeta">No product linked · v0.2 · Draft</div></a>
+            <a class="ri"><div class="rn">Mango Drink</div><div class="rmeta">Linked: Aam Ras 500ml · v2.0 · Published</div></a>
+            <a class="ri"><div class="rn">Chana Masala Mix</div><div class="rmeta">Linked: Chana Masala 100g · v1.0 · Published</div></a>
+          </div>
+        </div>
+
+        <div class="detail card" style="padding:18px 20px">
+          <div class="recipe-head">
+            <div class="flex gap12">
+              <div class="thumb-rd"></div>
+              <div>
+                <div class="flex gap8" style="align-items:center"><h2 style="font-size:19px">Kaju Katli</h2><span class="badge badge-published"><span class="dot" style="background:#fff"></span>Published</span></div>
+                <div class="muted small mt8">Sweets · Linked: Kaju Katli 250g, 500g, 1kg</div>
+              </div>
+            </div>
+            <div class="flex gap8">
+              <button class="btn btn-sm" data-drawer-open="drawer-sample">🧫 Create Sample Batch</button>
+              <button class="btn btn-sm btn-primary" data-drawer-open="drawer-new-version">＋ Create New Version</button>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <a class="tab" href="recipe-overview.html">Overview</a>
+            <a class="tab" href="recipe-versions.html">Versions</a>
+            <a class="tab" href="recipe-ingredients.html">Ingredients</a>
+            <a class="tab" href="recipe-batch-packaging.html">Batch &amp; Packaging</a>
+            <a class="tab" href="recipe-method.html">Method</a>
+            <a class="tab active" href="recipe-costing.html">Costing</a>
+            <a class="tab" href="recipe-sampling-testing.html">Sampling &amp; Testing</a>
+            <a class="tab" href="recipe-publish-history.html">Publish History</a>
+          </div>
+
+          <div class="between mb8">
+            <div><span class="section-eyebrow">Costing · 50 kg Regular Batch</span><div class="muted small">Batch cost rolls down to cost per pack and margin for each packaging.</div></div>
+            <div class="seg"><button class="on">50 kg Regular</button><button>10 kg Trial</button><button>100 kg Festival</button></div>
+          </div>
+
+          <div class="grid3" style="margin-bottom:14px">
+            <div class="card" style="padding:14px"><div class="section-eyebrow">Ingredient cost</div><div style="font-size:22px;font-weight:800;margin-top:6px">₹27,710</div></div>
+            <div class="card" style="padding:14px"><div class="section-eyebrow">Other cost</div><div style="font-size:22px;font-weight:800;margin-top:6px">₹5,790</div></div>
+            <div class="card" style="padding:14px"><div class="section-eyebrow">Total batch cost</div><div style="font-size:22px;font-weight:800;margin-top:6px">₹33,500</div></div>
+          </div>
+
+          <div class="flex gap12" style="align-items:flex-start">
+            <div style="flex:1">
+              <div class="card" style="overflow:hidden">
+                <table class="table">
+                  <thead><tr><th>Line</th><th>Type</th><th class="num">Qty / Basis</th><th class="num">Rate</th><th class="num">Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td><b>Cashew</b><div class="muted small">A-grade / W240</div></td><td>Ingredient</td><td class="num">30 kg</td><td class="num">₹820/kg</td><td class="num"><b>₹24,600</b></td></tr>
+                    <tr><td><b>Sugar</b></td><td>Ingredient</td><td class="num">18 kg</td><td class="num">₹45/kg</td><td class="num"><b>₹810</b></td></tr>
+                    <tr><td><b>Ghee</b></td><td>Ingredient</td><td class="num">3 kg</td><td class="num">₹620/kg</td><td class="num"><b>₹1,860</b></td></tr>
+                    <tr><td><b>Cardamom</b></td><td>Ingredient</td><td class="num">0.2 kg</td><td class="num">₹2,200/kg</td><td class="num"><b>₹440</b></td></tr>
+                    <tr><td><b>Labour</b></td><td>Per batch</td><td class="num">2 workers</td><td class="num">—</td><td class="num"><b>₹2,500</b></td></tr>
+                    <tr><td><b>Gas / fuel</b></td><td>Per batch</td><td class="num">—</td><td class="num">—</td><td class="num"><b>₹1,400</b></td></tr>
+                    <tr><td><b>Electricity</b></td><td>Per batch</td><td class="num">—</td><td class="num">—</td><td class="num"><b>₹600</b></td></tr>
+                    <tr><td><b>Wastage allowance</b></td><td>Per batch</td><td class="num">—</td><td class="num">—</td><td class="num"><b>₹1,290</b></td></tr>
+                  </tbody>
+                </table>
+                <div class="between" style="padding:14px 16px;background:#FAFBFC;border-top:1px solid var(--fb-border)"><b>Total Manufacturing Cost</b><b style="font-size:18px">₹33,500</b></div>
+              </div>
+            </div>
+
+            <!-- cost per pack / margin -->
+            <div style="width:280px;flex-shrink:0;display:flex;flex-direction:column;gap:12px">
+              <div class="card" style="padding:16px">
+                <div class="section-eyebrow mb8">Per-pack cost &amp; margin</div>
+                <div class="kv"><span class="muted">Batch output</span><b>50 kg</b></div>
+                <div class="kv"><span class="muted">Cost / kg</span><b>₹170.00</b></div>
+                <div style="height:8px"></div>
+                <div class="kv"><span>250g box → A</span><b>₹42.50</b></div>
+                <div class="kv"><span class="muted small">MRP ₹70 · margin</span><b style="color:var(--fb-green-700)">39%</b></div>
+                <div class="kv"><span>500g box → B</span><b>₹85.00</b></div>
+                <div class="kv"><span class="muted small">MRP ₹135 · margin</span><b style="color:var(--fb-green-700)">37%</b></div>
+                <div class="kv"><span>1kg box → C</span><b>₹170.00</b></div>
+                <div class="kv"><span class="muted small">MRP ₹260 · margin</span><b style="color:var(--fb-green-700)">35%</b></div>
+              </div>
+              <div class="card" style="padding:16px">
+                <div class="between mb8"><span class="section-eyebrow">Cost vs previous version</span></div>
+                <div class="kv"><span class="muted">v1.1 cost/kg</span><b>₹167.20</b></div>
+                <div class="kv"><span class="muted">v1.2 cost/kg</span><b>₹170.00</b></div>
+                <div class="kv"><span class="muted">Change</span><b style="color:var(--fb-orange-600)">▲ ₹2.80 · +1.7%</b></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6.1 — Price per packaging (selling price single-sourced from Batch & Packaging) -->
+          <div class="between mb8 mt16">
+            <div><span class="section-eyebrow">Price per packaging</span><div class="muted small">Cost/pack = recipe cost + packaging cost · Margin auto-calculated</div></div>
+          </div>
+          <div class="card table-wrap" style="overflow:auto">
+            <table class="table aligned">
+              <thead><tr><th>Packaging Configuration</th><th class="num">Packaging Cost</th><th class="num">Selling Price</th><th class="num">Cost Per Pack</th><th class="num">Margin</th><th class="num">Margin %</th></tr></thead>
+              <tbody>
+                <tr><td><b>250g pouch → A</b></td><td class="num">₹6</td><td class="num">₹70</td><td class="num">₹42.50</td><td class="num" style="color:var(--fb-green-700)">₹27.50</td><td class="num" style="color:var(--fb-green-700)">39%</td></tr>
+                <tr><td><b>500g box → B</b></td><td class="num">₹11</td><td class="num">₹135</td><td class="num">₹85.00</td><td class="num" style="color:var(--fb-green-700)">₹50.00</td><td class="num" style="color:var(--fb-green-700)">37%</td></tr>
+                <tr><td><b>1kg box → C</b></td><td class="num">₹18</td><td class="num">₹260</td><td class="num">₹170.00</td><td class="num" style="color:var(--fb-green-700)">₹90.00</td><td class="num" style="color:var(--fb-green-700)">35%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="muted small mt8">Selling price &amp; packaging cost are defined once in <a href="recipe-batch-packaging.html" style="color:var(--fb-teal-800)"><b>Batch &amp; Packaging</b></a> and read here — single source of truth.</div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 6.2 — Create Sample Batch slider -->
+<aside class="drawer" id="drawer-sample" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">Sampling</div><h3 style="font-size:16px">Create sample batch</h3></div>
+    <button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Recipe Version</label><input class="input" value="Kaju Katli · v1.2" readonly style="background:#FAFBFC"></div>
+    <div class="form-row"><label class="label">Batch Configuration</label>
+      <select class="input"><option>10 kg Trial Batch</option><option>50 kg Regular Batch</option><option>100 kg Festival Batch</option></select></div>
+    <div class="form-row"><label class="label">Packaging Configuration</label>
+      <select class="input"><option>250g Box</option><option>500g Box</option><option>1kg Box</option></select></div>
+    <div class="form-row"><label class="label">Sample Quantity</label><input class="input" type="number" placeholder="e.g. 5"></div>
+    <div class="form-row"><label class="label">Produced By</label>
+      <select class="input"><option>Dharmendar Ji</option><option>Production Team</option></select></div>
+    <div class="form-row"><label class="label">Produced Date</label><input class="input" type="date"></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Sample</button></div>
+</aside>
+
+<!-- Create New Version slider -->
+<aside class="drawer" id="drawer-new-version" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">New version</div><h3 style="font-size:16px">Create new version</h3></div>
+    <button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Version Name</label>
+      <div><input class="input" value="Kaju Katli · v1.3"><div class="muted small mt8">Auto-generated, editable</div></div></div>
+    <div class="form-row"><label class="label">Base Version</label>
+      <select class="input"><option>v1.2 — Published (copy from)</option><option>v1.1 — Archived</option></select></div>
+    <div class="form-row"><label class="label">Reason for New Version</label>
+      <textarea class="input" rows="2" placeholder="Cost change · taste improvement · new batch size"></textarea></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Draft Version</button></div>
+</aside>
+
+<script src="recipe.js" defer></script>
+</body>
+</html>

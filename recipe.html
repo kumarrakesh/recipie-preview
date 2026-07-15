@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kaju Katli — Recipe (feedback-3 desktop)</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="recipe-desktop.css">
+</head>
+<body data-role="owner">
+<div class="app">
+  <!-- sidebar chrome (reused from existing build) -->
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">▦</span> Spotlight</div>
+    <nav class="nav">
+      <div class="nav-item"><span class="ic">👥</span> Customers</div>
+      <div class="nav-item"><span class="ic">⚡</span> Campaign</div>
+      <div class="nav-item"><span class="ic">🛣️</span> Manage Routes</div>
+      <div class="nav-item"><span class="ic">📦</span> Orders</div>
+      <div class="nav-item"><span class="ic">🚚</span> Add On Deliveries</div>
+      <div class="nav-item"><span class="ic">↩️</span> Returns</div>
+      <div class="nav-item"><span class="ic">🗄️</span> Inventory</div>
+      <div class="nav-group">
+        <div class="nav-item active"><span><span class="ic">🏭</span> Production</span><span>⌃</span></div>
+        <div class="nav-sub"><a>Inventory</a><a>Batch Management</a><a class="active" href="recipe.html">Recipes</a></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-item"><span><span class="ic">🧩</span> Ingredients</span><span>⌄</span></div>
+        <div class="nav-sub"><a href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+      </div>
+      <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
+      <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
+      <div class="nav-item"><span class="ic">🛻</span> Route Delivery</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="left"><span class="hamburger">☰</span><span class="title">Recipes</span></div>
+      <div class="flex gap12" style="align-items:center">
+        <!-- role switcher: demonstrates role-based visibility live -->
+        <div class="role-switch">
+          <label for="role-switch">View as</label>
+          <select id="role-switch">
+            <option value="owner">Owner</option>
+            <option value="creator">Recipe Creator</option>
+            <option value="costing">Costing User</option>
+            <option value="qa">QA Tester</option>
+            <option value="worker">Production Worker</option>
+          </select>
+        </div>
+        <div class="user"><span class="av">D</span><div class="meta"><b>Dharmendar Ji</b><span>Admin</span></div></div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="module">
+
+        <!-- LEFT: recipe list (recipe-centric nav, kept from feedback-1) -->
+        <div class="left-panel card" style="padding:14px">
+          <div class="search" style="position:relative;margin-bottom:10px"><span class="mag">🔍</span><input class="input" placeholder="Search recipes…" style="padding-left:36px"></div>
+          <div class="between mb8"><span class="section-eyebrow">5 recipes</span>
+            <button class="btn btn-sm btn-primary" data-drawer-open="drawer-new-recipe">＋ New Recipe</button></div>
+          <div class="recipe-list">
+            <a class="ri active"><div class="rn">Kaju Katli</div><div class="rmeta">Kaju Katli 250g · v1.2 · <b style="color:var(--fb-green-700)">In production</b></div></a>
+            <a class="ri"><div class="rn">Masala Cookies</div><div class="rmeta">Masala Cookies 200g · v0.4 · In testing</div></a>
+            <a class="ri"><div class="rn">Jeera Biscuit</div><div class="rmeta">No product linked · v0.2 · Draft</div></a>
+            <a class="ri"><div class="rn">Mango Drink</div><div class="rmeta">Aam Ras 500ml · v2.0 · In production</div></a>
+            <a class="ri"><div class="rn">Chana Masala Mix</div><div class="rmeta">Chana Masala 100g · v1.0 · In production</div></a>
+          </div>
+        </div>
+
+        <!-- RIGHT: recipe detail -->
+        <div class="detail card" style="padding:18px 20px;position:relative">
+
+          <!-- role banner (set by recipe-desktop.js) -->
+          <div class="role-banner" id="role-banner"></div>
+
+          <!-- header: name / linked product / status / production indicator / last changed -->
+          <div class="recipe-head">
+            <div class="flex gap12">
+              <div class="thumb-rd"></div>
+              <div>
+                <div class="flex gap8" style="align-items:center;flex-wrap:wrap">
+                  <h2 style="font-size:19px">Kaju Katli</h2>
+                  <span class="badge badge-published"><span class="dot" style="background:#fff"></span>Ready to use in production</span>
+                  <span class="prod-flag">🏭 In production · v1.2</span>
+                </div>
+                <div class="muted small mt8">Sweets · Linked product: <b>Kaju Katli 250g</b> · Last changed 24 Jun 2026</div>
+              </div>
+            </div>
+            <div class="flex gap8">
+              <button class="btn btn-sm btn-primary" data-drawer-open="drawer-new-version">＋ Create New Version</button>
+            </div>
+          </div>
+
+          <!-- de-jargoned progress strip (Publish → "Use for Production") -->
+          <div class="pub-strip mt8" style="margin-bottom:16px">
+            <div class="steps">
+              <span class="pstep done"><span class="pn">✓</span>Draft</span><span class="arrow">→</span>
+              <span class="pstep done"><span class="pn">✓</span>Trial</span><span class="arrow">→</span>
+              <span class="pstep done"><span class="pn">✓</span>Feedback</span><span class="arrow">→</span>
+              <span class="pstep done"><span class="pn">✓</span>Approved</span><span class="arrow">→</span>
+              <span class="pstep now"><span class="pn">●</span>In production</span>
+            </div>
+          </div>
+
+          <!-- 5 tabs (feedback-3 §5.1) -->
+          <div class="tabs">
+            <a class="tab" href="#" data-tab-to="recipe">Recipe</a>
+            <a class="tab" href="#" data-tab-to="cost">Cost</a>
+            <a class="tab" href="#" data-tab-to="trial">Trial &amp; Approval</a>
+            <a class="tab" href="#" data-tab-to="production">Production Use</a>
+            <a class="tab" href="#" data-tab-to="history">History</a>
+          </div>
+
+          <div class="detail-grid">
+            <div><!-- ============ MAIN COLUMN ============ -->
+
+              <!-- ───────── TAB 1: RECIPE (what goes in + how it's made) ───────── -->
+              <section data-panel="recipe">
+                <div class="section-eyebrow mb8">What goes in</div>
+                <div class="card table-wrap" style="overflow:auto;margin-bottom:8px">
+                  <table class="table aligned">
+                    <thead><tr><th class="stick">Ingredient</th><th class="num">Quantity</th><th>Unit</th></tr></thead>
+                    <tbody>
+                      <tr><td class="stick"><b>Cashew</b><div class="muted small">A-grade whole / W240</div></td><td class="num">30</td><td>kg</td></tr>
+                      <tr><td class="stick"><b>Sugar</b><div class="muted small">Fine white / no large crystals</div></td><td class="num">18</td><td>kg</td></tr>
+                      <tr><td class="stick"><b>Ghee</b><div class="muted small">Amul / premium</div></td><td class="num">3</td><td>kg</td></tr>
+                      <tr><td class="stick"><b>Cardamom</b><div class="muted small">Green / bold, freshly ground</div></td><td class="num">0.2</td><td>kg</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="muted small mb8">Quantities are for the standard <b>50 kg batch</b>. Pricing lives in the <a href="#" data-tab-to="cost" style="color:var(--fb-teal-800)"><b>Cost</b></a> view.</div>
+
+                <div class="eo-tile mt16 mb8">
+                  <div class="section-eyebrow">Expected output</div>
+                  <div class="sv">48 kg finished</div>
+                  <div class="help">How much finished product should come out after cooking and setting (about 4% process loss).</div>
+                </div>
+
+                <div class="section-eyebrow mb8 mt16">How it's made</div>
+                <div data-drag-list data-renumber=".sn">
+                  <div class="step-card" draggable="true"><span class="sn">1</span><div><b>Grind cashew</b><div class="muted small mt8">Soak lightly and grind cashew to a fine powder. <span class="pill">Quality: no coarse bits</span></div></div></div>
+                  <div class="step-card" draggable="true"><span class="sn">2</span><div><b>Sugar syrup</b><div class="muted small mt8">Cook sugar with water to a 1-string consistency. <span class="pill">⏱ 12 min</span> <span class="pill">🌡 115°C</span></div></div></div>
+                  <div class="step-card" draggable="true"><span class="sn">3</span><div><b>Combine &amp; cook</b><div class="muted small mt8">Mix cashew powder into syrup; cook stirring continuously. <span class="pill">⏱ 8 min</span></div></div></div>
+                  <div class="step-card" draggable="true"><span class="sn">4</span><div><b>Ghee &amp; cardamom</b><div class="muted small mt8">Add ghee and ground cardamom; cook to a soft dough. <span class="pill">Quality: leaves pan sides</span></div></div></div>
+                  <div class="step-card" draggable="true"><span class="sn">5</span><div><b>Roll &amp; cut</b><div class="muted small mt8">Roll, cool, and cut into diamonds. <span class="pill">⏱ rest 20 min</span></div></div></div>
+                </div>
+                <button class="btn btn-sm" data-drawer-open="drawer-step" style="margin-top:4px">＋ Add Step</button>
+
+                <!-- advanced details collapsed (feedback-3 §6.3 hide list) -->
+                <details class="disclose adv mt16">
+                  <summary><span class="lead">⚙️ Advanced details</span><span class="sum-chip">yield · supplier · storage</span><span class="twist">▸</span></summary>
+                  <div class="disclose-body">
+                    <div class="grid2">
+                      <div><div class="label">Expected output / loss per ingredient</div><div class="help">Cashew 90% usable after grinding; others ~100%. <b>Yield</b> only affects finished output, not what you buy.</div></div>
+                      <div><div class="label">Supplier notes</div><div class="help">Cashew from Mangalore Traders (W240 grade). Ghee — Amul institutional pack.</div></div>
+                      <div><div class="label">Storage</div><div class="help">Store finished product in airtight trays, cool dry place. Best before 21 days.</div></div>
+                      <div><div class="label">Technical parameters</div><div class="help">Syrup 115°C / 1-string; final moisture target 8–9%.</div></div>
+                    </div>
+                  </div>
+                </details>
+
+                <div class="action-bar"><span class="hint">One recipe = what goes in + how it's made.</span><button class="btn btn-primary">Save Recipe</button></div>
+              </section>
+
+              <!-- ───────── TAB 2: COST (pricing lives here only) ───────── -->
+              <section data-panel="cost" hidden>
+                <!-- visible to owner + costing -->
+                <div data-show="owner costing">
+                  <div class="alert alert-amber"><span class="ic">▲</span><span>Cost increased <b>1.7%</b> since the last recipe — ghee price changed. Profit estimate dropped from 41% to 39%.</span></div>
+                  <div class="grid3" style="margin-bottom:14px">
+                    <div class="card" style="padding:14px"><div class="section-eyebrow">Raw material cost</div><div style="font-size:22px;font-weight:800;margin-top:6px">₹27,710</div></div>
+                    <div class="card" style="padding:14px"><div class="section-eyebrow">Extra costs</div><div style="font-size:22px;font-weight:800;margin-top:6px">₹5,790</div></div>
+                    <div class="card" style="padding:14px"><div class="section-eyebrow">Total cost · 50 kg</div><div style="font-size:22px;font-weight:800;margin-top:6px">₹33,500</div></div>
+                  </div>
+
+                  <div class="section-eyebrow mb8">Cost per pack &amp; profit estimate</div>
+                  <div class="card table-wrap" style="overflow:auto;margin-bottom:6px">
+                    <table class="table aligned">
+                      <thead><tr><th class="stick">Pack</th><th class="num">Cost / pack</th><th class="num">Selling price</th><th class="num">Profit estimate</th></tr></thead>
+                      <tbody>
+                        <tr><td class="stick"><b>250g → Kaju Katli 250g</b></td><td class="num">₹42.50</td><td class="num">₹70</td><td class="num" style="color:var(--fb-green-700)">₹27.50 · 39%</td></tr>
+                        <tr><td class="stick"><b>500g → Kaju Katli 500g</b></td><td class="num">₹85.00</td><td class="num">₹135</td><td class="num" style="color:var(--fb-green-700)">₹50.00 · 37%</td></tr>
+                        <tr><td class="stick"><b>1kg → Kaju Katli 1kg</b></td><td class="num">₹170.00</td><td class="num">₹260</td><td class="num" style="color:var(--fb-green-700)">₹90.00 · 35%</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="help mb8">Cost / kg <b>₹170.00</b>. Selling price is set once on each pack and read here. <b>Profit estimate</b> is used only for planning — workers never see it.</div>
+
+                  <!-- detail behind disclosure -->
+                  <details class="disclose">
+                    <summary>Cost breakdown — line by line<span class="sum-chip">8 lines · ₹33,500</span><span class="twist">▸</span></summary>
+                    <div class="disclose-body">
+                      <table class="table">
+                        <tbody>
+                          <tr><td>Cashew · 30 kg @ ₹820</td><td class="num"><b>₹24,600</b></td></tr>
+                          <tr><td>Sugar · 18 kg @ ₹45</td><td class="num"><b>₹810</b></td></tr>
+                          <tr><td>Ghee · 3 kg @ ₹620</td><td class="num"><b>₹1,860</b></td></tr>
+                          <tr><td>Cardamom · 0.2 kg @ ₹2,200</td><td class="num"><b>₹440</b></td></tr>
+                          <tr><td>Labour · per batch</td><td class="num"><b>₹2,500</b></td></tr>
+                          <tr><td>Gas / fuel · per batch</td><td class="num"><b>₹1,400</b></td></tr>
+                          <tr><td>Electricity · per batch</td><td class="num"><b>₹600</b></td></tr>
+                          <tr><td>Wastage allowance · per batch</td><td class="num"><b>₹1,290</b></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </details>
+                  <div class="action-bar"><span class="hint">All pricing for this recipe is in one place.</span><button class="btn btn-primary">Update Cost</button></div>
+                </div>
+                <!-- creator / qa / worker: no pricing, alert only -->
+                <div data-show="creator qa worker">
+                  <div class="alert alert-info"><span class="ic">🔒</span><span>Pricing is shown in the <b>Cost</b> view to Owner and Costing roles only.</span></div>
+                  <div class="alert alert-amber"><span class="ic">▲</span><span>Heads up: recipe cost went up slightly since the last version (ghee price changed).</span></div>
+                  <div class="muted small">Switch to <b>Owner</b> or <b>Costing User</b> in “View as” to see full cost details.</div>
+                </div>
+              </section>
+
+              <!-- ───────── TAB 3: TRIAL & APPROVAL ───────── -->
+              <section data-panel="trial" hidden>
+                <!-- samples waiting first (feedback-2 §6.4 carried in) -->
+                <div class="waiting">
+                  <div><b>Waiting to be tested</b><div class="muted small">Kaju Katli v1.3 · 10 kg Trial · made 28 Jun</div></div>
+                  <button class="btn btn-sm btn-primary" data-drawer-open="drawer-trial">Add Test Result</button>
+                </div>
+
+                <div class="section-eyebrow mb8 mt16">Latest trial · v1.2 · 10 kg</div>
+                <div class="card" style="padding:16px;margin-bottom:14px">
+                  <div class="qscore"><span>Taste</span><input type="range" min="1" max="5" value="5" disabled><span class="qv">5</span></div>
+                  <div class="qscore"><span>Texture</span><input type="range" min="1" max="5" value="4" disabled><span class="qv">4</span></div>
+                  <div class="qscore"><span>Colour</span><input type="range" min="1" max="5" value="5" disabled><span class="qv">5</span></div>
+                  <div class="qscore"><span>Aroma</span><input type="range" min="1" max="5" value="4" disabled><span class="qv">4</span></div>
+                  <div class="kv mt8"><span class="muted">Overall</span><b>4.6 / 5 · Good</b></div>
+                  <div class="kv"><span class="muted">Notes</span><span>Set well; slightly sweet. Approved for production.</span></div>
+                  <div class="kv"><span class="muted">Decision</span><span class="badge badge-approved">Approved</span></div>
+                </div>
+                <div class="muted small">QA testers and owners can record a decision: <b>Approve</b>, <b>Needs improvement</b>, or <b>Reject</b>.</div>
+
+                <div class="action-bar" data-show="owner qa">
+                  <span class="hint">Approving makes the recipe ready to use in production.</span>
+                  <button class="btn btn-teal" data-drawer-open="drawer-trial">Approve Recipe</button>
+                </div>
+                <div class="action-bar" data-show="creator costing worker">
+                  <span class="hint">Only Owner and QA can approve.</span>
+                  <button class="btn" disabled style="opacity:.6">Approve Recipe</button>
+                </div>
+              </section>
+
+              <!-- ───────── TAB 4: PRODUCTION USE ───────── -->
+              <section data-panel="production" hidden>
+                <!-- production request inbox (wires the loop, G2) -->
+                <div class="alert alert-green"><span class="ic">🏭</span><span>1 production request waiting — <b>200 × 250g packs</b> from a 50 kg batch, requested for 02 Jul. It will appear in the worker’s mobile app once sent.</span></div>
+
+                <div class="section-eyebrow mb8">How much to make</div>
+                <div class="make-row">
+                  <input id="make-qty" class="big-input" type="number" value="50">
+                  <div class="unit-pick" id="make-unit"><button class="on">kg</button><button>batches</button></div>
+                  <div class="muted small">Scaling factor <b id="make-factor">×1</b></div>
+                  <div class="spacer" style="flex:1"></div>
+                  <div class="eo-tile" style="margin:0"><div class="section-eyebrow">Expected output</div><div class="sv" id="make-expected">48 kg</div></div>
+                </div>
+                <div class="help mb8">Enter how much you want to make — ingredient quantities below scale automatically. <b>No technical settings needed.</b></div>
+
+                <div class="section-eyebrow mb8 mt16">Ingredients needed</div>
+                <div class="card table-wrap" style="overflow:auto;margin-bottom:14px">
+                  <table class="table aligned">
+                    <thead><tr><th class="stick">Ingredient</th><th class="num">Needed</th></tr></thead>
+                    <tbody>
+                      <tr><td class="stick"><b>Cashew</b></td><td class="num" data-base="30" data-unit="kg">30 kg</td></tr>
+                      <tr><td class="stick"><b>Sugar</b></td><td class="num" data-base="18" data-unit="kg">18 kg</td></tr>
+                      <tr><td class="stick"><b>Ghee</b></td><td class="num" data-base="3" data-unit="kg">3 kg</td></tr>
+                      <tr><td class="stick"><b>Cardamom</b></td><td class="num" data-base="0.2" data-unit="kg">0.2 kg</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- making sheet (the de-jargoned "production batch sheet") -->
+                <details class="disclose" open>
+                  <summary>Making sheet<span class="sum-chip">print / share to floor</span><span class="twist">▸</span></summary>
+                  <div class="disclose-body">
+                    <div class="making-sheet">
+                      <h4>Kaju Katli · Making Sheet</h4>
+                      <div class="ms-meta">v1.2 · target <span id="ms-target">50 kg</span> · expected output ~48 kg</div>
+                      <div class="ms-sec">Ingredients</div>
+                      <div class="muted small">Cashew 30 kg · Sugar 18 kg · Ghee 3 kg · Cardamom 0.2 kg</div>
+                      <div class="ms-sec">Steps</div>
+                      <ol>
+                        <li>Grind cashew to a fine powder.</li>
+                        <li>Cook sugar syrup to 1-string (≈115°C).</li>
+                        <li>Mix cashew powder into syrup; cook 8 min.</li>
+                        <li>Add ghee &amp; cardamom; cook to soft dough.</li>
+                        <li>Roll, cool, cut into diamonds.</li>
+                      </ol>
+                      <div class="flex gap8 mt16"><button class="btn btn-sm">🖨 Print</button><button class="btn btn-sm">📤 Share to floor</button></div>
+                    </div>
+                  </div>
+                </details>
+
+                <!-- full batch & packaging editing behind disclosure (creator/owner) -->
+                <details class="disclose adv" data-show="owner creator">
+                  <summary><span class="lead">⚙️ Batch &amp; packaging setup</span><span class="sum-chip">3 batches · 3 packs</span><span class="twist">▸</span></summary>
+                  <div class="disclose-body">
+                    <div class="batch-card">
+                      <div class="bh"><b>50 kg Regular Batch</b><span class="badge badge-soft">scaling off</span></div>
+                      <div class="bb">
+                        <div class="pack-card"><span><b>250g Box</b> → Kaju Katli 250g</span><span class="muted small">200 packs / batch</span></div>
+                        <div class="pack-card"><span><b>500g Box</b> → Kaju Katli 500g</span><span class="muted small">100 packs / batch</span></div>
+                        <div class="pack-card"><span><b>1kg Box</b> → Kaju Katli 1kg</span><span class="muted small">50 packs / batch</span></div>
+                      </div>
+                    </div>
+                    <div class="flex gap8"><button class="btn btn-sm" data-drawer-open="drawer-batch">＋ Add Batch</button><button class="btn btn-sm">＋ Add Packaging</button></div>
+                  </div>
+                </details>
+
+                <div class="action-bar" data-show="owner creator">
+                  <span class="hint">Sends this batch to the production module / mobile app.</span>
+                  <button class="btn btn-primary" data-drawer-open="drawer-production">Use for Production</button>
+                </div>
+                <div class="action-bar" data-show="costing qa worker">
+                  <span class="hint">Workers receive production jobs in the mobile app.</span>
+                  <button class="btn" disabled style="opacity:.6">Use for Production</button>
+                </div>
+              </section>
+
+              <!-- ───────── TAB 5: HISTORY (versions + approvals + publish merged) ───────── -->
+              <section data-panel="history" hidden>
+                <div class="muted small mb8">All recipe changes, approvals and production use — in one place.</div>
+                <div class="timeline">
+                  <div class="tl-item is-publish">
+                    <span class="tl-dot"></span>
+                    <div class="tl-top"><b>v1.2 used for production</b><span class="badge badge-published">In production</span><span class="tl-prod">● live</span></div>
+                    <div class="tl-when">12 Jun 2026 · by Dharmendar Ji</div>
+                    <div class="tl-what">Approved after trial (score 4.6). 50 kg batch · 250g / 500g / 1kg packs.</div>
+                    <button class="btn btn-sm mt8" data-row-expand="hx-12" data-expand-label="Hide recipe" data-collapse-label="View Old Recipe">View Old Recipe</button>
+                    <div id="hx-12" hidden style="margin-top:10px">
+                      <table class="table"><thead><tr><th>Ingredient</th><th class="num">Qty</th><th>Unit</th></tr></thead>
+                        <tbody><tr><td>Cashew</td><td class="num">30</td><td>kg</td></tr><tr><td>Sugar</td><td class="num">18</td><td>kg</td></tr><tr><td>Ghee</td><td class="num">3</td><td>kg</td></tr><tr><td>Cardamom</td><td class="num">0.2</td><td>kg</td></tr></tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="tl-item is-approve">
+                    <span class="tl-dot"></span>
+                    <div class="tl-top"><b>v1.1 archived</b><span class="badge badge-archived">Archived</span></div>
+                    <div class="tl-when">08 Jun 2026 · by Priya (QA)</div>
+                    <div class="tl-what">Cost ₹167.20/kg · test score 4.2. Replaced by v1.2 (ghee price change).</div>
+                  </div>
+                  <div class="tl-item">
+                    <span class="tl-dot"></span>
+                    <div class="tl-top"><b>v0.3 rejected</b><span class="badge badge-rejected">Rejected</span></div>
+                    <div class="tl-when">05 Jun 2026 · by Priya (QA)</div>
+                    <div class="tl-what">Texture too soft at 25 kg (score 3.1). Needs rework.</div>
+                  </div>
+                </div>
+                <div class="action-bar"><span class="hint">Old recipes stay viewable, never lost.</span><button class="btn">Export History</button></div>
+              </section>
+
+            </div>
+
+            <!-- ============ RIGHT CONTEXT PANEL ============ -->
+            <aside class="ctx">
+              <div class="card">
+                <div class="ctx-h">Status</div>
+                <div class="kv"><span class="muted">Current</span><span class="badge badge-approved">Ready</span></div>
+                <div class="kv"><span class="muted">Active recipe</span><b>v1.2</b></div>
+                <div class="kv"><span class="muted">Last changed</span><b>24 Jun</b></div>
+              </div>
+              <div class="card">
+                <div class="ctx-h">Needs attention</div>
+                <div class="chk"><span class="mk no">!</span>2 ingredient prices missing</div>
+                <div class="chk" data-show="owner costing"><span class="mk no">▲</span>Cost up 1.7% vs last</div>
+                <div class="chk"><span class="mk ok">✓</span>Trial approved</div>
+              </div>
+              <div class="card">
+                <div class="ctx-h">This recipe</div>
+                <div class="kv"><span class="muted">Category</span><b>Sweets</b></div>
+                <div class="kv"><span class="muted">Linked products</span><b>3</b></div>
+                <button class="btn btn-sm mt8" data-pick-product data-product-target="#ctx-link" style="width:100%">🔗 Link Product</button>
+                <input type="hidden" id="ctx-link">
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================
+     Drawers (reused from recipe.js: drawer/tax/yield wiring)
+     ============================================================ -->
+
+<!-- Create Recipe -->
+<aside class="drawer" id="drawer-new-recipe" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">New recipe</div><h3 style="font-size:16px">Create recipe</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Recipe Name <span class="req">*</span></label><input class="input" placeholder="e.g. Soan Papdi"></div>
+    <div class="form-row"><label class="label">Category</label><select class="input"><option>Sweets</option><option>Snacks</option><option>Bakery</option><option>Beverages</option><option>Spices</option><option>Flours</option></select></div>
+    <div class="form-row"><label class="label">Linked Product</label><div class="autosuggest"><input class="input" data-autosuggest placeholder="Search product to link (optional)…"></div></div>
+    <div class="form-row"><label class="label">Description</label><textarea class="input" rows="3" placeholder="Short description / quality notes"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Recipe</button></div>
+</aside>
+
+<!-- Create New Version -->
+<aside class="drawer" id="drawer-new-version" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">New version</div><h3 style="font-size:16px">Create new version</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Version Name</label><div><input class="input" value="Kaju Katli · v1.3"><div class="help">Named for you automatically — editable.</div></div></div>
+    <div class="form-row"><label class="label">Copy from</label><select class="input"><option>v1.2 — In production (copy from)</option><option>v1.1 — Archived</option></select></div>
+    <div class="form-row"><label class="label">Why a new version?</label><textarea class="input" rows="2" placeholder="Cost change · taste improvement · new batch size"></textarea></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Draft Version</button></div>
+</aside>
+
+<!-- Add Step -->
+<aside class="drawer" id="drawer-step" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">Making steps</div><h3 style="font-size:16px">Add step</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Step Title <span class="req">*</span></label><input class="input" placeholder="e.g. Roast besan"></div>
+    <div class="form-row"><label class="label">Instructions</label><textarea class="input" rows="3" placeholder="What to do, in simple words"></textarea></div>
+    <div class="form-row"><label class="label">Time (min)</label><input class="input" type="number" placeholder="e.g. 15"></div>
+    <div class="form-row"><label class="label">Temperature (°C)</label><input class="input" type="number" placeholder="optional"></div>
+    <div class="form-row"><label class="label">Quality check</label><textarea class="input" rows="2" placeholder="What 'good' looks like"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Add Step</button></div>
+</aside>
+
+<!-- Add Batch -->
+<aside class="drawer" id="drawer-batch" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">Batch</div><h3 style="font-size:16px">Add batch</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Batch Name <span class="req">*</span></label><input class="input" placeholder="e.g. 25 kg Small Batch"></div>
+    <div class="form-row"><label class="label">Output Quantity</label><input class="input" type="number" placeholder="e.g. 25"></div>
+    <div class="form-row"><label class="label">Output Unit</label><select class="input"><option>kg</option><option>g</option><option>L</option><option>pcs</option></select></div>
+    <div class="form-row"><label class="label">Can it be scaled?</label><select class="input"><option>No — fixed recipe</option><option>Yes — scale from base</option></select><div class="help">“How much to make” = scaling, in plain words. If off, this batch keeps its own quantities.</div></div>
+    <div class="form-row"><label class="label">Expected output / loss %</label><input class="input" type="number" value="4" placeholder="e.g. 4"></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Add Batch</button></div>
+</aside>
+
+<!-- Use for Production (de-jargoned hand-off) -->
+<aside class="drawer" id="drawer-production" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">Production</div><h3 style="font-size:16px">Use for production</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="card" style="padding:10px 12px;margin-bottom:14px;background:var(--fb-green-50);border-color:var(--fb-green-100)"><span class="small">Sends <b>Kaju Katli · v1.2</b> to production. It appears in the worker’s mobile app as a job for the day.</span></div>
+    <div class="form-row"><label class="label">Batch</label><select class="input"><option>50 kg Regular Batch</option><option>10 kg Trial Batch</option><option>100 kg Festival Batch</option></select></div>
+    <div class="form-row"><label class="label">Packaging</label><select class="input"><option>250g Box → Kaju Katli 250g</option><option>500g Box → Kaju Katli 500g</option><option>1kg Box → Kaju Katli 1kg</option></select></div>
+    <div class="form-row"><label class="label">How much to make</label><input class="input" type="number" value="200" placeholder="e.g. 200 packs"></div>
+    <div class="form-row"><label class="label">Date</label><input class="input" type="date"></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-teal" data-drawer-close>Send to Production</button></div>
+</aside>
+
+<!-- Add Test Result (Trial) -->
+<aside class="drawer" id="drawer-trial" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">Trial</div><h3 style="font-size:16px">Add test result</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Tester</label><select class="input"><option>Priya (QA)</option><option>Dharmendar Ji</option></select></div>
+    <div class="form-row"><label class="label">Test date</label><input class="input" type="date"></div>
+    <div class="form-row"><label class="label">Scores (1–5)</label>
+      <div data-field-list="trial" style="width:100%">
+        <div class="trow"><input class="cell-input" data-field-name value="Taste" readonly><input type="range" min="1" max="5" value="4" data-rating><span class="rate-out" data-rating-out>4</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+        <div class="trow"><input class="cell-input" data-field-name value="Texture" readonly><input type="range" min="1" max="5" value="4" data-rating><span class="rate-out" data-rating-out>4</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+        <div class="trow"><input class="cell-input" data-field-name value="Colour" readonly><input type="range" min="1" max="5" value="5" data-rating><span class="rate-out" data-rating-out>5</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+        <div class="trow"><input class="cell-input" data-field-name value="Aroma" readonly><input type="range" min="1" max="5" value="4" data-rating><span class="rate-out" data-rating-out>4</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+      </div>
+      <button class="btn btn-sm mt8" data-add-field="trial">＋ Add field</button>
+    </div>
+    <div class="form-row"><label class="label">Feedback</label><textarea class="input" rows="2" placeholder="What was good / what to improve"></textarea></div>
+    <div class="form-row"><label class="label">Decision</label><select class="input"><option>Approve</option><option>Needs improvement</option><option>Reject</option></select></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-teal" data-drawer-close>Save &amp; Approve</button></div>
+</aside>
+
+<template data-field-template="trial">
+  <div class="trow"><input class="cell-input" data-field-name placeholder="Field (e.g. Crunch)"><input type="range" min="1" max="5" value="3" data-rating><span class="rate-out" data-rating-out>3</span><button class="btn btn-sm" data-field-remove>✕</button></div>
+</template>
+
+<script src="recipe.js" defer></script>
+<script src="recipe-desktop.js" defer></script>
+</body>
+</html>

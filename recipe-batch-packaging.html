@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kaju Katli · Batch &amp; Packaging — Recipe Module</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">▦</span> Spotlight</div>
+    <nav class="nav">
+      <div class="nav-item"><span class="ic">👥</span> Customers</div>
+      <div class="nav-item"><span class="ic">⚡</span> Campaign</div>
+      <div class="nav-item"><span class="ic">🛣️</span> Manage Routes</div>
+      <div class="nav-item"><span class="ic">📦</span> Orders</div>
+      <div class="nav-item"><span class="ic">🚚</span> Add On Deliveries</div>
+      <div class="nav-item"><span class="ic">↩️</span> Returns</div>
+      <div class="nav-item"><span class="ic">🗄️</span> Inventory</div>
+      <div class="nav-group">
+        <div class="nav-item active"><span><span class="ic">🏭</span> Production</span><span>⌃</span></div>
+        <div class="nav-sub"><a>Inventory</a><a>Batch Management</a><a class="active" href="recipe-overview.html">Recipes</a></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-item"><span><span class="ic">🧩</span> Ingredients</span><span>⌄</span></div>
+        <div class="nav-sub"><a href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+      </div>
+      <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
+      <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
+      <div class="nav-item"><span class="ic">🛻</span> Route Delivery</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="left"><span class="hamburger">☰</span><span class="title">Recipes</span></div>
+      <div class="user"><span class="av">D</span><div class="meta"><b>Dharmendar Ji</b><span>Admin</span></div></div>
+    </header>
+
+    <main class="content">
+      <div class="module">
+        <div class="left-panel card" style="padding:14px">
+          <div class="search" style="position:relative;margin-bottom:10px"><span class="mag">🔍</span><input class="input" placeholder="Search recipes…" style="padding-left:36px"></div>
+          <div class="between mb8"><span class="section-eyebrow">5 recipes</span><button class="btn btn-sm btn-primary">＋ New Recipe</button></div>
+          <div class="recipe-list">
+            <a class="ri active" href="recipe-overview.html"><div class="rn">Kaju Katli</div><div class="rmeta">Linked: Kaju Katli 250g · Published v1.2 · <b style="color:var(--fb-green-700)">Published</b></div></a>
+            <a class="ri"><div class="rn">Masala Cookies</div><div class="rmeta">Linked: Masala Cookies 200g · v0.4 · In Testing</div></a>
+            <a class="ri"><div class="rn">Jeera Biscuit</div><div class="rmeta">No product linked · v0.2 · Draft</div></a>
+            <a class="ri"><div class="rn">Mango Drink</div><div class="rmeta">Linked: Aam Ras 500ml · v2.0 · Published</div></a>
+            <a class="ri"><div class="rn">Chana Masala Mix</div><div class="rmeta">Linked: Chana Masala 100g · v1.0 · Published</div></a>
+          </div>
+        </div>
+
+        <div class="detail card" style="padding:18px 20px">
+          <div class="recipe-head">
+            <div class="flex gap12">
+              <div class="thumb-rd"></div>
+              <div>
+                <div class="flex gap8" style="align-items:center"><h2 style="font-size:19px">Kaju Katli</h2><span class="badge badge-published"><span class="dot" style="background:#fff"></span>Published</span></div>
+                <div class="muted small mt8">Sweets · Linked: Kaju Katli 250g, 500g, 1kg</div>
+              </div>
+            </div>
+            <div class="flex gap8">
+              <button class="btn btn-sm btn-primary" data-drawer-open="drawer-new-version">＋ Create New Version</button>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <a class="tab" href="recipe-overview.html">Overview</a>
+            <a class="tab" href="recipe-versions.html">Versions</a>
+            <a class="tab" href="recipe-ingredients.html">Ingredients</a>
+            <a class="tab active" href="recipe-batch-packaging.html">Batch &amp; Packaging</a>
+            <a class="tab" href="recipe-method.html">Method</a>
+            <a class="tab" href="recipe-costing.html">Costing</a>
+            <a class="tab" href="recipe-sampling-testing.html">Sampling &amp; Testing</a>
+            <a class="tab" href="recipe-publish-history.html">Publish History</a>
+          </div>
+
+          <div class="between mb8">
+            <div><span class="section-eyebrow">Batch configurations · v1.2</span><div class="muted small">One recipe version can hold several batch sizes. Each batch holds its own packaging.</div></div>
+            <button class="btn btn-sm btn-primary" data-drawer-open="drawer-batch">＋ Add Batch Configuration</button>
+          </div>
+
+          <!-- Batch B: 50 kg Regular -->
+          <div class="batch-card" style="border-color:var(--app-green)">
+            <div class="bh" style="background:var(--app-green-50)">
+              <div class="flex gap12" style="align-items:center"><b>🏭 50 kg Regular Batch</b><span class="badge badge-ready">Scaling: on (×)</span><span class="badge badge-published"><span class="dot" style="background:#fff"></span>Published source</span></div>
+              <div class="flex gap8"><span class="muted small">Output 50 kg · cost/kg ₹170</span><button class="btn btn-sm" data-drawer-open="drawer-batch">Edit Batch</button></div>
+            </div>
+            <div class="bb">
+              <div class="between mb8"><span class="section-eyebrow">Packaging — each linked to a product variant · QR per combination</span>
+                <button class="btn btn-sm btn-primary" data-add-row="tbl-pack-b">＋ Add Packaging</button></div>
+              <div class="table-wrap" style="overflow:auto">
+                <table class="table aligned" id="tbl-pack-b">
+                  <thead><tr><th class="stick">Packaging</th><th class="num">Pack Size</th><th class="num">Material Cost</th><th>Linked Product</th><th class="num">Selling Price</th><th class="num">Cost/Pack</th><th class="num">Margin</th><th>QR</th><th class="right">Actions</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="stick"><b>250g box</b></td><td class="num">250 g</td><td class="num">₹6</td><td>Kaju Katli 250g (A)</td><td class="num">₹70</td><td class="num">₹42.50</td><td class="num" style="color:var(--fb-green-700)">₹27.50 · 39%</td>
+                      <td><div class="qr-box" data-qr data-qr-payload="recipe=KK;ver=1.2;batch=50kg;pack=250g;product=A" data-qr-size="64"><span class="qr-cap">50kg · 250g</span></div></td>
+                      <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td>
+                    </tr>
+                    <tr>
+                      <td class="stick"><b>500g box</b></td><td class="num">500 g</td><td class="num">₹11</td><td>Kaju Katli 500g (B)</td><td class="num">₹135</td><td class="num">₹85.00</td><td class="num" style="color:var(--fb-green-700)">₹50.00 · 37%</td>
+                      <td><div class="qr-box" data-qr data-qr-payload="recipe=KK;ver=1.2;batch=50kg;pack=500g;product=B" data-qr-size="64"><span class="qr-cap">50kg · 500g</span></div></td>
+                      <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td>
+                    </tr>
+                    <tr>
+                      <td class="stick"><b>1kg box</b></td><td class="num">1 kg</td><td class="num">₹18</td><td>Kaju Katli 1kg (C)</td><td class="num">₹260</td><td class="num">₹170.00</td><td class="num" style="color:var(--fb-green-700)">₹90.00 · 35%</td>
+                      <td><div class="qr-box" data-qr data-qr-payload="recipe=KK;ver=1.2;batch=50kg;pack=1kg;product=C" data-qr-size="64"><span class="qr-cap">50kg · 1kg</span></div></td>
+                      <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <template data-row-template="tbl-pack-b">
+                <tr class="row-new">
+                  <td class="stick"><input class="cell-input" placeholder="Packaging name"></td>
+                  <td><input class="cell-input num" type="number" placeholder="0" style="width:70px"></td>
+                  <td><input class="cell-input num" type="number" placeholder="₹0" style="width:80px"></td>
+                  <td><div class="autosuggest"><input class="cell-input" data-autosuggest placeholder="Link product…"></div></td>
+                  <td><input class="cell-input num" type="number" placeholder="₹0" style="width:80px"></td>
+                  <td class="num muted small">—</td><td class="num muted small">—</td>
+                  <td class="muted small">Save to generate QR</td>
+                  <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td>
+                </tr>
+              </template>
+            </div>
+          </div>
+
+          <!-- Batch A: 10 kg Trial -->
+          <div class="batch-card">
+            <div class="bh">
+              <div class="flex gap12" style="align-items:center"><b>🧪 10 kg Trial Batch</b><span class="badge badge-soft">Scaling: off</span><span class="muted small">Own quantities &amp; method notes</span></div>
+              <div class="flex gap8"><span class="muted small">Output 10 kg · cost/kg ₹172</span><button class="btn btn-sm" data-drawer-open="drawer-batch">Edit Batch</button></div>
+            </div>
+            <div class="bb">
+              <div class="between mb8"><span class="section-eyebrow">Packaging</span>
+                <button class="btn btn-sm btn-primary" data-add-row="tbl-pack-a">＋ Add Packaging</button></div>
+              <div class="table-wrap" style="overflow:auto">
+                <table class="table aligned" id="tbl-pack-a">
+                  <thead><tr><th class="stick">Packaging</th><th class="num">Pack Size</th><th class="num">Material Cost</th><th>Linked Product</th><th class="num">Selling Price</th><th class="num">Cost/Pack</th><th>QR</th><th class="right">Actions</th></tr></thead>
+                  <tbody>
+                    <tr><td class="stick"><b>250g box</b></td><td class="num">250 g</td><td class="num">₹6</td><td class="muted">Tasting only</td><td class="num">—</td><td class="num">₹49</td>
+                      <td><div class="qr-box" data-qr data-qr-payload="recipe=KK;ver=1.2;batch=10kg;pack=250g" data-qr-size="64"><span class="qr-cap">10kg · 250g</span></div></td>
+                      <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <template data-row-template="tbl-pack-a">
+                <tr class="row-new">
+                  <td class="stick"><input class="cell-input" placeholder="Packaging name"></td>
+                  <td><input class="cell-input num" type="number" placeholder="0" style="width:70px"></td>
+                  <td><input class="cell-input num" type="number" placeholder="₹0" style="width:80px"></td>
+                  <td><div class="autosuggest"><input class="cell-input" data-autosuggest placeholder="Link product…"></div></td>
+                  <td><input class="cell-input num" type="number" placeholder="₹0" style="width:80px"></td>
+                  <td class="num muted small">—</td><td class="muted small">Save to generate QR</td>
+                  <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td>
+                </tr>
+              </template>
+            </div>
+          </div>
+
+          <!-- Batch C: 100 kg Festival -->
+          <div class="batch-card">
+            <div class="bh">
+              <div class="flex gap12" style="align-items:center"><b>🎉 100 kg Festival Batch</b><span class="badge badge-soft">Scaling: off</span><span class="muted small">Different cooking time</span></div>
+              <div class="flex gap8"><span class="muted small">Output 100 kg · cost/kg ₹168</span><button class="btn btn-sm" data-drawer-open="drawer-batch">Edit Batch</button></div>
+            </div>
+            <div class="bb">
+              <div class="between mb8"><span class="section-eyebrow">Packaging</span>
+                <button class="btn btn-sm btn-primary" data-add-row="tbl-pack-c">＋ Add Packaging</button></div>
+              <div class="table-wrap" style="overflow:auto">
+                <table class="table aligned" id="tbl-pack-c">
+                  <thead><tr><th class="stick">Packaging</th><th class="num">Pack Size</th><th class="num">Material Cost</th><th>Linked Product</th><th class="num">Selling Price</th><th class="num">Cost/Pack</th><th class="num">Margin</th><th>QR</th><th class="right">Actions</th></tr></thead>
+                  <tbody>
+                    <tr><td class="stick"><b>250g premium box</b></td><td class="num">250 g</td><td class="num">₹14</td><td>Kaju Katli Premium 250g (D)</td><td class="num">₹95</td><td class="num">₹56</td><td class="num" style="color:var(--fb-green-700)">₹39 · 41%</td>
+                      <td><div class="qr-box" data-qr data-qr-payload="recipe=KK;ver=1.2;batch=100kg;pack=250g;product=D" data-qr-size="64"><span class="qr-cap">100kg · 250g</span></div></td>
+                      <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td></tr>
+                    <tr><td class="stick"><b>500g premium box</b></td><td class="num">500 g</td><td class="num">₹22</td><td>Kaju Katli Premium 500g (E)</td><td class="num">₹180</td><td class="num">₹106</td><td class="num" style="color:var(--fb-green-700)">₹74 · 41%</td>
+                      <td><div class="qr-box" data-qr data-qr-payload="recipe=KK;ver=1.2;batch=100kg;pack=500g;product=E" data-qr-size="64"><span class="qr-cap">100kg · 500g</span></div></td>
+                      <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <template data-row-template="tbl-pack-c">
+                <tr class="row-new">
+                  <td class="stick"><input class="cell-input" placeholder="Packaging name"></td>
+                  <td><input class="cell-input num" type="number" placeholder="0" style="width:70px"></td>
+                  <td><input class="cell-input num" type="number" placeholder="₹0" style="width:80px"></td>
+                  <td><div class="autosuggest"><input class="cell-input" data-autosuggest placeholder="Link product…"></div></td>
+                  <td><input class="cell-input num" type="number" placeholder="₹0" style="width:80px"></td>
+                  <td class="num muted small">—</td><td class="num muted small">—</td>
+                  <td class="muted small">Save to generate QR</td>
+                  <td class="right"><button class="btn btn-sm" data-row-remove>✕</button></td>
+                </tr>
+              </template>
+            </div>
+          </div>
+
+          <div class="card" style="padding:12px 14px;background:var(--fb-teal-50);border-color:#B3DDE4">
+            <div class="small"><b>Hierarchy:</b> Recipe → Version → <b>Batch Configuration</b> → <b>Packaging Configuration</b> → Product Variant. Publishing maps one <i>version + batch + packaging</i> to each product variant — so the same recipe serves 250g / 500g / 1kg SKUs from one source of truth.</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 4.1 / 4.2 — Add / Edit Batch Configuration slider -->
+<aside class="drawer" id="drawer-batch" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">Batch configuration</div><h3 style="font-size:16px">Add / edit batch</h3></div>
+    <button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Batch Name <span class="req">*</span></label><input class="input" placeholder="e.g. 50 kg Regular Batch"></div>
+    <div class="form-row"><label class="label">Output Quantity</label><input class="input" type="number" placeholder="50"></div>
+    <div class="form-row"><label class="label">Output Unit</label>
+      <select class="input"><option>kg</option><option>g</option><option>L</option><option>pcs</option></select></div>
+    <div class="form-row"><label class="label">Scaling Allowed</label>
+      <label class="seg"><button type="button" class="on">On</button><button type="button">Off</button></label></div>
+    <div class="form-row"><label class="label">Minimum Batch Size</label><input class="input" type="number" placeholder="10"></div>
+    <div class="form-row"><label class="label">Maximum Batch Size</label><input class="input" type="number" placeholder="100"></div>
+    <div class="form-row"><label class="label">Expected Loss %</label><input class="input" type="number" placeholder="2"></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Save Batch</button></div>
+</aside>
+
+<!-- Create New Version slider -->
+<aside class="drawer" id="drawer-new-version" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">New version</div><h3 style="font-size:16px">Create new version</h3></div>
+    <button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Version Name</label>
+      <div><input class="input" value="Kaju Katli · v1.3"><div class="muted small mt8">Auto-generated, editable</div></div></div>
+    <div class="form-row"><label class="label">Base Version</label>
+      <select class="input"><option>v1.2 — Published (copy from)</option><option>v1.1 — Archived</option></select></div>
+    <div class="form-row"><label class="label">Reason for New Version</label>
+      <textarea class="input" rows="2" placeholder="Cost change · taste improvement · new batch size"></textarea></div>
+    <div class="form-row"><label class="label">Notes</label><textarea class="input" rows="2" placeholder="Optional"></textarea></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Draft Version</button></div>
+</aside>
+
+<script src="recipe.js" defer></script>
+</body>
+</html>

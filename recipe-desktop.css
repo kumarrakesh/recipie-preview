@@ -1,0 +1,101 @@
+/* ============================================================
+   recipe-desktop.css — Addendum 008 (feedback-3 desktop shell)
+   Extends styles.css tokens. Adds: role gating, progressive
+   disclosure, context panel, sticky bottom action, alert strips,
+   making sheet, merged history timeline, de-jargon helpers.
+   Pairs with recipe-desktop.js. Reuses recipe.js utilities.
+   ============================================================ */
+
+/* ---------- role switcher (topbar) ---------- */
+.role-switch{display:flex;align-items:center;gap:8px}
+.role-switch label{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--fb-text-muted)}
+.role-switch select{padding:7px 11px;border:1px solid var(--fb-border);border-radius:10px;font-size:12.5px;font-weight:600;color:var(--fb-text-primary);background:#fff}
+.role-switch select:focus{outline:none;border-color:var(--fb-teal-600);box-shadow:0 0 0 3px var(--fb-teal-50)}
+
+/* ---------- role banner (who is looking + what they see) ---------- */
+.role-banner{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;border-radius:12px;padding:9px 13px;margin-bottom:14px;border:1px solid var(--fb-teal-50);background:var(--fb-teal-50);color:var(--fb-teal-800)}
+.role-banner .ic{font-size:14px}
+
+/* ---------- role gating: hide elements not allowed for current role ----------
+   Non-destructive: gated elements keep their natural display; recipe-desktop.js
+   adds .role-hidden to those whose data-show list excludes the active role.
+   Default role is Owner (sees all), so there is no price flash on first paint. */
+.role-hidden{display:none !important}
+/* "hidden because of your role" placeholder */
+.role-locked{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--fb-text-muted);background:#F6F8FA;border:1px dashed var(--fb-border);border-radius:8px;padding:3px 9px}
+
+/* ---------- detail two-column: tab body + right context ---------- */
+.detail-grid{display:grid;grid-template-columns:1fr 264px;gap:18px;align-items:start}
+@media (max-width:1100px){.detail-grid{grid-template-columns:1fr}}
+.ctx{position:sticky;top:74px;display:flex;flex-direction:column;gap:12px}
+.ctx .card{padding:14px}
+.ctx .ctx-h{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--fb-text-muted);margin-bottom:8px}
+
+/* ---------- sticky bottom action (one primary action per tab) ---------- */
+.action-bar{position:sticky;bottom:0;margin:18px -20px -18px;padding:13px 20px;background:#fff;border-top:1px solid var(--fb-border);display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:6;border-radius:0 0 var(--radius-xl) var(--radius-xl)}
+.action-bar .hint{font-size:12px;color:var(--fb-text-muted)}
+.action-bar .btn-primary,.action-bar .btn-teal{padding:11px 22px;font-size:14px}
+
+/* ---------- alert strips (simple, allowed outside Cost per feedback-3 §9.3) ---------- */
+.alert{display:flex;align-items:flex-start;gap:9px;border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:600;margin-bottom:12px;border:1px solid}
+.alert .ic{flex-shrink:0}
+.alert-amber{background:var(--fb-orange-50);color:#9A3412;border-color:#FED7AA}
+.alert-red{background:var(--fb-red-50);color:#991B1B;border-color:#FECACA}
+.alert-info{background:#EFF6FF;color:#1E40AF;border-color:#BFDBFE}
+.alert-green{background:var(--fb-green-50);color:var(--fb-green-700);border-color:var(--fb-green-100)}
+
+/* ---------- progressive disclosure (native details/summary) ----------
+   Default-open the job; collapse detail behind a summary that carries a chip. */
+.disclose{border:1px solid var(--fb-border);border-radius:12px;margin-bottom:14px;background:#fff;overflow:hidden}
+.disclose>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 14px;font-weight:700;font-size:13px;color:var(--fb-text-primary)}
+.disclose>summary::-webkit-details-marker{display:none}
+.disclose>summary .twist{margin-left:auto;color:var(--fb-text-placeholder);transition:transform .15s;font-size:12px}
+.disclose[open]>summary .twist{transform:rotate(90deg)}
+.disclose>summary .sum-chip{font-size:11px;font-weight:600;color:var(--fb-text-muted);background:#F6F8FA;border:1px solid var(--fb-border);border-radius:999px;padding:2px 9px}
+.disclose .disclose-body{padding:6px 14px 14px}
+.disclose.adv>summary{color:var(--fb-text-secondary)}
+.disclose.adv>summary .lead{display:inline-flex;align-items:center;gap:7px}
+
+/* ---------- helper text under unclear fields (feedback-3 §11.4) ---------- */
+.help{font-size:11.5px;color:var(--fb-text-muted);margin-top:5px;line-height:1.45}
+.help b{color:var(--fb-text-secondary)}
+
+/* ---------- de-jargoned header bits ---------- */
+.prod-flag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--fb-green-700);background:var(--fb-green-50);border:1px solid var(--fb-green-100);border-radius:999px;padding:3px 10px}
+
+/* ---------- "how much to make" scaler ---------- */
+.make-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--fb-teal-50);border:1px solid #B3DDE4;border-radius:14px;padding:14px 16px;margin-bottom:14px}
+.make-row .big-input{width:140px;font-size:20px;font-weight:800;padding:8px 12px;border:1px solid var(--fb-border);border-radius:10px;text-align:right}
+.make-row .unit-pick{display:inline-flex;background:#fff;border-radius:10px;padding:3px;gap:3px;border:1px solid var(--fb-border)}
+.make-row .unit-pick button{padding:6px 12px;border-radius:8px;font-size:12.5px;font-weight:700;color:var(--fb-text-secondary)}
+.make-row .unit-pick button.on{background:var(--fb-teal-800);color:#fff}
+
+/* ---------- making sheet (print/share hand-off) ---------- */
+.making-sheet{border:1px solid var(--fb-border);border-radius:14px;padding:18px 20px;background:#fff}
+.making-sheet h4{font-size:15px;margin-bottom:4px}
+.making-sheet .ms-meta{font-size:12px;color:var(--fb-text-muted);margin-bottom:14px}
+.making-sheet .ms-sec{font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--fb-text-muted);margin:14px 0 8px}
+.making-sheet ol{margin:0 0 0 18px}
+.making-sheet ol li{padding:4px 0;font-size:12.5px}
+
+/* ---------- merged history timeline ---------- */
+.timeline{position:relative;margin-left:6px}
+.tl-item{position:relative;padding:0 0 16px 26px;border-left:2px solid var(--fb-border)}
+.tl-item:last-child{border-left-color:transparent}
+.tl-item .tl-dot{position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--fb-border)}
+.tl-item.is-publish .tl-dot{background:var(--fb-green-600);border-color:var(--fb-green-600)}
+.tl-item.is-approve .tl-dot{background:var(--fb-teal-800);border-color:var(--fb-teal-800)}
+.tl-item .tl-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tl-item .tl-when{font-size:11px;color:var(--fb-text-muted)}
+.tl-item .tl-what{font-size:12.5px;color:var(--fb-text-secondary);margin-top:3px}
+.tl-item .tl-prod{font-size:10.5px;font-weight:700;color:var(--fb-green-700)}
+
+/* ---------- quality score rating row (Trial) ---------- */
+.qscore{display:grid;grid-template-columns:1.1fr 2fr auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--fb-border)}
+.qscore:last-child{border-bottom:none}
+.qscore input[type=range]{width:100%}
+.qscore .qv{min-width:20px;text-align:center;font-weight:800;color:var(--fb-teal-800)}
+
+/* expected-output emphasis tile */
+.eo-tile{border:1px solid var(--fb-green-100);background:var(--fb-green-50);border-radius:12px;padding:12px 14px}
+.eo-tile .sv{font-size:20px;font-weight:800;color:var(--fb-green-700)}

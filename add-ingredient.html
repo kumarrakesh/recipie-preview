@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Add Ingredient — Recipe Module</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">▦</span> Spotlight</div>
+    <nav class="nav">
+      <div class="nav-item"><span class="ic">👥</span> Customers</div>
+      <div class="nav-item"><span class="ic">⚡</span> Campaign</div>
+      <div class="nav-item"><span class="ic">🛣️</span> Manage Routes</div>
+      <div class="nav-item"><span class="ic">📦</span> Orders</div>
+      <div class="nav-item"><span class="ic">🚚</span> Add On Deliveries</div>
+      <div class="nav-item"><span class="ic">↩️</span> Returns</div>
+      <div class="nav-item"><span class="ic">🗄️</span> Inventory</div>
+      <div class="nav-item"><span class="ic">🏭</span> Production</div>
+      <div class="nav-group">
+        <div class="nav-item active"><span><span class="ic">🧩</span> Ingredients</span><span>⌃</span></div>
+        <div class="nav-sub"><a class="active" href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+      </div>
+      <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
+      <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
+      <div class="nav-item"><span class="ic">🛻</span> Route Delivery</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="left"><span class="hamburger">☰</span><span class="title">Ingredient List</span></div>
+      <div class="user"><span class="av">D</span><div class="meta"><b>Dharmendar Ji</b><span>Admin</span></div></div>
+    </header>
+    <main class="content"><p class="muted">Ingredient list behind the modal…</p></main>
+  </div>
+
+  <!-- Add Ingredient modal -->
+  <div class="modal">
+    <div class="sheet">
+      <div class="mhead between">
+        <div><h2 style="font-size:18px">Add Ingredient</h2><p class="muted small">Name and unit are enough to start. Switch to Detailed for more.</p></div>
+        <button class="btn btn-ghost" style="font-size:18px">✕</button>
+      </div>
+      <div class="mbody">
+        <!-- Short / Detailed toggle -->
+        <div class="seg" style="margin-bottom:18px"><button class="on">Short Form</button><button>Detailed Form</button></div>
+
+        <!-- SHORT FORM (active) -->
+        <div class="form-row">
+          <label class="label">Ingredient Name <span class="req">*</span></label>
+          <input class="input" placeholder="e.g. Sugar, Besan, Ghee, Cashew">
+        </div>
+        <div class="form-row">
+          <label class="label">Brand / Quality</label>
+          <div><input class="input" placeholder="e.g. Amul · A-grade · W240 · fine powder"><div class="muted small mt8">Shown as the sub-heading under the ingredient name.</div></div>
+        </div>
+        <div class="form-row">
+          <label class="label">Description</label>
+          <textarea class="input" rows="2" placeholder="Quality guidelines or purchase notes"></textarea>
+        </div>
+        <div class="form-row">
+          <label class="label">Unit <span class="req">*</span></label>
+          <select class="input" style="max-width:220px"><option>kg</option><option>g</option><option>litre</option><option>ml</option><option>piece</option><option>packet</option></select>
+        </div>
+        <div class="form-row">
+          <label class="label">Price</label>
+          <input class="input" style="max-width:220px" placeholder="0">
+        </div>
+
+        <!-- DETAILED FORM (collapsed preview, shown when toggled) -->
+        <div class="card" style="padding:14px 16px;margin-top:10px;background:#FAFBFC">
+          <div class="between"><span class="section-eyebrow">Detailed form adds</span><span class="badge badge-soft">on toggle</span></div>
+          <div class="muted small mt8">Article No · Category · Image · HSN/SAC · Barcode · Tax — the fuller create form, for when an ingredient needs full master data. Short form stays the default for fast in-recipe creation.</div>
+        </div>
+
+        <!-- live preview of display format -->
+        <div class="card" style="padding:14px 16px;margin-top:14px">
+          <div class="section-eyebrow mb8">Preview — display format</div>
+          <div class="flex gap12" style="align-items:center"><div class="thumb"></div><div><b>Besan</b><div class="muted small">A-grade fine powder / preferred brand: Rajdhani</div></div></div>
+        </div>
+      </div>
+      <div class="mfoot">
+        <button class="btn" style="flex:1;justify-content:center">Cancel</button>
+        <button class="btn btn-primary" style="flex:2;justify-content:center">Add Ingredient</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

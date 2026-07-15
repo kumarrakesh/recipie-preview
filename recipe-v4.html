@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Premium Butter Cookies — Recipe (feedback-4 · desktop)</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="recipe-v4.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">▦</span> Spotlight</div>
+    <nav class="nav">
+      <div class="nav-item"><span class="ic">👥</span> Customers</div>
+      <div class="nav-item"><span class="ic">⚡</span> Campaign</div>
+      <div class="nav-item"><span class="ic">🛣️</span> Manage Routes</div>
+      <div class="nav-item"><span class="ic">📦</span> Orders</div>
+      <div class="nav-item"><span class="ic">🚚</span> Add On Deliveries</div>
+      <div class="nav-item"><span class="ic">↩️</span> Returns</div>
+      <div class="nav-item"><span class="ic">🗄️</span> Inventory</div>
+      <div class="nav-group">
+        <div class="nav-item active"><span><span class="ic">🏭</span> Production</span><span>⌃</span></div>
+        <div class="nav-sub"><a>Inventory</a><a>Batch Management</a><a class="active" href="recipe-v4.html">Recipes</a></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-item"><span><span class="ic">🧩</span> Ingredients</span><span>⌄</span></div>
+        <div class="nav-sub"><a href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+      </div>
+      <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
+      <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
+      <div class="nav-item"><span class="ic">🛻</span> Route Delivery</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="left"><span class="hamburger">☰</span><span class="title">Recipes · Minimal</span></div>
+      <div class="user"><span class="av">D</span><div class="meta"><b>Dharmendar Ji</b><span>Admin</span></div></div>
+    </header>
+
+    <main class="content" style="max-width:1180px;margin:0 auto;width:100%">
+    <div class="v4-layout">
+
+      <!-- F1: recipe list rail (master-detail; Create on top) -->
+      <aside class="recipe-rail">
+        <button class="btn btn-primary rail-create" data-drawer-open="drawer-newrecipe">＋ Create New Recipe</button>
+        <input class="input rail-search" id="rail-search" placeholder="Search recipes…">
+        <div class="rail-list" id="rail-list">
+          <a class="rl-item active" data-recipe="Premium Butter Cookies"><span class="rl-nm">Premium Butter Cookies</span><span class="rl-sub">3 versions · Active</span></a>
+          <a class="rl-item" data-recipe="Kaju Katli"><span class="rl-nm">Kaju Katli</span><span class="rl-sub">No recipe yet</span></a>
+          <a class="rl-item" data-recipe="Garam Masala"><span class="rl-nm">Garam Masala</span><span class="rl-sub">4 inputs</span></a>
+          <a class="rl-item" data-recipe="Turmeric Powder"><span class="rl-nm">Turmeric Powder</span><span class="rl-sub">No recipe yet</span></a>
+        </div>
+      </aside>
+
+      <div class="recipe-main">
+
+      <!-- persistent header (stays fixed across tabs) -->
+      <div class="v4-head">
+        <div class="between" style="align-items:flex-start">
+          <div>
+            <h1>Premium Butter Cookies</h1>
+            <div class="linked">
+              <span class="v4-chip">🍪 Cookies 100g</span>
+              <span class="v4-chip">🍪 Cookies 250g</span>
+              <span class="v4-chip">📦 Bulk Pack</span>
+            </div>
+          </div>
+          <div class="v4-ver">
+            <select aria-label="Version">
+              <option>V4.2 — Premium Butter (Latest)</option>
+              <option>V4.1 — Butter Base</option>
+              <option>V3.6 — Margarine Trial</option>
+            </select>
+          </div>
+        </div>
+        <div class="meta">
+          <span class="m">Allowed batch sizes <b>50kg – 200kg</b></span>
+          <span class="m">Best before <b>180 days</b></span>
+          <span class="m">Status <b style="color:var(--fb-green-700)">Active</b></span>
+        </div>
+        <div class="batch-prev">
+          <span class="bp-label">Preview at batch size</span>
+          <select id="batch-size" aria-label="Preview batch size">
+            <option value="50">50 kg</option>
+            <option value="100" selected>100 kg</option>
+            <option value="200">200 kg</option>
+          </select>
+          <span class="bp-hint">Base = 100 kg · quantities &amp; costs scale for preview only; edits change the base recipe.</span>
+        </div>
+      </div>
+
+      <!-- 3 tabs -->
+      <div class="v4-tabs">
+        <a class="t" href="#" data-v4tab="ingredients">Ingredients</a>
+        <a class="t" href="#" data-v4tab="cost">Cost</a>
+        <a class="t" href="#" data-v4tab="production">Production</a>
+      </div>
+
+      <div class="card" style="padding:18px 20px;position:relative">
+
+        <!-- ============ TAB 1: INGREDIENTS ============ -->
+        <section class="v4-panel" data-v4panel="ingredients">
+          <div class="section-eyebrow mb8">Formulation · proportional to quantity</div>
+          <div class="ing-list">
+            <div class="ing" data-qty="12" data-unit="kg" data-yield="98">
+              <div class="ing-row"><div class="nm">Butter<small>Amul · kg · Yield 98%</small></div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-qty">12 kg</div></div>
+              <div class="ing-edit"><div class="grid">
+                <div class="fld"><label class="label">Brand</label><input class="input" data-f="brand" value="Amul"></div>
+                <div class="fld"><label class="label">Quality</label><input class="input" data-f="quality" value="Grade A"></div>
+                <div class="fld"><label class="label">Quantity</label><input class="input" data-f="qty" type="number" value="12"></div>
+                <div class="fld"><label class="label">Unit</label><select class="input" data-f="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                <div class="fld"><label class="label">Yield %</label><input class="input" data-f="yield" type="number" value="98"></div>
+              </div><div class="save-row"><button class="btn btn-sm btn-primary" data-ing-save>✓ Save</button></div></div>
+            </div>
+
+            <div class="ing" data-qty="6" data-unit="kg" data-yield="99">
+              <div class="ing-row"><div class="nm">Milk Powder<small>Nestlé · kg · Yield 99%</small></div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-qty">6 kg</div></div>
+              <div class="ing-edit"><div class="grid">
+                <div class="fld"><label class="label">Brand</label><input class="input" data-f="brand" value="Nestlé"></div>
+                <div class="fld"><label class="label">Quality</label><input class="input" data-f="quality" value="Grade A"></div>
+                <div class="fld"><label class="label">Quantity</label><input class="input" data-f="qty" type="number" value="6"></div>
+                <div class="fld"><label class="label">Unit</label><select class="input" data-f="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                <div class="fld"><label class="label">Yield %</label><input class="input" data-f="yield" type="number" value="99"></div>
+              </div><div class="save-row"><button class="btn btn-sm btn-primary" data-ing-save>✓ Save</button></div></div>
+            </div>
+
+            <div class="ing" data-qty="15" data-unit="kg" data-yield="100">
+              <div class="ing-row"><div class="nm">Sugar<small>Fine white · kg · Yield 100%</small></div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-qty">15 kg</div></div>
+              <div class="ing-edit"><div class="grid">
+                <div class="fld"><label class="label">Brand</label><input class="input" data-f="brand" value="—"></div>
+                <div class="fld"><label class="label">Quality</label><input class="input" data-f="quality" value="Fine white"></div>
+                <div class="fld"><label class="label">Quantity</label><input class="input" data-f="qty" type="number" value="15"></div>
+                <div class="fld"><label class="label">Unit</label><select class="input" data-f="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                <div class="fld"><label class="label">Yield %</label><input class="input" data-f="yield" type="number" value="100"></div>
+              </div><div class="save-row"><button class="btn btn-sm btn-primary" data-ing-save>✓ Save</button></div></div>
+            </div>
+
+            <div class="ing" data-qty="22" data-unit="kg" data-yield="97">
+              <div class="ing-row"><div class="nm">Flour<small>Maida · kg · Yield 97%</small></div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-qty">22 kg</div></div>
+              <div class="ing-edit"><div class="grid">
+                <div class="fld"><label class="label">Brand</label><input class="input" data-f="brand" value="—"></div>
+                <div class="fld"><label class="label">Quality</label><input class="input" data-f="quality" value="Grade A"></div>
+                <div class="fld"><label class="label">Quantity</label><input class="input" data-f="qty" type="number" value="22"></div>
+                <div class="fld"><label class="label">Unit</label><select class="input" data-f="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                <div class="fld"><label class="label">Yield %</label><input class="input" data-f="yield" type="number" value="97"></div>
+              </div><div class="save-row"><button class="btn btn-sm btn-primary" data-ing-save>✓ Save</button></div></div>
+            </div>
+
+            <div class="ing" data-qty="0.5" data-unit="kg" data-yield="100">
+              <div class="ing-row"><div class="nm">Salt<small>Iodised · kg · Yield 100%</small></div><div class="ing-track"><div class="ing-fill"></div></div><div class="ing-qty">0.5 kg</div></div>
+              <div class="ing-edit"><div class="grid">
+                <div class="fld"><label class="label">Brand</label><input class="input" data-f="brand" value="Tata"></div>
+                <div class="fld"><label class="label">Quality</label><input class="input" data-f="quality" value="Iodised"></div>
+                <div class="fld"><label class="label">Quantity</label><input class="input" data-f="qty" type="number" value="0.5"></div>
+                <div class="fld"><label class="label">Unit</label><select class="input" data-f="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                <div class="fld"><label class="label">Yield %</label><input class="input" data-f="yield" type="number" value="100"></div>
+              </div><div class="save-row"><button class="btn btn-sm btn-primary" data-ing-save>✓ Save</button></div></div>
+            </div>
+          </div>
+
+          <!-- add ingredient inline search -->
+          <div class="add-ing">
+            <button class="add-btn" data-add-open>＋ Add Ingredient</button>
+            <div class="add-search" id="add-search" hidden>
+              <input class="input" placeholder="Search ingredient…" style="margin-bottom:8px">
+              <button class="opt">Butter</button>
+              <button class="opt">Sugar</button>
+              <button class="opt">Milk Powder</button>
+              <button class="opt">Cocoa Powder</button>
+              <button class="opt">Baking Soda</button>
+              <button class="opt create" data-drawer-open="drawer-createing">＋ Create New Ingredient</button>
+            </div>
+          </div>
+
+          <div class="yield-tile">
+            <div><div class="section-eyebrow">Expected Yield</div><div class="muted small">Average usable output after processing</div></div>
+            <div class="yv" id="yield-value">97%</div>
+          </div>
+
+          <div class="v4-actions">
+            <button class="btn">Save</button>
+            <button class="btn btn-primary" data-drawer-open="drawer-newversion">Save As New Version</button>
+          </div>
+        </section>
+
+        <!-- ============ TAB 2: COST ============ -->
+        <section class="v4-panel" data-v4panel="cost" hidden>
+          <!-- sub-tabs -->
+          <div class="cost-subtabs">
+            <a href="#" data-costsub="ing" class="on">Ingredients Cost</a>
+            <a href="#" data-costsub="making">Making Cost</a>
+            <a href="#" data-costsub="pack">Packaging Cost</a>
+          </div>
+
+          <!-- Panel 1: ingredient cost (inline editable, scales with batch) -->
+          <div class="cost-sec" data-cost-sec data-cost-scale data-costpanel="ing">
+            <div class="h"><span class="section-eyebrow">Ingredients Cost</span><span class="muted small">Tap a row to edit inline · scales with batch size</span></div>
+            <div id="ing-cost-list">
+              <div class="cost-line editable" data-name="Butter" data-price="68.33" data-qtyv="12" data-unit="kg" data-amount="820">
+                <div class="cl-row"><div class="cn">Butter<small></small></div><div class="cv">₹820</div><span class="muted">✎</span></div>
+                <div class="cl-edit"><div class="grid">
+                  <div class="fld"><label class="label">Unit Price (₹)</label><input class="input" data-cf="price" type="number" value="68.33"></div>
+                  <div class="fld"><label class="label">Quantity</label><input class="input" data-cf="qty" type="number" value="12"></div>
+                  <div class="fld"><label class="label">Unit</label><select class="input" data-cf="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                  <div class="fld"><label class="label">Effective Cost</label><output class="input" data-cf="eff" style="display:block;background:#FAFBFC">₹820</output></div>
+                </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
+              </div>
+              <div class="cost-line editable" data-name="Milk Powder" data-price="90" data-qtyv="6" data-unit="kg" data-amount="540">
+                <div class="cl-row"><div class="cn">Milk Powder<small></small></div><div class="cv">₹540</div><span class="muted">✎</span></div>
+                <div class="cl-edit"><div class="grid">
+                  <div class="fld"><label class="label">Unit Price (₹)</label><input class="input" data-cf="price" type="number" value="90"></div>
+                  <div class="fld"><label class="label">Quantity</label><input class="input" data-cf="qty" type="number" value="6"></div>
+                  <div class="fld"><label class="label">Unit</label><select class="input" data-cf="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                  <div class="fld"><label class="label">Effective Cost</label><output class="input" data-cf="eff" style="display:block;background:#FAFBFC">₹540</output></div>
+                </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
+              </div>
+              <div class="cost-line editable" data-name="Sugar" data-price="40" data-qtyv="15" data-unit="kg" data-amount="600">
+                <div class="cl-row"><div class="cn">Sugar<small></small></div><div class="cv">₹600</div><span class="muted">✎</span></div>
+                <div class="cl-edit"><div class="grid">
+                  <div class="fld"><label class="label">Unit Price (₹)</label><input class="input" data-cf="price" type="number" value="40"></div>
+                  <div class="fld"><label class="label">Quantity</label><input class="input" data-cf="qty" type="number" value="15"></div>
+                  <div class="fld"><label class="label">Unit</label><select class="input" data-cf="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                  <div class="fld"><label class="label">Effective Cost</label><output class="input" data-cf="eff" style="display:block;background:#FAFBFC">₹600</output></div>
+                </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
+              </div>
+              <div class="cost-line editable" data-name="Flour" data-price="31.82" data-qtyv="22" data-unit="kg" data-amount="700">
+                <div class="cl-row"><div class="cn">Flour<small></small></div><div class="cv">₹700</div><span class="muted">✎</span></div>
+                <div class="cl-edit"><div class="grid">
+                  <div class="fld"><label class="label">Unit Price (₹)</label><input class="input" data-cf="price" type="number" value="31.82"></div>
+                  <div class="fld"><label class="label">Quantity</label><input class="input" data-cf="qty" type="number" value="22"></div>
+                  <div class="fld"><label class="label">Unit</label><select class="input" data-cf="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                  <div class="fld"><label class="label">Effective Cost</label><output class="input" data-cf="eff" style="display:block;background:#FAFBFC">₹700</output></div>
+                </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
+              </div>
+              <div class="cost-line editable" data-name="Salt" data-price="40" data-qtyv="0.5" data-unit="kg" data-amount="20">
+                <div class="cl-row"><div class="cn">Salt<small></small></div><div class="cv">₹20</div><span class="muted">✎</span></div>
+                <div class="cl-edit"><div class="grid">
+                  <div class="fld"><label class="label">Unit Price (₹)</label><input class="input" data-cf="price" type="number" value="40"></div>
+                  <div class="fld"><label class="label">Quantity</label><input class="input" data-cf="qty" type="number" value="0.5"></div>
+                  <div class="fld"><label class="label">Unit</label><select class="input" data-cf="unit"><option selected>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+                  <div class="fld"><label class="label">Effective Cost</label><output class="input" data-cf="eff" style="display:block;background:#FAFBFC">₹20</output></div>
+                </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
+              </div>
+            </div>
+            <div class="sec-total"><span>Total Ingredients Cost</span><b data-sec-total>₹2,680</b></div>
+          </div>
+
+          <!-- Panel 2: making cost (add/delete, scales with batch) -->
+          <div class="cost-sec" data-cost-sec data-cost-scale data-costpanel="making" hidden>
+            <div class="h"><span class="section-eyebrow">Making Cost</span><button class="btn btn-sm" data-add-cost>＋ Add Cost</button></div>
+            <div id="making-list">
+              <div class="cost-line" data-amount="250"><div class="cn">Labour</div><input class="input" type="number" value="250" style="width:110px" data-cost-amt><button class="btn btn-sm" data-cost-del>✕</button></div>
+              <div class="cost-line" data-amount="90"><div class="cn">Electricity</div><input class="input" type="number" value="90" style="width:110px" data-cost-amt><button class="btn btn-sm" data-cost-del>✕</button></div>
+              <div class="cost-line" data-amount="60"><div class="cn">Gas</div><input class="input" type="number" value="60" style="width:110px" data-cost-amt><button class="btn btn-sm" data-cost-del>✕</button></div>
+            </div>
+            <div class="muted small mb8">Line inputs are per the 100 kg base; the total below scales for the previewed batch size.</div>
+            <div class="sec-total"><span>Total Making Cost</span><b data-sec-total>₹400</b></div>
+          </div>
+
+          <!-- Panel 3: packaging cost (per product variant, inline editable, NOT scaled) -->
+          <div class="cost-sec" data-cost-sec data-costpanel="pack" hidden>
+            <div class="h"><span class="section-eyebrow">Packaging Cost</span><span class="muted small">One cost per product variant · per pack (not scaled)</span></div>
+            <div class="cost-line editable" data-name="100g Pouch" data-price="2.10" data-qtyv="1" data-unit="pack" data-amount="2.10" data-keepsmall>
+              <div class="cl-row"><div class="cn">100g Pouch<small>→ Cookies 100g</small></div><div class="cv">₹2.10</div><span class="muted">✎</span></div>
+              <div class="cl-edit"><div class="grid">
+                <div class="fld"><label class="label">Unit Price (₹)</label><input class="input" data-cf="price" type="number" value="2.10"></div>
+                <div class="fld"><label class="label">Quantity</label><input class="input" data-cf="qty" type="number" value="1"></div>
+                <div class="fld"><label class="label">Unit</label><select class="input" data-cf="unit"><option selected>pack</option><option>pcs</option></select></div>
+                <div class="fld"><label class="label">Effective Cost</label><output class="input" data-cf="eff" style="display:block;background:#FAFBFC">₹2.10</output></div>
+              </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
+            </div>
+            <div class="cost-line editable" data-name="250g Pouch" data-price="3.80" data-qtyv="1" data-unit="pack" data-amount="3.80" data-keepsmall>
+              <div class="cl-row"><div class="cn">250g Pouch<small>→ Cookies 250g</small></div><div class="cv">₹3.80</div><span class="muted">✎</span></div>
+              <div class="cl-edit"><div class="grid">
+                <div class="fld"><label class="label">Unit Price (₹)</label><input class="input" data-cf="price" type="number" value="3.80"></div>
+                <div class="fld"><label class="label">Quantity</label><input class="input" data-cf="qty" type="number" value="1"></div>
+                <div class="fld"><label class="label">Unit</label><select class="input" data-cf="unit"><option selected>pack</option><option>pcs</option></select></div>
+                <div class="fld"><label class="label">Effective Cost</label><output class="input" data-cf="eff" style="display:block;background:#FAFBFC">₹3.80</output></div>
+              </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
+            </div>
+            <div class="cost-line editable" data-name="Bulk Pack" data-price="14.00" data-qtyv="1" data-unit="pack" data-amount="14" data-keepsmall>
+              <div class="cl-row"><div class="cn">Bulk Pack<small>→ Bulk Pack</small></div><div class="cv">₹14.00</div><span class="muted">✎</span></div>
+              <div class="cl-edit"><div class="grid">
+                <div class="fld"><label class="label">Unit Price (₹)</label><input class="input" data-cf="price" type="number" value="14.00"></div>
+                <div class="fld"><label class="label">Quantity</label><input class="input" data-cf="qty" type="number" value="1"></div>
+                <div class="fld"><label class="label">Unit</label><select class="input" data-cf="unit"><option selected>pack</option><option>pcs</option></select></div>
+                <div class="fld"><label class="label">Effective Cost</label><output class="input" data-cf="eff" style="display:block;background:#FAFBFC">₹14.00</output></div>
+              </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
+            </div>
+            <div class="sec-total"><span>Total Packaging Cost</span><b data-sec-total>₹19.90</b></div>
+          </div>
+
+          <div class="grand"><span class="gl">Grand Total <span class="gnote" id="grand-note">at 100 kg</span></span><span class="gv" id="grand-total">₹3,099.90</span></div>
+          <div class="muted small mt8">Totals recalculate automatically on every edit. Ingredients &amp; making scale with the previewed batch size; packaging is per pack.</div>
+        </section>
+
+        <!-- ============ TAB 3: PRODUCTION ============ -->
+        <section class="v4-panel" data-v4panel="production" hidden>
+          <div class="section-eyebrow mb8">Create a production batch order</div>
+          <div class="prod-form">
+            <div class="fld"><label class="label">Recipe Version</label><select class="input"><option>V4.2 — Premium Butter</option><option>V4.1 — Butter Base</option></select></div>
+            <div class="fld"><label class="label">Batch Size</label>
+              <select class="input" id="pb-size"><option value="50">50 kg</option><option value="100" selected>100 kg</option><option value="200">200 kg</option><option value="75">75 kg (unsupported)</option></select>
+              <div class="alert alert-red batch-warn" id="batch-warn" style="border:1px solid #FECACA;background:#FEF2F2;color:#991B1B;border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:600">
+                Selected batch size is not supported. Please create a dedicated recipe version for this batch size.
+                <div style="margin-top:8px"><button class="btn btn-sm" data-warn-newver>＋ Create New Recipe Version</button></div>
+              </div>
+            </div>
+            <div class="fld"><label class="label">Packaging / Product Variant</label><select class="input"><option>250g Pouch → Cookies 250g</option><option>100g Pouch → Cookies 100g</option><option>Bulk Pack</option></select></div>
+            <div class="fld"><label class="label">Production Date</label><input class="input" type="date"></div>
+            <div class="fld"><label class="label">Operator</label><select class="input"><option>Current User · Dharmendar Ji</option><option>Production Team</option></select></div>
+            <div class="fld"><label class="label">Batch Number</label><div class="auto-field">AUTO · generated on create</div></div>
+          </div>
+
+          <div class="v4-actions" style="justify-content:space-between">
+            <span class="muted small">Batch number &amp; QR are generated automatically.</span>
+            <button class="btn btn-teal" id="create-batch">Create Batch</button>
+          </div>
+
+          <!-- generated production batch order -->
+          <div class="order-card" id="order-card">
+            <div>
+              <div class="section-eyebrow">Production Batch</div>
+              <div class="pb" id="pb-number">PB-2026-00182</div>
+              <div class="flex gap8 mt8" style="align-items:center"><span class="muted small">Status</span><span class="badge badge-approved">Created</span></div>
+              <div class="flex gap8 mt16"><button class="btn btn-sm">🖨 Print Label</button><button class="btn btn-sm">⬇ Download QR</button></div>
+            </div>
+            <div class="qr-wrap"><div id="pb-qr" data-qr></div><div class="cap">Scan on the floor</div></div>
+          </div>
+        </section>
+
+      </div>
+      </div><!-- /recipe-main -->
+    </div><!-- /v4-layout -->
+    </main>
+  </div>
+</div>
+
+<!-- ============ Drawers (reused recipe.js wiring) ============ -->
+
+<!-- Create New Ingredient -->
+<aside class="drawer" id="drawer-createing" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">New ingredient</div><h3 style="font-size:16px">Create ingredient</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody" data-tax-form>
+    <div class="form-row"><label class="label">Ingredient Name <span class="req">*</span></label><input class="input" placeholder="e.g. Cocoa Powder"></div>
+    <div class="form-row"><label class="label">Brand</label><input class="input" placeholder="e.g. Hershey's"></div>
+    <div class="form-row"><label class="label">Quality</label><input class="input" placeholder="e.g. Grade A"></div>
+    <div class="form-row"><label class="label">Unit <span class="req">*</span></label><select class="input"><option>kg</option><option>g</option><option>litre</option><option>ml</option><option>pcs</option></select></div>
+    <div class="form-row"><label class="label">Price</label><input class="input" type="number" data-price placeholder="0"></div>
+    <div class="form-row"><label class="label">Tax %</label><select class="input" data-tax-rate><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option></select></div>
+    <div class="form-row"><label class="label">Price After Tax</label><output class="input" data-price-after style="display:block;background:#FAFBFC">₹0</output></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Ingredient</button></div>
+</aside>
+
+<!-- Save As New Version / Create New Recipe Version -->
+<aside class="drawer" id="drawer-newversion" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">New version</div><h3 style="font-size:16px">Save as new version</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">New Version Name <span class="req">*</span></label><input class="input" value="V4.3 — " placeholder="e.g. V4.3 — Low Sugar"></div>
+    <div class="form-row"><label class="label">Supported Batch Sizes</label>
+      <div class="size-pick">
+        <button class="chip sel">25kg</button><button class="chip sel">50kg</button><button class="chip sel">100kg</button><button class="chip">200kg</button><button class="chip">Custom</button>
+      </div></div>
+    <div class="form-row"><label class="label">Linked Products</label>
+      <div class="chip-pick">
+        <button class="chip sel">Cookies 100g</button><button class="chip sel">Cookies 250g</button><button class="chip">Bulk Pack</button>
+      </div></div>
+    <div class="form-row"><label class="label">Best Before (days)</label><input class="input" type="number" value="180"></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Version</button></div>
+</aside>
+
+<!-- Create New Recipe (F1) -->
+<aside class="drawer" id="drawer-newrecipe" hidden>
+  <div class="dhead"><div><div class="section-eyebrow">New recipe</div><h3 style="font-size:16px">Create recipe</h3></div><button class="btn btn-sm" data-drawer-close>✕</button></div>
+  <div class="dbody">
+    <div class="form-row"><label class="label">Recipe Name <span class="req">*</span></label><input class="input" placeholder="e.g. Almond Cookies"></div>
+    <div class="form-row"><label class="label">Linked Product / Variant</label><input class="input" placeholder="e.g. Cookies 100g"></div>
+    <div class="form-row"><label class="label">Allowed Batch Sizes</label>
+      <div class="size-pick">
+        <button class="chip sel">50kg</button><button class="chip sel">100kg</button><button class="chip">200kg</button><button class="chip">Custom</button>
+      </div></div>
+    <div class="form-row"><label class="label">Best Before (days)</label><input class="input" type="number" value="180"></div>
+  </div>
+  <div class="dfoot"><button class="btn" data-drawer-close>Cancel</button><button class="btn btn-primary" data-drawer-close>Create Recipe</button></div>
+</aside>
+
+<script src="recipe.js" defer></script>
+<script src="recipe-v4.js" defer></script>
+</body>
+</html>
