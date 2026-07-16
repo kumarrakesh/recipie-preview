@@ -315,3 +315,238 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
+
+/* ============================================================
+   Addendum 004 — feedback-4.4 · Cost-Iteration (Target & Margin) SHEET
+   Desktop-only Excel-like cost sheet: editable ingredient grid
+   (add / edit / delete rows) + live cost & margin build-up ladder.
+   Non-destructive what-if until Apply. Two seeds: bakery cookies +
+   masala (real data from inputs/CLASSIC NOODLES SAMP-2.xlsx).
+   ============================================================ */
+(function () {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const num = (v) => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g, '')); return isNaN(n) ? 0 : n; };
+  const money = (n) => '₹' + (Math.round(n * 100) / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  const round2 = (n) => Math.round(n * 100) / 100;
+  const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+  // seed mirrors seed-data/seed.json (embedded: prototype runs from file://)
+  const SEED = {
+    cookies: {
+      name: 'Premium Butter Cookies', basis: 'batch', batchKg: 100, markup: 25, target: 40,
+      ing: [
+        { name: 'Butter', rate: 68.33, qty: 12, unit: 'kg' },
+        { name: 'Milk Powder', rate: 90, qty: 6, unit: 'kg' },
+        { name: 'Sugar', rate: 40, qty: 15, unit: 'kg' },
+        { name: 'Flour', rate: 31.82, qty: 22, unit: 'kg' },
+        { name: 'Salt', rate: 40, qty: 0.5, unit: 'kg' }
+      ],
+      making: [{ name: 'Labour', amount: 250 }, { name: 'Electricity', amount: 90 }, { name: 'Gas', amount: 60 }]
+    },
+    masala: {
+      name: 'Classic Noodles Masala', basis: 'per1000g', markup: 20, target: 116,
+      ing: [
+        { name: 'Onion Pdr', rate: 110, qty: 50, unit: 'g' },
+        { name: 'Garlic Flake', rate: 120, qty: 35, unit: 'g' },
+        { name: 'Garlic Pdr (white)', rate: 90, qty: 130, unit: 'g' },
+        { name: 'Zira Pdr', rate: 300, qty: 6, unit: 'g' },
+        { name: 'Modified Starch', rate: 50, qty: 75, unit: 'g' },
+        { name: 'I+G', rate: 660, qty: 2, unit: 'g' },
+        { name: 'Anti-cake', rate: 130, qty: 5, unit: 'g' },
+        { name: 'Salt', rate: 9, qty: 210, unit: 'g' },
+        { name: 'Citric (anhydrous)', rate: 110, qty: 2, unit: 'g' },
+        { name: 'Sugar (Sabut)', rate: 47, qty: 260, unit: 'g' },
+        { name: 'Dextrose Sugar', rate: 58, qty: 65, unit: 'g' },
+        { name: 'Haldi', rate: 200, qty: 10, unit: 'g' },
+        { name: 'Aamchur', rate: 220, qty: 9, unit: 'g' },
+        { name: 'MSG', rate: 120, qty: 95, unit: 'g' },
+        { name: 'Soaf (fennel)', rate: 160, qty: 35, unit: 'g' },
+        { name: 'Noodles', rate: 42, qty: 100, unit: 'g' },
+        { name: 'Malto', rate: 52, qty: 115, unit: 'g' },
+        { name: 'Methi', rate: 85, qty: 12, unit: 'g' },
+        { name: 'Kasturi Methi', rate: 150, qty: 7, unit: 'g' },
+        { name: 'Star Anis', rate: 700, qty: 1, unit: 'g' },
+        { name: 'DNS Garam Masala', rate: 350, qty: 18, unit: 'g' },
+        { name: 'Curcumin', rate: 750, qty: 2, unit: 'g' },
+        { name: 'Black Salt', rate: 30, qty: 50, unit: 'g' },
+        { name: 'Oil Palm', rate: 150, qty: 10, unit: 'g' },
+        { name: 'Red Chilli', rate: 210, qty: 60, unit: 'g' },
+        { name: 'Masala Top Note (GIV)', rate: 1560, qty: 1, unit: 'g' }
+      ],
+      making: [{ name: 'Labour', amount: 5 }, { name: 'Packing', amount: 3.5 }, { name: 'Transport', amount: 3 }, { name: 'Wastage + Electricity', amount: 4 }]
+    }
+  };
+  const RAIL = { 'Premium Butter Cookies': 'cookies', 'Classic Noodles Masala': 'masala' };
+  const UNITS = ['kg', 'g', 'litre', 'ml', 'pcs'];
+
+  let cur = 'cookies', work = null, base = null;
+  const makPerKg = (m) => work.basis === 'per1000g' ? m.amount : m.amount / (work.batchKg || 1);
+
+  // per-kg economics for a product copy
+  function econ(p) {
+    const per = p.basis === 'per1000g';
+    const f = per ? 0.001 : 1;
+    const rowAmt = (it) => it.rate * it.qty * f;
+    const ingAmtTotal = p.ing.reduce((s, it) => s + rowAmt(it), 0);
+    const totalKg = per ? p.ing.reduce((s, it) => s + it.qty, 0) / 1000 : p.batchKg;
+    const ingPerKg = totalKg ? (per ? ingAmtTotal / totalKg : ingAmtTotal / p.batchKg) : 0;
+    const makTotal = p.making.reduce((s, m) => s + m.amount, 0);
+    const makPerKgV = per ? makTotal : makTotal / p.batchKg;
+    const mfg = ingPerKg + makPerKgV;
+    const sell = mfg * (1 + num(p.markup) / 100);
+    return { ingPerKg, makPerKg: makPerKgV, mfg, sell, ingAmtTotal, rowAmt };
+  }
+
+  function updateSubtotal(e) {
+    e = e || econ(work);
+    const per = work.basis === 'per1000g';
+    const st = $('#ti-sheet-subtotal'); if (st) st.textContent = money(e.ingAmtTotal);
+    const sn = $('#ti-sheet-subnote');
+    if (sn) sn.textContent = per ? `per ${round2(work.ing.reduce((s, it) => s + it.qty, 0))} g blend` : `per ${work.batchKg} kg batch`;
+  }
+
+  function renderRows() {
+    const host = $('#ti-sheet-rows'); if (!host) return;
+    const e = econ(work);
+    const qstep = work.basis === 'per1000g' ? '1' : '0.1';
+    host.innerHTML = work.ing.map((it, i) => {
+      const amt = e.rowAmt(it);
+      const share = e.ingAmtTotal ? amt / e.ingAmtTotal * 100 : 0;
+      const units = UNITS.map((u) => `<option ${u === it.unit ? 'selected' : ''}>${u}</option>`).join('');
+      return `<tr class="sh-row${i % 2 ? ' alt' : ''}" data-i="${i}">
+        <td class="sh-idx">${i + 1}</td>
+        <td class="sh-cell sh-namecell"><input class="sh-in sh-name" data-sh="name" value="${esc(it.name)}" placeholder="Ingredient name"></td>
+        <td class="sh-cell"><input class="sh-in" data-sh="rate" type="number" step="0.01" min="0" value="${it.rate}"></td>
+        <td class="sh-cell"><input class="sh-in" data-sh="qty" type="number" step="${qstep}" min="0" value="${it.qty}"></td>
+        <td class="sh-cell sh-unitcell"><select class="sh-sel" data-sh="unit">${units}</select></td>
+        <td class="sh-num sh-amt">${money(amt)}</td>
+        <td class="sh-num sh-share">${share.toFixed(0)}%</td>
+        <td class="sh-act"><button class="sh-del" data-ti-del type="button" title="Delete row">🗑</button></td>
+      </tr>`;
+    }).join('');
+    updateSubtotal(e);
+  }
+
+  // refresh amounts/shares/subtotal in place (keeps focus while typing a cell)
+  function refreshAmounts() {
+    const e = econ(work);
+    $$('#ti-sheet-rows .sh-row').forEach((row) => {
+      const it = work.ing[num(row.getAttribute('data-i'))]; if (!it) return;
+      const amt = e.rowAmt(it);
+      const a = $('.sh-amt', row); if (a) a.textContent = money(amt);
+      const sh = $('.sh-share', row); if (sh) sh.textContent = (e.ingAmtTotal ? amt / e.ingAmtTotal * 100 : 0).toFixed(0) + '%';
+    });
+    updateSubtotal(e);
+  }
+
+  function renderLadderMaking() {
+    const host = $('#ti-ladder-making'); if (!host) return;
+    host.innerHTML = work.making.map((m, i) =>
+      `<div class="sl-row sl-edit"><span>${esc(m.name)}</span><input class="sl-in" data-sh-mak="${i}" type="number" step="0.5" min="0" value="${round2(makPerKg(m))}"></div>`
+    ).join('');
+  }
+
+  function recompute() {
+    const e = econ(work), target = num(work.target);
+    const setT = (id, v) => { const el = $(id); if (el) el.textContent = v; };
+    const setV = (id, v) => { const el = $(id); if (el && el !== document.activeElement) el.value = v; };
+    setT('#ti-sh-ing', money(e.ingPerKg)); setT('#ti-sh-mfg', money(e.mfg)); setT('#ti-sh-sell', money(e.sell));
+    const under = e.sell <= target;
+    const head = target - e.sell, headPct = target ? head / target * 100 : 0;
+    const profit = target - e.mfg, profitPct = target ? profit / target * 100 : 0;
+    const pill = $('#ti-sh-pill'); if (pill) { pill.textContent = under ? 'Under target ✓' : 'Over target ✗'; pill.className = 'ti-pill ' + (under ? 'ok' : 'bad'); }
+    const note = $('#ti-sh-note');
+    if (note) note.textContent = (under
+      ? `${money(head)}/kg headroom (${headPct.toFixed(1)}% under target)`
+      : `${money(-head)}/kg over target — trim cost`) + ` · profit at target ${money(profit)}/kg (${profitPct.toFixed(0)}%)`;
+    setV('#ti-sh-markup', work.markup); setV('#ti-sh-target', work.target);
+    const d = e.sell - econ(base).sell, del = $('#ti-delta');
+    if (del) del.textContent = Math.abs(d) < 0.005 ? 'No change vs saved baseline'
+      : `Selling ${money(e.sell)}/kg — ${d < 0 ? '▼ ' : '▲ '}${money(Math.abs(d))}/kg vs saved`;
+  }
+
+  function load(key) {
+    if (!SEED[key]) return;
+    cur = key; work = clone(SEED[key]);
+    const f = work.basis === 'per1000g' ? 0.001 : 1;
+    work.ing.sort((a, b) => (b.rate * b.qty * f) - (a.rate * a.qty * f)); // biggest cost first
+    base = clone(work);
+    $$('[data-ti-prod]').forEach((b) => b.classList.toggle('sel', b.getAttribute('data-ti-prod') === key));
+    const mk = $('#ti-sh-markup'); if (mk) mk.value = work.markup;
+    const tg = $('#ti-sh-target'); if (tg) tg.value = work.target;
+    renderRows(); renderLadderMaking(); recompute();
+  }
+
+  function syncGrand(isTarget) {
+    const g = $('.grand'); if (!g) return;
+    g.style.display = isTarget ? 'none' : '';
+    const note = g.nextElementSibling; if (note) note.style.display = isTarget ? 'none' : '';
+  }
+
+  // ---- events (delegated) ----
+  document.addEventListener('click', (e) => {
+    const sub = e.target.closest('[data-costsub]');
+    if (sub) syncGrand(sub.getAttribute('data-costsub') === 'target');
+
+    const prod = e.target.closest('[data-ti-prod]');
+    if (prod) { e.preventDefault(); load(prod.getAttribute('data-ti-prod')); return; }
+
+    const rail = e.target.closest('.rl-item');
+    if (rail) { const k = RAIL[rail.getAttribute('data-recipe')]; if (k) load(k); }
+
+    if (e.target.closest('#ti-add')) {
+      e.preventDefault();
+      work.ing.push({ name: '', rate: 0, qty: 0, unit: work.basis === 'per1000g' ? 'g' : 'kg' });
+      renderRows(); recompute();
+      const rows = $$('#ti-sheet-rows .sh-row'); const last = rows[rows.length - 1];
+      const nm = last && $('.sh-name', last); if (nm) nm.focus();
+      const sc = $('.sheet-scroll'); if (sc) sc.scrollTop = sc.scrollHeight;
+      return;
+    }
+
+    const del = e.target.closest('[data-ti-del]');
+    if (del) {
+      e.preventDefault();
+      const row = del.closest('.sh-row'); if (!row) return;
+      work.ing.splice(num(row.getAttribute('data-i')), 1);
+      renderRows(); recompute(); return;
+    }
+
+    if (e.target.closest('#ti-reset')) {
+      e.preventDefault(); work = clone(base);
+      const mk = $('#ti-sh-markup'); if (mk) mk.value = work.markup;
+      const tg = $('#ti-sh-target'); if (tg) tg.value = work.target;
+      renderRows(); renderLadderMaking(); recompute(); return;
+    }
+    if (e.target.closest('#ti-apply')) {
+      e.preventDefault(); base = clone(work); recompute();
+      const del2 = $('#ti-delta'); if (del2) del2.textContent = 'Applied ✓ — baseline updated for ' + work.name;
+    }
+  });
+
+  function applyCell(t) {
+    if (t.matches('#ti-sh-markup')) { work.markup = num(t.value); recompute(); return; }
+    if (t.matches('#ti-sh-target')) { work.target = num(t.value); recompute(); return; }
+    if (t.matches('[data-sh-mak]')) {
+      const i = num(t.getAttribute('data-sh-mak')), v = num(t.value);
+      work.making[i].amount = work.basis === 'per1000g' ? v : v * (work.batchKg || 1);
+      recompute(); return;
+    }
+    const row = t.closest('.sh-row');
+    if (row && t.matches('[data-sh]')) {
+      const it = work.ing[num(row.getAttribute('data-i'))]; if (!it) return;
+      const f = t.getAttribute('data-sh');
+      if (f === 'rate' || f === 'qty') { it[f] = num(t.value); refreshAmounts(); recompute(); }
+      else { it[f] = t.value; }   // name / unit — cosmetic, no cost impact
+    }
+  }
+  document.addEventListener('input', (e) => applyCell(e.target));
+  document.addEventListener('change', (e) => { if (e.target.matches('[data-sh="unit"]')) applyCell(e.target); });
+
+  function boot() { load('cookies'); syncGrand(false); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();

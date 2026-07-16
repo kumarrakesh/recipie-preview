@@ -25,7 +25,7 @@
       </div>
       <div class="nav-group">
         <div class="nav-item"><span><span class="ic">🧩</span> Ingredients</span><span>⌄</span></div>
-        <div class="nav-sub"><a href="ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
+        <div class="nav-sub"><a href="_reference/ingredients-list.html">Ingredient List</a><a>Stock Request</a></div>
       </div>
       <div class="nav-item"><span class="ic">🧾</span> Invoice &amp; Payments</div>
       <div class="nav-item"><span class="ic">🔁</span> Purchase</div>
@@ -48,6 +48,7 @@
         <input class="input rail-search" id="rail-search" placeholder="Search recipes…">
         <div class="rail-list" id="rail-list">
           <a class="rl-item active" data-recipe="Premium Butter Cookies"><span class="rl-nm">Premium Butter Cookies</span><span class="rl-sub">3 versions · Active</span></a>
+          <a class="rl-item" data-recipe="Classic Noodles Masala"><span class="rl-nm">Classic Noodles Masala</span><span class="rl-sub">26 ingredients · Cost sheet</span></a>
           <a class="rl-item" data-recipe="Kaju Katli"><span class="rl-nm">Kaju Katli</span><span class="rl-sub">No recipe yet</span></a>
           <a class="rl-item" data-recipe="Garam Masala"><span class="rl-nm">Garam Masala</span><span class="rl-sub">4 inputs</span></a>
           <a class="rl-item" data-recipe="Turmeric Powder"><span class="rl-nm">Turmeric Powder</span><span class="rl-sub">No recipe yet</span></a>
@@ -192,6 +193,7 @@
             <a href="#" data-costsub="ing" class="on">Ingredients Cost</a>
             <a href="#" data-costsub="making">Making Cost</a>
             <a href="#" data-costsub="pack">Packaging Cost</a>
+            <a href="#" data-costsub="target">🎯 Target &amp; Margin</a>
           </div>
 
           <!-- Panel 1: ingredient cost (inline editable, scales with batch) -->
@@ -290,6 +292,46 @@
               </div><div class="save-row"><button class="btn btn-sm btn-primary" data-cost-save>✓ Save</button></div></div>
             </div>
             <div class="sec-total"><span>Total Packaging Cost</span><b data-sec-total>₹19.90</b></div>
+          </div>
+
+          <!-- Panel 4: Target & Margin — cost-iteration sheet (feedback-4.4 · desktop-only) -->
+          <div class="cost-sec ti-wrap" data-costpanel="target" hidden>
+            <div class="ti-sheet">
+              <!-- LEFT: editable, scrollable ingredient table -->
+              <div class="ti-tablecol">
+                <div class="ti-toolbar">
+                  <div>
+                    <span class="section-eyebrow">Cost iteration · hit your target price</span>
+                    <div class="muted small">Edit any cell directly · ＋ add or 🗑 delete rows · cost &amp; margin update live.</div>
+                  </div>
+                  <div class="ti-prod" id="ti-prod">
+                    <button class="chip sel" data-ti-prod="cookies">🍪 Premium Butter Cookies</button>
+                    <button class="chip" data-ti-prod="masala">🌶️ Classic Noodles Masala</button>
+                  </div>
+                </div>
+                <div class="sheet-scroll">
+                  <table class="sheet-grid">
+                    <thead><tr><th class="l">#</th><th class="l">Ingredient</th><th>Rate ₹/kg</th><th>Qty</th><th class="l">Unit</th><th>Amount ₹</th><th>%</th><th></th></tr></thead>
+                    <tbody id="ti-sheet-rows"></tbody>
+                    <tfoot><tr><td></td><td class="l">Sub-total</td><td></td><td></td><td></td><td class="sh-num" id="ti-sheet-subtotal">₹—</td><td colspan="2" class="l sh-subnote" id="ti-sheet-subnote">—</td></tr></tfoot>
+                  </table>
+                </div>
+                <div class="sheet-addbar"><button class="btn btn-sm" id="ti-add" type="button">＋ Add Ingredient</button></div>
+              </div>
+
+              <!-- RIGHT: sticky cost & margin widget -->
+              <div class="sheet-ladder">
+                <div class="sl-title">Cost &amp; margin · ₹ per kg</div>
+                <div class="sl-row"><span>Ingredient cost</span><b id="ti-sh-ing">₹—</b></div>
+                <div id="ti-ladder-making"></div>
+                <div class="sl-row sl-sub"><span>Sub-total · mfg cost</span><b id="ti-sh-mfg">₹—</b></div>
+                <div class="sl-row sl-edit"><span>Markup %</span><input class="sl-in" id="ti-sh-markup" type="number" step="1" min="0"></div>
+                <div class="sl-row sl-sell"><span>Selling price</span><b id="ti-sh-sell">₹—</b></div>
+                <div class="sl-row sl-edit"><span>Target · deal price</span><input class="sl-in" id="ti-sh-target" type="number" step="1" min="0"></div>
+                <div class="sl-status"><span class="ti-pill" id="ti-sh-pill">—</span><span class="muted small" id="ti-sh-note">—</span></div>
+                <div class="sl-foot"><span class="muted small" id="ti-delta">—</span><span class="flex gap8"><button class="btn btn-sm" id="ti-reset" type="button">↺ Reset</button><button class="btn btn-sm btn-primary" id="ti-apply" type="button">Apply</button></span></div>
+              </div>
+            </div>
           </div>
 
           <div class="grand"><span class="gl">Grand Total <span class="gnote" id="grand-note">at 100 kg</span></span><span class="gv" id="grand-total">₹3,099.90</span></div>
