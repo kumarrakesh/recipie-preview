@@ -266,33 +266,319 @@
     }
   });
 
-  /* ---------- production: batch-size validation + create batch ---------- */
-  const ALLOWED = [50, 100, 200]; // supported batch sizes (kg)
+  /* ================= production: two-stage planning =================
+     Stage A plans the PROCESS in kg; Stage B allocates that weight into SKUs (pcs).
+     The two never mix: a production order is never expressed in pieces (Rule 1),
+     a packaging order never in recipe quantities (Rule 2).
+
+     Batch weight is the single source of truth. Only `ratio` is stored per row —
+     weight and qty are derived from it, so the three can never drift apart. */
+
+  // Batch size is a validated NOMINAL the recipe was proven at, flexible within a quality
+  // tolerance (taste/texture unaffected inside the band). Beyond it the formulation has
+  // effectively changed → a dedicated recipe version. The band is the third optimisation
+  // lever (alongside ratio + lock): flexing the batch absorbs demand skew that no ratio
+  // split can remove. See addendum-007 D-P11.
+  const NOMINAL = 100;                       // recipe's validated batch weight (kg)
+  const BUF = 0.10;                          // ±10% quality tolerance
+  const EPS = 1e-9;
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const r2 = (n) => Math.round(n * 100) / 100;
+  const bandLo = () => r2(NOMINAL * (1 - BUF));   // 90
+  const bandHi = () => r2(NOMINAL * (1 + BUF));   // 110
+  const inBand = (v) => v >= bandLo() - EPS && v <= bandHi() + EPS;
+
+  // Variant master — net weight per unit (kg) + carton multiple + outstanding orders.
+  const VARIANTS = [
+    { id: '250g', name: '250g Pouch', sku: 'Cookies 250g', net: 0.25, multiple: 24, demand: 238 },
+    { id: '500g', name: '500g Pouch', sku: 'Cookies 500g', net: 0.5, multiple: 12, demand: 82 },
+    { id: '1kg', name: '1kg Box', sku: 'Cookies 1kg', net: 1, multiple: 6, demand: 7 },
+  ];
+  const STRATEGIES = {           // ratios must total 100
+    default: { '250g': 60, '500g': 30, '1kg': 10 },
+    festive: { '250g': 40, '500g': 35, '1kg': 25 },
+    bulk: { '250g': 20, '500g': 30, '1kg': 50 },
+  };
+
+  let mix = [];                  // [{...variant, ratio, locked}]
+  let carryNext = false;         // planner's decision: take the shortfall in a later batch
+
+  function loadStrategy(key) {
+    const s = STRATEGIES[key] || STRATEGIES.default;
+    mix = VARIANTS.map((v) => ({ ...v, ratio: s[v.id] || 0, locked: false }));
+  }
+
+  // #pb-size (Stage A) is the canonical value; #pb-size-sku is a synced mirror on the SKU
+  // tab (D-P12). render keeps the mirror in step, skipping whichever field has the caret.
+  const batchSize = () => num($('#pb-size') && $('#pb-size').value);
+  const setBatch = (v) => { const el = $('#pb-size'); if (el) el.value = r2(v); };
+  // Batch weight is the single source of truth (fb-03) and Batch Size *is* it.
+  const planWeight = () => batchSize();
+
+  const rowWeight = (r) => planWeight() * r.ratio / 100;
+  const rowQty = (r) => Math.floor((rowWeight(r) + EPS) / r.net);   // pieces are whole
+  const allocated = () => mix.reduce((s, r) => s + rowQty(r) * r.net, 0);
+
+  /* ---- automatic rebalancing (restored, D-P1) ----
+     Editing one row's ratio takes the delta off the LARGEST unlocked row first (fb-03's
+     own 60/30/10 → 55/35/10, not the pro-rata 55.71/9.29), spilling to the next only if a
+     row would go negative. Locked rows never move. Ratios always re-sum to 100. */
+  function rebalance(idx, wanted) {
+    const lockedSum = mix.reduce((s, r, i) => (i !== idx && r.locked ? s + r.ratio : s), 0);
+    const room = 100 - lockedSum;
+    const rr = clamp(wanted, 0, room);
+    mix[idx].ratio = rr;
+    const others = mix.filter((row, i) => i !== idx && !row.locked);
+    if (!others.length) return;
+    const pool = others.reduce((s, o) => s + o.ratio, 0);
+    let diff = (room - rr) - pool;
+    if (pool <= EPS && diff > 0) { others.forEach((o) => { o.ratio = diff / others.length; }); return; }
+    others.slice().sort((a, b) => b.ratio - a.ratio).forEach((o) => {
+      if (Math.abs(diff) < EPS) return;
+      const next = o.ratio + diff;
+      if (next >= -EPS) { o.ratio = Math.max(0, next); diff = 0; }
+      else { diff = next; o.ratio = 0; }
+    });
+    if (Math.abs(diff) > EPS) mix[idx].ratio = clamp(rr + diff, 0, room);
+  }
+
+  /* ---- Fit to Demand (restored, D-P5) — now with the batch lever (D-P11) ----
+     Flex the batch within the quality band to the demand weight, then meet each unlocked
+     variant's demand. When demand fits the band this hits demand EXACTLY — sidestepping
+     fb-03's contested pro-rata figures. Only when demand exceeds the max-band batch does
+     the shortfall get scaled + carried forward. Locked rows hold their ratio. */
+  function fitToDemand() {
+    const demandW = mix.reduce((s, r) => s + r.demand * r.net, 0);
+    const B = clamp(demandW, bandLo(), bandHi());      // flex batch within quality band
+    setBatch(B);
+    if (!B) return;
+
+    const lockedRatio = mix.reduce((s, r) => (r.locked ? s + r.ratio : s), 0);
+    const cap = B * (100 - lockedRatio) / 100;         // kg available to unlocked rows
+    const open = mix.filter((r) => !r.locked);
+    const uDemandW = open.reduce((s, r) => s + r.demand * r.net, 0);
+    const f = uDemandW > cap && uDemandW > EPS ? cap / uDemandW : 1;
+
+    open.forEach((r) => { const q = Math.floor(r.demand * f + EPS); r.ratio = (q * r.net) / B * 100; });
+    let left = cap - open.reduce((s, r) => s + B * r.ratio / 100, 0);
+    const byNet = open.slice().sort((a, b) => b.net - a.net);
+    for (let g = 0; g < 500 && left > EPS; g++) {
+      const r = byNet.find((v) => v.net <= left + EPS);
+      if (!r) break;
+      r.ratio = (B * r.ratio / 100 + r.net) / B * 100; left -= r.net;
+    }
+    renderMix();
+  }
+
+  /* ---- render ---- */
+  function renderMix() {
+    const host = $('#mix-rows'); if (!host) return;
+    const W = planWeight();
+
+    host.innerHTML = mix.map((r, i) => {
+      const w = rowWeight(r), q = rowQty(r);
+      const off = r.multiple > 1 && q % r.multiple !== 0 && q > 0;
+      const up = Math.ceil(q / r.multiple) * r.multiple, dn = Math.floor(q / r.multiple) * r.multiple;
+      const met = q >= r.demand;
+      return `<div class="mix-row ${r.locked ? 'locked' : ''} ${off ? 'off-multiple' : ''}" data-i="${i}">
+        <div class="vn">${r.name}<small>→ ${r.sku} · carton of ${r.multiple}</small></div>
+        <div class="mix-ro" data-cell="Net Weight">${r.net} kg</div>
+        <div data-cell="Ratio %"><input class="mix-in" data-f="ratio" type="number" min="0" max="100" step="0.1" value="${r2(r.ratio)}" ${r.locked ? 'readonly' : ''}></div>
+        <div data-cell="Weight kg"><input class="mix-in" data-f="weight" type="number" min="0" step="0.05" value="${r2(w)}" ${r.locked ? 'readonly' : ''}></div>
+        <div data-cell="Qty pcs"><input class="mix-in" data-f="qty" type="number" min="0" step="1" value="${q}" ${r.locked ? 'readonly' : ''}></div>
+        <div class="dem ${met ? 'met' : 'short'}" data-cell="Demand"><b>${r.demand}</b><small>${met ? 'met' : 'short ' + (r.demand - q)}</small></div>
+        <div class="ta-c"><button class="lock-btn" type="button" data-lock aria-pressed="${r.locked}" aria-label="${r.locked ? 'Unlock' : 'Lock'} ${r.name}">${r.locked ? '🔒' : '🔓'}</button></div>
+        ${off ? `<div class="mult-hint"><span>${q} pcs is not a full carton of ${r.multiple}.</span><span class="flex gap8"><button class="btn btn-sm" data-mult="${dn}">→ ${dn}</button><button class="btn btn-sm" data-mult="${up}">→ ${up}</button></span></div>` : ''}
+      </div>`;
+    }).join('');
+
+    const skuIn = $('#pb-size-sku');           // mirror of the batch size on this tab (D-P12)
+    if (skuIn && document.activeElement !== skuIn) skuIn.value = r2(W);
+    renderBand(W);
+    renderLedger(W);
+  }
+
+  /* batch-size quality band — meter on Stage A, inline note on the SKU tab */
+  function renderBand(W) {
+    const lo = bandLo(), hi = bandHi(), ok = inBand(W);
+    const mark = $('#band-mark'); if (mark) mark.style.left = clamp((W - lo) / (hi - lo), 0, 1) * 100 + '%';
+    const wrap = $('#pb-band'); if (wrap) wrap.classList.toggle('out', !ok);
+    const val = $('#band-val'); if (val) val.textContent = r2(W) + ' kg';
+    const note = $('#band-note-sku');
+    if (note) {
+      note.textContent = (ok ? '· within the ' : '· ⚠ beyond the ') + lo + '–' + hi + ' kg quality band';
+      note.classList.toggle('out', !ok);
+    }
+  }
+
+  /* The two ledgers the planner balances by hand. Each notice shows only when it needs a
+     decision — no KPI tiles (D-P8). */
+  function renderLedger(W) {
+    const res = r2(W - allocated());                                   // batch weight left
+    const outstanding = mix.reduce((s, r) => s + Math.max(0, r.demand - rowQty(r)), 0); // demand left
+    const over = res < -EPS;
+
+    show('#n-over', over);
+    if (over) { $('#over-kg').textContent = r2(-res) + ' kg'; $('#over-cap').textContent = r2(W) + ' kg'; }
+
+    show('#semi-note', !over && res > EPS);
+    $('#semi-kg').textContent = r2(Math.max(0, res)) + ' kg';
+
+    // "take the rest in the next batch" — offered only while it is still a live choice
+    show('#n-out', !over && outstanding > 0 && !carryNext);
+    $('#out-pcs').textContent = outstanding + ' pcs';
+    show('#n-carry', !over && outstanding > 0 && carryNext);
+    $('#carry-pcs').textContent = outstanding + ' pcs';
+    if (outstanding === 0) carryNext = false;
+
+    refreshCreate();
+  }
+  function show(sel, on) { const el = $(sel); if (el) el.hidden = !on; }
+
+  // Create is blocked by a batch size beyond the quality band OR an over-allocated plan.
+  function refreshCreate() {
+    const sizeOk = inBand(batchSize());
+    const over = r2(planWeight() - allocated()) < -EPS;
+    const btn = $('#create-batch'); if (btn) btn.disabled = !sizeOk || over;
+    const note = $('#pb-actnote');
+    if (note) {
+      // point at the other tab only when the problem is actually on the other tab
+      const on = ($('[data-prodsub].on') || {}).dataset;
+      const here = on ? on.prodsub : 'batch';
+      note.textContent = !sizeOk
+        ? '⚠ Batch size beyond quality tolerance' + (here === 'batch' ? '.' : ' — fix it on the Production Batch tab.')
+        : over
+          ? '⚠ The SKU plan exceeds the batch' + (here === 'sku' ? '.' : ' — fix it on the SKU Planning tab.')
+          : 'Batch numbers & QR are generated automatically.';
+      note.classList.toggle('note-bad', !sizeOk || over);
+    }
+  }
+
+  function renderProduction() { renderMix(); }
+
+  /* sub-tabs — same segmented pattern as the Cost tab */
+  function showProdSub(id) {
+    $$('[data-prodsub]').forEach((s) => s.classList.toggle('on', s.getAttribute('data-prodsub') === id));
+    $$('[data-prodpanel]').forEach((p) => { p.hidden = p.getAttribute('data-prodpanel') !== id; });
+  }
+  document.addEventListener('click', (e) => {
+    const s = e.target.closest('[data-prodsub]');
+    if (s) { e.preventDefault(); showProdSub(s.getAttribute('data-prodsub')); refreshCreate(); }
+  });
+
   function validateBatch() {
     const sel = $('#pb-size'); if (!sel) return true;
-    const v = num(sel.value);
-    const ok = ALLOWED.includes(v);
+    const ok = inBand(num(sel.value));
     const warn = $('#batch-warn'); if (warn) warn.classList.toggle('on', !ok);
-    const btn = $('#create-batch'); if (btn) btn.disabled = !ok;
+    refreshCreate();   // the disabled reason is carried to the always-visible action bar
     return ok;
   }
-  document.addEventListener('change', (e) => { if (e.target.matches('#pb-size')) validateBatch(); });
+
+  /* ---- batch-size inputs (two synced surfaces, D-P12) ---- */
+  // Editing batch size rescales the whole SKU plan — the pivot AND the third lever.
+  document.addEventListener('input', (e) => {
+    if (e.target.matches('#pb-size')) { validateBatch(); renderProduction(); }
+    else if (e.target.matches('#pb-size-sku')) {           // SKU-tab mirror → canonical
+      const el = $('#pb-size'); if (el) el.value = e.target.value;
+      validateBatch(); renderProduction();
+    }
+  });
+
+  /* ---- Stage B: per-row editing (ratio ⇄ weight ⇄ qty), auto-rebalanced ----
+     Whichever of the three the planner types, the other two follow (fb-03 Steps 2/3 +
+     Reverse Calculation); the delta is then absorbed by the other unlocked rows so ratios
+     re-sum to 100 (D-P1). Every row stores just its ratio (D-P3). */
+  function setRow(i, ratio) { if (!mix[i].locked) { rebalance(i, ratio); renderMix(); } }
+
+  document.addEventListener('change', (e) => {
+    const inp = e.target.closest('.mix-in'); if (!inp) return;
+    const i = +inp.closest('.mix-row').dataset.i;
+    const r = mix[i]; if (r.locked) return;
+    const W = planWeight(), v = Math.max(0, num(inp.value));
+
+    if (inp.dataset.f === 'ratio') setRow(i, v);
+    else if (inp.dataset.f === 'weight') setRow(i, W ? v / W * 100 : 0);
+    else setRow(i, W ? (v * r.net) / W * 100 : 0);      // qty → weight → ratio
+  });
+
+  document.addEventListener('click', (e) => {
+    const lock = e.target.closest('[data-lock]');
+    if (lock) {
+      e.preventDefault();
+      const i = +lock.closest('.mix-row').dataset.i;
+      mix[i].locked = !mix[i].locked;
+      renderMix();
+      return;
+    }
+    const mult = e.target.closest('[data-mult]');       // round to a full carton
+    if (mult) {
+      e.preventDefault();
+      const i = +mult.closest('.mix-row').dataset.i, W = planWeight();
+      setRow(i, W ? (num(mult.dataset.mult) * mix[i].net) / W * 100 : 0);
+    }
+  });
+
+  document.addEventListener('change', (e) => {
+    if (e.target.matches('#mix-strategy')) { loadStrategy(e.target.value); renderMix(); }
+  });
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#mix-reset')) { e.preventDefault(); loadStrategy($('#mix-strategy').value); renderMix(); }
+    if (e.target.closest('#mix-demand')) { e.preventDefault(); fitToDemand(); }   // flex batch + meet demand
+    // the planner's call: take the shortfall in a later batch, or don't
+    if (e.target.closest('#carry')) { e.preventDefault(); carryNext = true; renderMix(); }
+    if (e.target.closest('#carry-undo')) { e.preventDefault(); carryNext = false; renderMix(); }
+  });
+
+  /* ---- create the production order ---- */
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#create-batch')) return;
     e.preventDefault();
     if (!validateBatch()) return;
-    const n = 180 + Math.floor(Math.random() * 40);
-    const no = 'PB-2026-' + String(n).padStart(5, '0');
+
+    const no = 'PO-2026-' + String(180 + Math.floor(Math.random() * 40)).padStart(5, '0');
     $('#pb-number').textContent = no;
+
+    // Stage A → one batch of the selected size (kg). Numbers are immutable once created (Rule 8).
+    const B = batchSize();
+    const batches = [{ no: 'PB-2026-' + String(1820).padStart(5, '0'), kg: B, left: B }];
+
+    $('#ord-batches').innerHTML = batches.map((b) =>
+      `<div class="ord-line"><span><span class="ol-n">${b.no}</span> <span class="ol-m">· ${$('#pb-ver').value}</span></span><span class="ol-v">${b.kg} kg</span></div>`
+    ).join('');
+
+    // Stage B → packaging orders (pcs), each traceable to the batch it consumes (Rule 6).
+    let pk = 1, out = '';
+    mix.forEach((r) => {
+      let q = rowQty(r); if (!q) return;
+      for (const b of batches) {
+        if (q <= 0) break;
+        const fits = Math.floor((b.left + EPS) / r.net);
+        if (fits <= 0) continue;
+        const take = Math.min(q, fits);
+        b.left = r2(b.left - take * r.net); q -= take;
+        out += `<div class="ord-line"><span><span class="ol-n">PK-2026-${String(pk++).padStart(3, '0')}</span> <span class="ol-m">· ${r.sku} · from ${b.no}</span></span><span class="ol-v">${take} pcs · ${r2(take * r.net)} kg</span></div>`;
+      }
+    });
+    const res = r2(batches.reduce((s, b) => s + b.left, 0));
+    if (res > EPS) out += `<div class="ord-line"><span><span class="ol-n">SEMI-FINISHED</span> <span class="ol-m">· unpacked — available for a later packaging order</span></span><span class="ol-v">${res} kg</span></div>`;
+
+    // the planner's carry-forward decision, recorded on the order (not planned here)
+    const outstanding = mix.reduce((s, r) => s + Math.max(0, r.demand - rowQty(r)), 0);
+    if (carryNext && outstanding > 0) {
+      out += `<div class="ord-line ol-carry"><span><span class="ol-n">CARRY FORWARD</span> <span class="ol-m">· outstanding demand — to be planned as a later batch</span></span><span class="ol-v">${outstanding} pcs</span></div>`;
+    }
+    $('#ord-packs').innerHTML = out;
+
     const card = $('#order-card'); if (card) card.classList.add('on');
     const qr = $('#pb-qr');
     if (qr && FB.renderQR) {
-      qr.setAttribute('data-qr-payload', 'recipe=PBC;ver=V4.2;batch=' + $('#pb-size').value + ';no=' + no);
+      qr.setAttribute('data-qr-payload', 'recipe=PBC;ver=' + $('#pb-ver').value + ';batch=' + B + ';no=' + no);
       qr.setAttribute('data-qr-size', '108');
       FB.renderQR(qr);
     }
     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
+
   // "create new recipe version" from the validation warning
   document.addEventListener('click', (e) => {
     if (e.target.closest('[data-warn-newver]')) { e.preventDefault(); FB.openDrawer && FB.openDrawer('drawer-newversion'); }
@@ -310,7 +596,10 @@
     showCostSub('ing');
     drawBars();
     renderCost();
+    showProdSub('batch');
     validateBatch();
+    loadStrategy('default');
+    renderProduction();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();

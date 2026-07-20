@@ -126,6 +126,73 @@ input,select{font-family:inherit}
 .chip{padding:11px 15px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-weight:700;color:var(--tx2);background:#fff}
 .chip.sel{border-color:var(--teal);background:var(--teal-50);color:var(--teal)}
 
+/* two-stage headers */
+.stage-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.stage-sub{font-size:12px;color:var(--tx2);margin:2px 0 8px}
+.stag{font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.stag-kg{background:var(--teal-50);color:var(--teal);border:1px solid var(--teal)}
+.stag-pcs{background:#FFF7ED;color:#9A3412;border:1px solid #FDBA74}
+.hint{font-size:11px;color:var(--tx2);margin-top:6px;line-height:1.45}
+/* the batch weight this stage divides — context, not a metric */
+.pivot{font-size:11.5px;color:var(--tx2);margin:-4px 0 8px}
+.pivot b{color:var(--teal);font-weight:800}
+.pivot-edit{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pivot-edit .pe-label{font-weight:800;color:var(--tx)}
+.num-in-sm{width:108px}
+.num-in-sm .inp{padding:9px 30px 9px 10px;font-weight:800;font-size:14px}
+.num-in-sm .num-suffix{right:10px;font-size:12px}
+.pe-note{font-size:11px;color:var(--tx2)}
+.pe-note.out{color:#991B1B;font-weight:700}
+
+/* packaging mix — stacked cards, never a wide table on a phone */
+.mrow{border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;background:#fff}
+.mrow.locked{background:#FAFBFC}
+.mrow-h{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+.mrow-h .vn{font-size:14px;font-weight:800}
+.mrow-h .vn small{display:block;font-size:11px;font-weight:500;color:var(--tx2);margin-top:2px}
+.lock-btn{width:40px;height:36px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:15px;flex:none}
+.lock-btn[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.mtrio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.mrow.locked .mtrio input{background:#F1F5F9;color:var(--tx2)}
+.num-in{position:relative;display:flex;align-items:center}
+.num-in .inp{padding-right:32px}
+.num-suffix{position:absolute;right:12px;font-size:13px;font-weight:700;color:var(--tx2);pointer-events:none}
+.band{margin-top:8px}
+.band-row{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--tx2);margin-bottom:5px}
+.band-row b{color:var(--tx);font-weight:800}
+.band-val{font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
+.band-track{position:relative;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--red-50) 0,#ECFDF5 14%,#ECFDF5 86%,var(--red-50) 100%);border:1px solid var(--border)}
+.band-mark{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:var(--teal);border:2px solid #fff;box-shadow:0 0 0 1px var(--teal);transform:translate(-50%,-50%);transition:left .12s}
+.band.out .band-val{color:#991B1B}
+.band.out .band-mark{background:#991B1B;box-shadow:0 0 0 1px #991B1B}
+.mtrio label{display:block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--tx2);margin-bottom:4px}
+.mtrio input{width:100%;text-align:right;padding:9px 8px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-weight:700;background:#fff}
+.mdem{display:flex;align-items:center;justify-content:space-between;margin-top:9px;font-size:12px;color:var(--tx2)}
+.mdem b{font-weight:800}
+.mdem.met b{color:var(--green)}
+.mdem.short b{color:#B45309}
+.mult-hint{display:none;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px;color:#9A3412;background:#FFF7ED;border:1px solid #FDBA74;border-radius:10px;padding:7px 9px;margin-top:9px}
+.mrow.off-multiple .mult-hint{display:flex}
+.mult-hint .chip{padding:4px 9px;font-size:11px}
+.mnote{font-size:11.5px;color:var(--tx2);line-height:1.45;margin:2px 0 10px}
+/* notices — persistent across both sub-tabs; each shows only when it needs a decision */
+.notices{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.nb{font-size:11.5px;line-height:1.5;color:var(--tx2);border-left:3px solid var(--teal);padding:8px 10px;background:#FAFEFF;border-radius:0 8px 8px 0}
+.nb[hidden]{display:none}
+.nb b{font-weight:800;color:var(--tx)}
+.nb-act,.nb-ok{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nb-act{border-left-color:#FDBA74;background:#FFF7ED;color:#9A3412}
+.nb-act b{color:#9A3412}
+.nb-ok{border-left-color:var(--green);background:#F0FDF4;color:#166534}
+.nb-ok b{color:#166534}
+.nb-bad{border-left-color:#DC2626;background:var(--red-50);color:#991B1B;font-weight:600}
+.nb-bad b{color:#991B1B}
+.nb .chip{padding:5px 10px;font-size:11.5px;flex:none}
+/* live summary — persistent across both production sub-tabs */
+.abar{flex-wrap:wrap}
+.abar-note{width:100%;font-size:11.5px;font-weight:700;color:#991B1B;margin-bottom:2px}
+.abar-note[hidden]{display:none}
+
 /* success screen */
 .success{display:none;position:absolute;inset:0;background:var(--green-600);color:#fff;z-index:60;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;animation:slideup .4s cubic-bezier(.4,0,.2,1)}
 .success.on{display:flex}
@@ -354,23 +421,75 @@ input,select{font-family:inherit}
     </section>
 
     <!-- ===== PRODUCTION ===== -->
+    <!-- Two stages, never one form (feedback-02): A plans the process in kg,
+         B allocates that weight into SKUs in pcs. -->
     <section class="screen" data-screen="production">
-      <div class="eyebrow">Create production batch</div>
+
+      <!-- staged as sub-tabs, mirroring the Cost screen's segmented control -->
+      <div class="csub">
+        <button class="on" data-prodsub="batch">Batch · kg</button>
+        <button data-prodsub="sku">SKU Planning · pcs</button>
+      </div>
+
+      <!-- Stage A · process manufacturing (kg) -->
+      <div data-prodpanel="batch">
+      <div class="stage-hd"><span class="eyebrow">Production Batch</span><span class="stag stag-kg">kg</span></div>
+      <div class="stage-sub">Process manufacturing — planned in kg, never in pieces.</div>
       <div class="card">
-        <div class="fld"><label>Recipe Version</label><select class="inp"><option>V4.2 — Premium Butter</option><option>V4.1 — Butter Base</option></select></div>
+        <div class="fld"><label>Recipe Version</label><select class="inp" id="pb-ver"><option>V4.2 — Premium Butter</option><option>V4.1 — Butter Base</option></select></div>
+        <!-- Batch Size = batch weight, editable within a quality band (D-P11). -->
         <div class="fld"><label>Batch Size</label>
-          <div class="chips" id="size-chips">
-            <button class="chip sel" data-size="50">50kg</button>
-            <button class="chip" data-size="100">100kg</button>
-            <button class="chip" data-size="200">200kg</button>
-            <button class="chip" data-size="75">75kg</button>
+          <div class="num-in"><input class="inp" id="pb-size" type="number" min="1" step="0.5" value="100"><span class="num-suffix">kg</span></div>
+          <div class="band" id="pb-band">
+            <div class="band-row"><span>Quality band <b>90–110 kg</b> (±10%)</span><span class="band-val" id="band-val">100 kg</span></div>
+            <div class="band-track"><i class="band-mark" id="band-mark"></i></div>
           </div>
-          <div class="warn" id="batch-warn">Batch size not supported. Create a dedicated recipe version.<br><button class="chip" style="margin-top:8px" data-sheet-open="sheet-newver">＋ Create New Recipe Version</button></div>
+          <div class="warn" id="batch-warn">Beyond the quality tolerance — taste &amp; texture would change. Stay within the band, or create a dedicated recipe version.<br><button class="chip" style="margin-top:8px" data-sheet-open="sheet-newver">＋ Create New Recipe Version</button></div>
         </div>
-        <div class="fld"><label>Packaging / Variant</label><select class="inp"><option>250g Pouch → Cookies 250g</option><option>100g Pouch → Cookies 100g</option><option>Bulk Pack</option></select></div>
-        <div class="fld"><label>Production Date</label><input class="inp" type="date"></div>
+        <div class="fld"><label>Planned Date</label><input class="inp" type="date"></div>
+        <div class="fld"><label>Expected Finish Date</label><input class="inp" id="pb-finish" type="date">
+          <div class="hint">Packaging may run hours or days after production (Rule 4).</div>
+        </div>
         <div class="fld"><label>Operator</label><select class="inp"><option>Current User · Dharmendar Ji</option></select></div>
         <div class="fld"><label>Batch Number</label><div class="out">AUTO · on create</div></div>
+      </div>
+      </div><!-- /stage A panel -->
+
+      <!-- Stage B · packaging manufacturing (pcs) -->
+      <div data-prodpanel="sku" hidden>
+      <div class="stage-hd"><span class="eyebrow">SKU Planning</span><span class="stag stag-pcs">pcs</span></div>
+      <div class="stage-sub">Converts the manufactured weight into finished SKUs.</div>
+      <!-- batch size — editable here too, synced to the Batch sub-tab (D-P12) -->
+      <div class="pivot pivot-edit">
+        <span class="pe-label">Batch size</span>
+        <span class="num-in num-in-sm"><input class="inp" id="pb-size-sku" type="number" min="1" step="0.5" value="100"><span class="num-suffix">kg</span></span>
+        <span class="pe-note" id="band-note-sku">· within 90–110 kg band</span>
+      </div>
+      <div class="card">
+        <div class="fld"><label>Packaging Strategy</label>
+          <select class="inp" id="mix-strategy">
+            <option value="default" selected>Default Mix · 60 / 30 / 10</option>
+            <option value="festive">Festive Mix · 40 / 35 / 25</option>
+            <option value="bulk">Bulk-led Mix · 20 / 30 / 50</option>
+          </select>
+          <div class="hint">Seeds the mix. Editing a row rebalances the rest; lock a row to hold it.</div>
+        </div>
+        <div class="chips" style="margin-bottom:4px">
+          <button class="chip" id="mix-demand">◎ Fit to Demand</button>
+          <button class="chip" id="mix-reset">↺ Reset</button>
+        </div>
+        <div id="mix-rows"></div>
+        <div class="mnote"><b>Fit to Demand</b> flexes the batch within its band and balances the mix to orders. Edit any cell to adjust — unlocked rows rebalance to 100%.</div>
+      </div>
+      </div><!-- /stage B panel -->
+
+      <!-- No KPI strip (D-P8). Each notice shows only when it needs a decision.
+           Persistent across both sub-tabs; per-row Demand covers fulfilment. -->
+      <div class="notices">
+        <div class="nb nb-bad" id="n-over" hidden>⚠ Over-allocated by <b id="over-kg">0 kg</b> — this batch holds <b id="over-cap">100 kg</b>. Reduce quantities until the plan fits.</div>
+        <div class="nb" id="semi-note" hidden><b id="semi-kg">0 kg</b> of the batch is unallocated → <b>Semi Finished Inventory</b>, pack it later (Rule 5).</div>
+        <div class="nb nb-act" id="n-out" hidden><span><b id="out-pcs">0 pcs</b> of demand won't fit this batch.</span><button class="chip" id="carry">＋ Carry to next batch</button></div>
+        <div class="nb nb-ok" id="n-carry" hidden><span>Carrying <b id="carry-pcs">0 pcs</b> to the next batch.</span><button class="chip" id="carry-undo">✕</button></div>
       </div>
     </section>
   </div>
@@ -384,7 +503,9 @@ input,select{font-family:inherit}
     <button class="btn btn-t" data-screen-go="production">Go to Production →</button>
   </div>
   <div class="abar" data-abar="production" hidden>
-    <button class="btn btn-t" id="create-batch">Create Batch</button>
+    <!-- the batch-size alert lives on the Batch sub-tab; carry its reason to the sticky bar -->
+    <span class="abar-note" id="pb-actnote" hidden>⚠ Unsupported batch size — fix it on the Batch tab.</span>
+    <button class="btn btn-t" id="create-batch">Create Production Order</button>
   </div>
 
   <!-- footer 3 tabs -->
@@ -610,18 +731,189 @@ input,select{font-family:inherit}
       var cv=l.querySelector('.cv'); l.setAttribute('data-amt',num(e.target.value)); cost();}
   });
 
-  /* production: batch size validation + create */
-  var ALLOWED=[50,100,200];
-  document.addEventListener('click',function(e){
-    var c=e.target.closest('#size-chips .chip'); if(!c)return;
-    $$('#size-chips .chip').forEach(function(x){x.classList.toggle('sel',x===c)});
-    var ok=ALLOWED.indexOf(num(c.getAttribute('data-size')))>-1;
+  /* ===== production: two-stage planning (mirrors recipe-v4.js) =====
+     Stage A in kg, Stage B in pcs. Only `ratio` is stored per row; weight and qty
+     are derived from batch weight, so the three can never drift apart. */
+  var NOMINAL=100, BUF=0.10, EPS=1e-9;   // batch nominal + ±10% quality tolerance (D-P11)
+  function clamp(v,lo,hi){return Math.min(hi,Math.max(lo,v))}
+  function r2(n){return Math.round(n*100)/100}
+  function bandLo(){return r2(NOMINAL*(1-BUF))}
+  function bandHi(){return r2(NOMINAL*(1+BUF))}
+  function inBand(v){return v>=bandLo()-EPS&&v<=bandHi()+EPS}
+
+  var VARIANTS=[
+    {id:'250g',name:'250g Pouch',sku:'Cookies 250g',net:0.25,multiple:24,demand:238},
+    {id:'500g',name:'500g Pouch',sku:'Cookies 500g',net:0.5,multiple:12,demand:82},
+    {id:'1kg',name:'1kg Box',sku:'Cookies 1kg',net:1,multiple:6,demand:7}
+  ];
+  var STRATEGIES={default:{'250g':60,'500g':30,'1kg':10},festive:{'250g':40,'500g':35,'1kg':25},bulk:{'250g':20,'500g':30,'1kg':50}};
+  var mix=[], carryNext=false;   // carryNext: planner takes the shortfall in a later batch
+  function loadStrategy(k){
+    var s=STRATEGIES[k]||STRATEGIES.default;
+    mix=VARIANTS.map(function(v){var o={};for(var p in v)o[p]=v[p];o.ratio=s[v.id]||0;o.locked=false;return o});
+  }
+  /* #pb-size (Batch tab) is canonical; #pb-size-sku mirrors it on the SKU tab (D-P12). */
+  function batchSize(){return num($('#pb-size')&&$('#pb-size').value)}
+  function setBatch(v){var el=$('#pb-size'); if(el)el.value=r2(v)}
+  function planWeight(){return batchSize()}
+  function rowWeight(r){return planWeight()*r.ratio/100}
+  function rowQty(r){return Math.floor((rowWeight(r)+EPS)/r.net)}
+  function allocated(){return mix.reduce(function(s,r){return s+rowQty(r)*r.net},0)}
+
+  /* auto-rebalance (restored, D-P1) — delta off the largest unlocked row, ratios re-sum to 100 */
+  function rebalance(idx,wanted){
+    var lockedSum=mix.reduce(function(s,r,i){return i!==idx&&r.locked?s+r.ratio:s},0);
+    var room=100-lockedSum, rr=clamp(wanted,0,room);
+    mix[idx].ratio=rr;
+    var others=mix.filter(function(row,i){return i!==idx&&!row.locked});
+    if(!others.length)return;
+    var pool=others.reduce(function(s,o){return s+o.ratio},0);
+    var diff=(room-rr)-pool;
+    if(pool<=EPS&&diff>0){others.forEach(function(o){o.ratio=diff/others.length});return}
+    others.slice().sort(function(a,b){return b.ratio-a.ratio}).forEach(function(o){
+      if(Math.abs(diff)<EPS)return;
+      var next=o.ratio+diff;
+      if(next>=-EPS){o.ratio=Math.max(0,next);diff=0}else{diff=next;o.ratio=0}
+    });
+    if(Math.abs(diff)>EPS)mix[idx].ratio=clamp(rr+diff,0,room);
+  }
+
+  /* Fit to Demand (restored, D-P5) with the batch lever (D-P11): flex batch to demand weight
+     within the quality band, then meet each unlocked variant's demand. */
+  function fitToDemand(){
+    var demandW=mix.reduce(function(s,r){return s+r.demand*r.net},0);
+    var B=clamp(demandW,bandLo(),bandHi());
+    setBatch(B); if(!B)return;
+    var lockedRatio=mix.reduce(function(s,r){return r.locked?s+r.ratio:s},0);
+    var cap=B*(100-lockedRatio)/100;
+    var open=mix.filter(function(r){return !r.locked});
+    var uDemandW=open.reduce(function(s,r){return s+r.demand*r.net},0);
+    var f=(uDemandW>cap&&uDemandW>EPS)?cap/uDemandW:1;
+    open.forEach(function(r){var q=Math.floor(r.demand*f+EPS);r.ratio=(q*r.net)/B*100});
+    var left=cap-open.reduce(function(s,r){return s+B*r.ratio/100},0);
+    var byNet=open.slice().sort(function(a,b){return b.net-a.net});
+    for(var g=0;g<500&&left>EPS;g++){
+      var hit=null;
+      for(var i=0;i<byNet.length;i++){if(byNet[i].net<=left+EPS){hit=byNet[i];break}}
+      if(!hit)break;
+      hit.ratio=(B*hit.ratio/100+hit.net)/B*100; left-=hit.net;
+    }
+    renderMix();
+  }
+
+  function renderBand(W){
+    var lo=bandLo(),hi=bandHi(),ok=inBand(W);
+    var mark=$('#band-mark'); if(mark)mark.style.left=(clamp((W-lo)/(hi-lo),0,1)*100)+'%';
+    var wrap=$('#pb-band'); if(wrap)wrap.classList.toggle('out',!ok);
+    var val=$('#band-val'); if(val)val.textContent=r2(W)+' kg';
+    var note=$('#band-note-sku');
+    if(note){note.textContent=(ok?'· within ':'· ⚠ beyond ')+lo+'–'+hi+' kg band';note.classList.toggle('out',!ok)}
+  }
+
+  function renderMix(){
+    var host=$('#mix-rows'); if(!host)return;
+    var W=planWeight();
+    host.innerHTML=mix.map(function(r,i){
+      var w=rowWeight(r),q=rowQty(r);
+      var off=r.multiple>1&&q%r.multiple!==0&&q>0;
+      var up=Math.ceil(q/r.multiple)*r.multiple,dn=Math.floor(q/r.multiple)*r.multiple;
+      var met=q>=r.demand;
+      return '<div class="mrow '+(r.locked?'locked':'')+' '+(off?'off-multiple':'')+'" data-i="'+i+'">'
+        +'<div class="mrow-h"><span class="vn">'+r.name+'<small>→ '+r.sku+' · '+r.net+' kg · carton of '+r.multiple+'</small></span>'
+        +'<button class="lock-btn" type="button" data-lock aria-pressed="'+r.locked+'">'+(r.locked?'🔒':'🔓')+'</button></div>'
+        +'<div class="mtrio">'
+        +'<div><label>Ratio %</label><input data-f="ratio" type="number" min="0" max="100" step="0.1" value="'+r2(r.ratio)+'"'+(r.locked?' readonly':'')+'></div>'
+        +'<div><label>Weight kg</label><input data-f="weight" type="number" min="0" step="0.05" value="'+r2(w)+'"'+(r.locked?' readonly':'')+'></div>'
+        +'<div><label>Qty pcs</label><input data-f="qty" type="number" min="0" step="1" value="'+q+'"'+(r.locked?' readonly':'')+'></div>'
+        +'</div>'
+        +'<div class="mdem '+(met?'met':'short')+'"><span>Demand</span><span><b>'+r.demand+'</b> · '+(met?'met':'short '+(r.demand-q))+'</span></div>'
+        +(off?'<div class="mult-hint"><span>'+q+' pcs ≠ full carton of '+r.multiple+'</span><span class="chips"><button class="chip" data-mult="'+dn+'">→ '+dn+'</button><button class="chip" data-mult="'+up+'">→ '+up+'</button></span></div>':'')
+        +'</div>';
+    }).join('');
+
+    var skuIn=$('#pb-size-sku');               // mirror of batch size on this tab (D-P12)
+    if(skuIn&&document.activeElement!==skuIn)skuIn.value=r2(W);
+    renderBand(W);
+    renderLedger(W);
+  }
+
+  /* the two ledgers the planner balances by hand — each notice shows only when it needs a decision */
+  function renderLedger(W){
+    var res=r2(W-allocated());
+    var outstanding=mix.reduce(function(s,r){return s+Math.max(0,r.demand-rowQty(r))},0);
+    var over=res<-EPS;
+    show('#n-over',over);
+    if(over){$('#over-kg').textContent=r2(-res)+' kg';$('#over-cap').textContent=r2(W)+' kg'}
+    show('#semi-note',!over&&res>EPS);
+    $('#semi-kg').textContent=r2(Math.max(0,res))+' kg';
+    show('#n-out',!over&&outstanding>0&&!carryNext);
+    $('#out-pcs').textContent=outstanding+' pcs';
+    show('#n-carry',!over&&outstanding>0&&carryNext);
+    $('#carry-pcs').textContent=outstanding+' pcs';
+    if(outstanding===0)carryNext=false;
+    refreshCreate();
+  }
+  function show(sel,on){var el=$(sel); if(el)el.hidden=!on}
+
+  /* Create is blocked by a batch beyond the quality band OR an over-allocated plan. */
+  function refreshCreate(){
+    var sizeOk=inBand(batchSize());
+    var over=r2(planWeight()-allocated())<-EPS;
+    var b=$('#create-batch'); b.style.opacity=(sizeOk&&!over)?'1':'.5'; b.disabled=!sizeOk||over;
+    var n=$('#pb-actnote');
+    n.hidden=sizeOk&&!over;
+    /* point at the other tab only when the problem is on the other tab */
+    var act=$('[data-prodsub].on'), here=act?act.getAttribute('data-prodsub'):'batch';
+    n.textContent=!sizeOk?('⚠ Batch size beyond quality tolerance'+(here==='batch'?'.':' — fix it on the Batch tab.'))
+      :('⚠ The SKU plan exceeds the batch'+(here==='sku'?'.':' — fix it on the SKU Planning tab.'));
+  }
+  function renderProduction(){renderMix()}
+
+  function validateBatch(){
+    var ok=inBand(batchSize());
     $('#batch-warn').classList.toggle('on',!ok);
-    $('#create-batch').style.opacity=ok?'1':'.5'; $('#create-batch').disabled=!ok;
+    refreshCreate();   // the alert itself sits on the Batch sub-tab
+    return ok;
+  }
+
+  /* sub-tabs — same segmented pattern as the Cost screen */
+  function showProdSub(id){
+    $$('[data-prodsub]').forEach(function(s){s.classList.toggle('on',s.getAttribute('data-prodsub')===id)});
+    $$('[data-prodpanel]').forEach(function(p){p.hidden=p.getAttribute('data-prodpanel')!==id});
+  }
+  document.addEventListener('click',function(e){
+    var s=e.target.closest('[data-prodsub]'); if(s){showProdSub(s.getAttribute('data-prodsub'));refreshCreate()}
+  });
+
+  document.addEventListener('input',function(e){
+    if(e.target.matches('#pb-size')){validateBatch(); renderProduction();}
+    else if(e.target.matches('#pb-size-sku')){var el=$('#pb-size'); if(el)el.value=e.target.value; validateBatch(); renderProduction();}
+  });
+  document.addEventListener('change',function(e){
+    if(e.target.matches('#mix-strategy')){loadStrategy(e.target.value);renderMix()}
+    /* per-row ratio ⇄ weight ⇄ qty, then auto-rebalance the rest (D-P1) */
+    var inp=e.target.closest('.mtrio input'); if(!inp)return;
+    var i=+inp.closest('.mrow').getAttribute('data-i'), r=mix[i]; if(r.locked)return;
+    var W=planWeight(), v=Math.max(0,num(inp.value)), f=inp.getAttribute('data-f'), ratio;
+    if(f==='ratio')ratio=v; else if(f==='weight')ratio=W?v/W*100:0; else ratio=W?(v*r.net)/W*100:0;
+    setRow(i,ratio);
+  });
+  function setRow(i,ratio){if(!mix[i].locked){rebalance(i,ratio);renderMix()}}
+  document.addEventListener('click',function(e){
+    var lock=e.target.closest('[data-lock]');
+    if(lock){var li=+lock.closest('.mrow').getAttribute('data-i');mix[li].locked=!mix[li].locked;renderMix();return}
+    var m=e.target.closest('[data-mult]');
+    if(m){var j=+m.closest('.mrow').getAttribute('data-i'),W=planWeight();
+      setRow(j,W?(num(m.getAttribute('data-mult'))*mix[j].net)/W*100:0); return}
+    if(e.target.closest('#mix-reset')){loadStrategy($('#mix-strategy').value);renderMix()}
+    if(e.target.closest('#mix-demand')){fitToDemand()}
+    /* the planner's call: take the shortfall in a later batch, or don't */
+    if(e.target.closest('#carry')){carryNext=true;renderMix()}
+    if(e.target.closest('#carry-undo')){carryNext=false;renderMix()}
   });
   document.addEventListener('click',function(e){
     if(!e.target.closest('#create-batch')||e.target.closest('#create-batch').disabled)return;
-    var no='PB-2026-'+String(180+Math.floor(Math.random()*40)).padStart(5,'0');
+    var no='PO-2026-'+String(180+Math.floor(Math.random()*40)).padStart(5,'0');
     $('#s-pb').textContent=no; drawQR($('#s-qr'),'recipe=PBC;ver=V4.2;'+no);
     $('#success').classList.add('on');
   });
@@ -660,6 +952,7 @@ input,select{font-family:inherit}
   }
 
   bars(); cost();
+  showProdSub('batch'); loadStrategy('default'); validateBatch(); renderProduction();
 })();
 </script>
 </body>

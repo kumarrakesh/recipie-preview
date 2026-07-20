@@ -339,34 +339,147 @@
         </section>
 
         <!-- ============ TAB 3: PRODUCTION ============ -->
+        <!-- Two stages, never one form (feedback-02): Section A plans the PROCESS in kg;
+             Section B plans PACKAGING in pcs. Rule 1/2 — a production order is never
+             expressed in SKU quantities, a packaging order never in recipe quantities. -->
         <section class="v4-panel" data-v4panel="production" hidden>
-          <div class="section-eyebrow mb8">Create a production batch order</div>
-          <div class="prod-form">
-            <div class="fld"><label class="label">Recipe Version</label><select class="input"><option>V4.2 — Premium Butter</option><option>V4.1 — Butter Base</option></select></div>
-            <div class="fld"><label class="label">Batch Size</label>
-              <select class="input" id="pb-size"><option value="50">50 kg</option><option value="100" selected>100 kg</option><option value="200">200 kg</option><option value="75">75 kg (unsupported)</option></select>
-              <div class="alert alert-red batch-warn" id="batch-warn" style="border:1px solid #FECACA;background:#FEF2F2;color:#991B1B;border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:600">
-                Selected batch size is not supported. Please create a dedicated recipe version for this batch size.
-                <div style="margin-top:8px"><button class="btn btn-sm" data-warn-newver>＋ Create New Recipe Version</button></div>
+
+          <!-- Staged as sub-tabs, mirroring the Cost tab's segmented control. The two
+               stages are never on screen together — but the live summary below is, because
+               Stage B is DERIVED from Stage A (same reason Cost's Grand Total never hides). -->
+          <div class="prod-subtabs">
+            <a href="#" data-prodsub="batch" class="on">Production Batch <span class="u">kg</span></a>
+            <a href="#" data-prodsub="sku">SKU Planning <span class="u">pcs</span></a>
+          </div>
+
+          <!-- ---------- Stage A · Production (process manufacturing) ---------- -->
+          <div class="stage" data-stage="production" data-prodpanel="batch">
+            <div class="stage-h">
+              <div>
+                <div class="stage-sub">Process manufacturing — mixing, baking, frying. Planned in <b>kg</b>, never in pieces.</div>
+              </div>
+              <span class="stage-tag stage-tag-kg">Recipe quantity · kg</span>
+            </div>
+
+            <div class="prod-form">
+              <div class="fld"><label class="label">Recipe Version</label>
+                <select class="input" id="pb-ver"><option>V4.2 — Premium Butter</option><option>V4.1 — Butter Base</option></select>
+                <div class="hint">Recorded on every batch — immutable once produced (Rule 7).</div>
+              </div>
+              <!-- Batch Size IS the batch weight the SKU plan divides (fb-03) — editable within
+                   a quality tolerance so the planner can flex it to absorb demand skew (D-P11).
+                   Beyond the band the formulation has changed → a dedicated recipe version. -->
+              <div class="fld"><label class="label">Batch Size</label>
+                <div class="num-in"><input class="input" id="pb-size" type="number" min="1" step="0.5" value="100"><span class="num-suffix">kg</span></div>
+                <div class="band" id="pb-band">
+                  <div class="band-row"><span>Quality band <b>90–110 kg</b> · nominal 100 (±10%)</span><span class="band-val" id="band-val">100 kg</span></div>
+                  <div class="band-track"><i class="band-mark" id="band-mark"></i></div>
+                </div>
+                <div class="alert alert-red batch-warn" id="batch-warn" style="border:1px solid #FECACA;background:#FEF2F2;color:#991B1B;border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:600">
+                  Beyond the quality tolerance for this recipe — taste &amp; texture would change. Stay within the band, or create a dedicated recipe version for this size.
+                  <div style="margin-top:8px"><button class="btn btn-sm" data-warn-newver>＋ Create New Recipe Version</button></div>
+                </div>
+              </div>
+              <div class="fld"><label class="label">Planned Date</label><input class="input" id="pb-date" type="date"></div>
+              <div class="fld"><label class="label">Expected Finish Date</label>
+                <input class="input" id="pb-finish" type="date">
+                <div class="hint">Packaging may run hours or days after production (Rule 4).</div>
+              </div>
+              <div class="fld"><label class="label">Operator</label><select class="input" id="pb-op"><option>Current User · Dharmendar Ji</option><option>Production Team</option></select></div>
+              <div class="fld"><label class="label">Batch Number</label><div class="auto-field">AUTO · generated on create</div></div>
+            </div>
+          </div>
+
+          <!-- ---------- Stage B · SKU Planning (packaging manufacturing) ---------- -->
+          <!-- The mix engine (feedback-03): ratio ⇄ weight ⇄ qty stay synchronised; the
+               planner edits whichever they think in. Goal is minimum residual, not maximum pcs. -->
+          <div class="stage" data-stage="packaging" data-prodpanel="sku" hidden>
+            <div class="stage-h">
+              <div>
+                <div class="stage-sub">Converts the manufactured weight into finished SKUs. Planned in <b>pieces</b>.</div>
+                <!-- the pivot this stage divides — editable HERE too, synced to the Batch tab
+                     (D-P12), because batch size is a live lever tuned against the mix -->
+                <div class="pivot pivot-edit">
+                  <span class="pe-label">Batch size</span>
+                  <span class="num-in num-in-sm"><input class="input" id="pb-size-sku" type="number" min="1" step="0.5" value="100"><span class="num-suffix">kg</span></span>
+                  <span class="pe-note" id="band-note-sku">· within the 90–110 kg quality band</span>
+                </div>
+              </div>
+              <span class="stage-tag stage-tag-pcs">Finished SKU · pcs</span>
+            </div>
+
+            <div class="mix-bar">
+              <div class="fld"><label class="label">Packaging Strategy</label>
+                <select class="input" id="mix-strategy">
+                  <option value="default" selected>Default Mix · 60 / 30 / 10</option>
+                  <option value="festive">Festive Mix · 40 / 35 / 25</option>
+                  <option value="bulk">Bulk-led Mix · 20 / 30 / 50</option>
+                </select>
+                <div class="hint">Seeds the mix. Editing a row rebalances the others to 100%; lock a row to hold it.</div>
+              </div>
+              <div class="mix-acts">
+                <button class="btn btn-sm" id="mix-demand" type="button">◎ Fit to Demand</button>
+                <button class="btn btn-sm" id="mix-reset" type="button">↺ Reset to strategy</button>
               </div>
             </div>
-            <div class="fld"><label class="label">Packaging / Product Variant</label><select class="input"><option>250g Pouch → Cookies 250g</option><option>100g Pouch → Cookies 100g</option><option>Bulk Pack</option></select></div>
-            <div class="fld"><label class="label">Production Date</label><input class="input" type="date"></div>
-            <div class="fld"><label class="label">Operator</label><select class="input"><option>Current User · Dharmendar Ji</option><option>Production Team</option></select></div>
-            <div class="fld"><label class="label">Batch Number</label><div class="auto-field">AUTO · generated on create</div></div>
+
+            <div class="mix-tbl" id="mix-tbl">
+              <div class="mix-head">
+                <span>Variant</span>
+                <span class="ta-r">Net Weight</span>
+                <span class="ta-r">Ratio %</span>
+                <span class="ta-r">Weight kg</span>
+                <span class="ta-r">Qty pcs</span>
+                <span class="ta-r">Demand</span>
+                <span class="ta-c">Lock</span>
+              </div>
+              <div id="mix-rows"></div>
+            </div>
+            <div class="muted small mt8"><b>Fit to Demand</b> flexes the batch within its quality band and balances the mix to meet orders. Edit <b>Ratio</b>, <b>Weight</b> or <b>Quantity</b> to adjust by hand — unlocked rows rebalance to 100%.</div>
+          </div>
+
+          <!-- No KPI strip (D-P8). Each notice appears only when it needs a decision.
+               Persistent across both sub-tabs; per-row Demand covers fulfilment. -->
+          <div class="notices">
+            <div class="nb nb-bad" id="n-over" hidden>
+              ⚠ Over-allocated by <b id="over-kg">0 kg</b> — this batch holds <b id="over-cap">100 kg</b>. Reduce quantities until the plan fits.
+            </div>
+            <div class="nb" id="semi-note" hidden>
+              <b id="semi-kg">0 kg</b> of the batch is unallocated — it becomes <b>Semi Finished Inventory</b> and can be packed later (Rule 5). Leaving residual is allowed.
+            </div>
+            <div class="nb nb-act" id="n-out" hidden>
+              <span><b id="out-pcs">0 pcs</b> of demand won't fit this batch.</span>
+              <button class="btn btn-sm" id="carry" type="button">＋ Carry to next batch</button>
+            </div>
+            <div class="nb nb-ok" id="n-carry" hidden>
+              <span>Carrying <b id="carry-pcs">0 pcs</b> to the next batch — recorded on the production order.</span>
+              <button class="btn btn-sm" id="carry-undo" type="button">✕</button>
+            </div>
           </div>
 
           <div class="v4-actions" style="justify-content:space-between">
-            <span class="muted small">Batch number &amp; QR are generated automatically.</span>
-            <button class="btn btn-teal" id="create-batch">Create Batch</button>
+            <!-- carries the reason Create is disabled: the batch-size alert lives on the other sub-tab -->
+            <span class="muted small" id="pb-actnote">Batch numbers &amp; QR are generated automatically.</span>
+            <button class="btn btn-teal" id="create-batch">Create Production Order</button>
           </div>
 
-          <!-- generated production batch order -->
+          <!-- generated production order: batches (kg) + packaging orders (pcs) -->
           <div class="order-card" id="order-card">
             <div>
-              <div class="section-eyebrow">Production Batch</div>
-              <div class="pb" id="pb-number">PB-2026-00182</div>
-              <div class="flex gap8 mt8" style="align-items:center"><span class="muted small">Status</span><span class="badge badge-approved">Created</span></div>
+              <div class="section-eyebrow">Production Order</div>
+              <div class="pb" id="pb-number">PO-2026-00182</div>
+              <div class="flex gap8 mt8" style="align-items:center"><span class="muted small">Status</span><span class="badge badge-approved">Planned</span></div>
+
+              <div class="ord-sec">
+                <div class="section-eyebrow mb8">Production Batches</div>
+                <div id="ord-batches"></div>
+              </div>
+              <div class="ord-sec">
+                <div class="section-eyebrow mb8">Packaging Orders</div>
+                <div id="ord-packs"></div>
+                <div class="muted small mt8">Packaging stays editable until production starts. Every finished SKU carries its production batch number (Rule 6).</div>
+              </div>
+
               <div class="flex gap8 mt16"><button class="btn btn-sm">🖨 Print Label</button><button class="btn btn-sm">⬇ Download QR</button></div>
             </div>
             <div class="qr-wrap"><div id="pb-qr" data-qr></div><div class="cap">Scan on the floor</div></div>
